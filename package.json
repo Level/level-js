@@ -1,0 +1,19 @@
+{
+  "name": "level.js",
+  "version": "0.0.0",
+  "description": "leveldb for client side",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:maxogden/voxel.js.git"
+  },
+  "keywords": [
+    "level",
+    "leveldb"
+  ],
+  "author": "max ogden",
+  "license": "BSD"
+}
