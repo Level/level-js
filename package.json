@@ -4,7 +4,7 @@
   "description": "leveldb for client side",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "start": "beefy test.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,14 @@
     "leveldb"
   ],
   "author": "max ogden",
-  "license": "BSD"
+  "license": "BSD",
+  "devDependencies": {
+    "abstract-leveldown": "~0.1.0",
+    "tape": "~0.3.3",
+    "beefy": "0.1.1",
+    "browserify": "~2.13.2"
+  },
+  "dependencies": {
+    "idb-wrapper": "~1.1.0"
+  }
 }
