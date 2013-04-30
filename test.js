@@ -11,7 +11,7 @@ testBuffer[0] = '☃'
 /*** compatibility with basic LevelDOWN API ***/
 
 require('abstract-leveldown/abstract/leveldown-test').args(factory, tape, testCommon)
-// require('abstract-leveldown/abstract/open-test').args(factory, tape, testCommon)
+require('abstract-leveldown/abstract/open-test').args(factory, tape, testCommon)
 // require('abstract-leveldown/abstract/del-test').all(factory, tape, testCommon)
 // require('abstract-leveldown/abstract/get-test').all(factory, tape, testCommon)
 // require('abstract-leveldown/abstract/put-test').all(factory, tape, testCommon)
