@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:maxogden/voxel.js.git"
+    "url": "git@github.com:maxogden/level.js.git"
   },
   "keywords": [
     "level",
