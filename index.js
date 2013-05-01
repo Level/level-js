@@ -72,7 +72,7 @@ Level.prototype.put = function (key, value, options, callback) {
   err = checkKeyValue(key, 'key')
   if (err) return callback(err)
   if (!isBuffer(key)) key = String(key)
-  // if (!isBuffer(value)) value = String(value)
+  if (!isBuffer(value)) value = String(value)
   if (typeof options != 'object') options = {}
 
   return this._put(key, value, options, callback)

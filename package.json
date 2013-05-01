@@ -4,7 +4,7 @@
   "description": "leveldb for client side",
   "main": "index.js",
   "scripts": {
-    "start": "beefy test.js"
+    "test": "beefy test.js"
   },
   "repository": {
     "type": "git",
