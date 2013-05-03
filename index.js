@@ -1,6 +1,7 @@
 module.exports = Level
 
 var IDB = require('idb-wrapper')
+var Iterator = require('./iterator')
 
 function Level(location) {
   if (!(this instanceof Level)) return new Level(location)
@@ -84,6 +85,28 @@ Level.prototype._put = function (key, value, options, callback) {
     id: key
   }
   this.idb.put(obj, function() { callback() }, callback)
+}
+
+Level.prototype.iterator = function (options) {
+  if (typeof options !== 'object') options = {}
+  return new Iterator(this.idb)
+}
+
+Level.prototype.batch = function (array, options, callback) {
+  if (typeof options === 'function') callback = options
+  if (!Array.isArray(array) && typeof array === 'object') {
+    options = array
+    array = undefined
+  }
+  if (typeof options != 'object') options = {}
+
+  // TODO: if array == undefined && callback == function, derp
+
+  return this._batch(array, options, callback)
+}
+
+Level.prototype._batch = function (array, options, callback) {
+  return this.idb.batch(array, callback, callback)
 }
 
 Level.prototype.close = function (callback) {
