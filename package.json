@@ -1,6 +1,6 @@
 {
   "name": "level-js",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "leveldown/leveldb library for browsers",
   "main": "index.js",
   "scripts": {
@@ -17,12 +17,12 @@
   "author": "max ogden",
   "license": "BSD",
   "devDependencies": {
-    "abstract-leveldown": "~0.1.0",
+    "abstract-leveldown": "git://github.com/rvagg/node-abstract-leveldown.git",
     "tape": "~0.3.3",
     "beefy": "0.1.1",
     "browserify": "~2.13.2"
   },
   "dependencies": {
-    "idb-wrapper": "~1.1.0"
+    "idb-wrapper": "git://github.com/maxogden/IDBWrapper.git#autoContinueOption"
   }
 }

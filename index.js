@@ -86,7 +86,7 @@ Level.prototype._put = function (key, value, options, callback) {
 
 Level.prototype.iterator = function (options) {
   if (typeof options !== 'object') options = {}
-  return new Iterator(this.idb)
+  return new Iterator(this.idb, options)
 }
 
 Level.prototype.batch = function (array, options, callback) {

@@ -8,6 +8,8 @@ function Iterator (db, options) {
   AbstractIterator.call(this, db)
   this._order = !!options.reverse ? 'DESC': 'ASC'
   this._start = options.start
+  this._limit = options.limit
+  if (this._limit) this._count = 0
   this._end   = options.end
   this._done = false
 }
@@ -15,11 +17,37 @@ function Iterator (db, options) {
 util.inherits(Iterator, AbstractIterator)
 
 Iterator.prototype.createIterator = function() {
-  if (typeof this._start !== 'undefined' || typeof this._end !== 'undefined') {
+  var lower, upper
+  var onlyStart = typeof this._start !== 'undefined' && typeof this._end === 'undefined'
+  var onlyEnd = typeof this._start === 'undefined' && typeof this._end !== 'undefined'
+  var startAndEnd = typeof this._start !== 'undefined' && typeof this._end !== 'undefined'
+  if (onlyStart) {
+    var index = this._start
+    if (this._order === 'ASC') {
+      lower = index
+    } else {
+      upper = index
+    }
+  } else if (onlyEnd) {
+    var index = this._end
+    if (this._order === 'DESC') {
+      lower = index
+    } else {
+      upper = index
+    }
+  } else if (startAndEnd) {
+    lower = this._start
+    upper = this._end
+    if (this._start > this._end) {
+      lower = this._end
+      upper = this._start
+    }
+  }
+  if (lower || upper) {
     this._keyRange = this.options.keyRange || this.db.makeKeyRange({
-      lower: this._start,
-      upper: this._end
-      // todo excludeUpper/excludeLower
+      lower: lower,
+      upper: upper
+      // todo expose excludeUpper/excludeLower
     })
   }
   this.iterator = this.db.iterate(this.onItem.bind(this), {
@@ -30,11 +58,21 @@ Iterator.prototype.createIterator = function() {
   })
 }
 
+// TODO the limit implementation here just ignores all reads after limit has been reached
+// it should cancel the iterator instead but I don't know how
 Iterator.prototype.onItem = function (cursor, cursorTransaction) {
-  if (!cursor && this.callback) return this.callback()
-  if (this.callback) this.callback(false, cursor.key, cursor.value)
-  this.callback = false
-  cursor.continue()
+  if (!cursor && this.callback) {
+    this.callback()
+    this.callback = false
+    return
+  }
+  if (this._limit) {
+    if (this._limit > this._count) this.callback(false, cursor.key, cursor.value)
+  } else {
+    this.callback(false, cursor.key, cursor.value)
+  }
+  if (this._limit) this._count++
+  if (cursor) cursor.continue()
 }
 
 Iterator.prototype._next = function (callback) {
