@@ -16,6 +16,8 @@ Level.prototype.open = function(callback) {
   
   this.idb = new IDB({
     storeName: this.location,
+    autoIncrement: false,
+    keyPath: null,
     onStoreReady: function () {
       callback && callback(null, self.idb)
     }, 
@@ -42,7 +44,6 @@ Level.prototype._get = function (key, options, callback) {
       // 'NotFound' error, consistent with LevelDOWN API
       return callback(new Error('NotFound'))
     }
-    value = value.value // because IDBWrapper returns a {}
     if (options.asBuffer !== false && !isBuffer(value))
       value = StringToArrayBuffer(String(value))
     return callback(null, value, key)
@@ -80,11 +81,7 @@ Level.prototype.put = function (key, value, options, callback) {
 }
 
 Level.prototype._put = function (key, value, options, callback) {
-  var obj = {
-    value: value,
-    id: key
-  }
-  this.idb.put(obj, function() { callback() }, callback)
+  this.idb.put(key, value, function() { callback() }, callback)
 }
 
 Level.prototype.iterator = function (options) {
@@ -106,7 +103,7 @@ Level.prototype.batch = function (array, options, callback) {
 }
 
 Level.prototype._batch = function (array, options, callback) {
-  return this.idb.batch(array, callback, callback)
+  return this.idb.batch(array, function(){ callback() }, callback)
 }
 
 Level.prototype.close = function (callback) {
