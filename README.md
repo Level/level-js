@@ -12,6 +12,8 @@ Here are the goals of this level.js:
 
 Being leveldown compatible means you can use many of the [level-* modules](https://github.com/rvagg/node-levelup/wiki/Modules) on top of this library.
 
+For example, there is experimental support in using the popular [levelup](http://github.com/rvagg/node-levelup) library on top of level.js. See `test-levelup.js` for details
+
 ## install
 
 ```js
