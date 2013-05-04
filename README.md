@@ -36,7 +36,7 @@ The only differences between this and leveldown is that you can store `ArrayBuff
 git clone git@github.com:maxogden/level.js.git
 cd level.js
 npm install
-npm start
+npm test
 open localhost:9966
 ```
 
