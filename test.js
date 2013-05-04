@@ -19,3 +19,4 @@ require('abstract-leveldown/abstract/get-test').all(factory, tape, testCommon)
 require('abstract-leveldown/abstract/put-get-del-test').all(factory, tape, testCommon, testBuffer)
 require('abstract-leveldown/abstract/close-test').close(factory, tape, testCommon)
 require('abstract-leveldown/abstract/iterator-test').all(factory, tape, testCommon)
+

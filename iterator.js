@@ -66,7 +66,7 @@ Iterator.prototype.onItem = function (cursor, cursorTransaction) {
     this.callback = false
     return
   }
-  if (this._limit) {
+  if (this._limit && this._limit > 0) {
     if (this._limit > this._count) this.callback(false, cursor.key, cursor.value)
   } else {
     this.callback(false, cursor.key, cursor.value)

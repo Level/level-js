@@ -4,7 +4,7 @@
   "description": "leveldown/leveldb library for browsers using IndexedDB",
   "main": "index.js",
   "scripts": {
-    "test": "beefy test.js"
+    "test": "beefy test.js test-levelup.js"
   },
   "repository": {
     "type": "git",
@@ -18,11 +18,12 @@
   "license": "BSD",
   "devDependencies": {
     "tape": "~0.3.3",
-    "beefy": "0.1.1",
-    "browserify": "~2.13.2"
+    "browserify": "~2.13.2",
+    "beefy": "~0.3.0"
   },
   "dependencies": {
     "idb-wrapper": "git://github.com/maxogden/IDBWrapper.git#autoContinueOption",
-    "abstract-leveldown": "~0.3.0"
+    "abstract-leveldown": "~0.3.0",
+    "levelup": "git://github.com/rvagg/node-levelup.git#0.9-wip"
   }
 }
