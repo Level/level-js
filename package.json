@@ -17,7 +17,7 @@
   "author": "max ogden",
   "license": "BSD",
   "devDependencies": {
-    "abstract-leveldown": "git://github.com/rvagg/node-abstract-leveldown.git",
+    "abstract-leveldown": "~0.2.0",
     "tape": "~0.3.3",
     "beefy": "0.1.1",
     "browserify": "~2.13.2"
