@@ -10,6 +10,8 @@ Here are the goals of this level.js:
 - Be as fast as possible
 - Use the leveldown test suite and sync with [multilevel](https://github.com/juliangruber/multilevel) over either ascii or binary transports (websockets and xhr both have ascii/binary modes in browsers now)
 
+Being leveldown compatible means you can use many of the [level-* modules](https://github.com/rvagg/node-levelup/wiki/Modules) on top of this library.
+
 ## install
 
 ```js
