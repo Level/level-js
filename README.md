@@ -26,9 +26,15 @@ This library is best used with [browserify](http://browserify.org)
 
 ## code examples
 
+```
+var leveljs = require('level-js')
+var db = leveljs('bigdata')
+db.open(function onOpen() { })
+```
+
 The test suite for this library is in the [abstract-leveldown](https://github.com/rvagg/node-abstract-leveldown) repo and is shared between various leveldown implementations across different environments and platforms.
 
-For code examples see the [abstract-leveldown test suite](https://github.com/rvagg/node-abstract-leveldown/tree/master/abstract)
+For more code examples see the [abstract-leveldown test suite](https://github.com/rvagg/node-abstract-leveldown/tree/master/abstract)
 
 The only differences between this and leveldown is that you can store `ArrayBuffers` in this (whereas leveldown just uses node `Buffer` objects)
 

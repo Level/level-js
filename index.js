@@ -68,7 +68,18 @@ Level.prototype._approximateSize = function() {
 }
 
 var isBuffer = Level.prototype._isBuffer = function (buf) {
-  return buf instanceof ArrayBuffer
+  // TODO is there a better way to check this?
+  if (buf instanceof ArrayBuffer) return true
+  if (buf instanceof Int8Array) return true
+  if (buf instanceof Int16Array) return true
+  if (buf instanceof Int32Array) return true
+  if (buf instanceof Uint8Array) return true
+  if (buf instanceof Uint16Array) return true
+  if (buf instanceof Uint32Array) return true
+  if (buf instanceof Uint8ClampedArray) return true
+  if (buf instanceof Float32Array) return true
+  if (buf instanceof Float64Array) return true
+  return false
 }
 
 var checkKeyValue = Level.prototype._checkKeyValue = function (obj, type) {
