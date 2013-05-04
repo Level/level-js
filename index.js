@@ -5,13 +5,17 @@ var Iterator = require('./iterator')
 
 function Level(location) {
   if (!(this instanceof Level)) return new Level(location)
-  if (!location) throw new Error("leveldown() requires at least a location argument")
+  if (!location) throw new Error("constructor requires at least a location argument")
   
   this.location = location
 }
 
-Level.prototype.open = function(callback) {
+Level.prototype.open = function(options, callback) {
   var self = this
+  if (typeof options === 'function') {
+    callback = options
+    options = {}
+  }
   if (!callback || typeof callback !== 'function') throw new Error("open() requires a callback argument")
   
   this.idb = new IDB({
