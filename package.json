@@ -1,7 +1,7 @@
 {
   "name": "level-js",
   "version": "1.0.0",
-  "description": "leveldown/leveldb library for browsers",
+  "description": "leveldown/leveldb library for browsers using IndexedDB",
   "main": "index.js",
   "scripts": {
     "test": "beefy test.js"

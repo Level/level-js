@@ -1,14 +1,13 @@
-# level.js
-
 ![logo](logo.png)
 
-This is a client side JS implementation of the [leveldown](https://github.com/rvagg/node-leveldown) API on top of [IndexedDB](https://developer.mozilla.org/en-US/docs/IndexedDB) (which is in turn implemented on top of [LevelDB](https://code.google.com/p/leveldb/), which brings this whole shebang full circle)
+level.js an implementation of the [leveldown](https://github.com/rvagg/node-leveldown) API on top of [IndexedDB](https://developer.mozilla.org/en-US/docs/IndexedDB) (which is in turn implemented on top of [LevelDB](https://code.google.com/p/leveldb/), which brings this whole shebang full circle)
 
-Here are the goals of this library:
+level.js uses [IDBWrapper](https://github.com/jensarps/IDBWrapper) by jensarps to ensure compatibility between IDB implementations.
 
-- Store large amounts of ascii and binary data in modern browsers
+Here are the goals of this level.js:
+
+- Store large amounts of ascii (strings, JSON) and binary (ArrayBuffers, Typed Arrays) data in modern browsers
 - Be as fast as possible
-- Don't abstract away features of IndexedDB
 - Use the leveldown test suite and sync with [multilevel](https://github.com/juliangruber/multilevel) over either ascii or binary transports (websockets and xhr both have ascii/binary modes in browsers now)
 
 ## install
@@ -26,6 +25,8 @@ This library is best used with [browserify](http://browserify.org)
 The test suite for this library is in the [abstract-leveldown](https://github.com/rvagg/node-abstract-leveldown) repo and is shared between various leveldown implementations across different environments and platforms.
 
 For code examples see the [abstract-leveldown test suite](https://github.com/rvagg/node-abstract-leveldown/tree/master/abstract)
+
+The only differences between this and leveldown is that you can store `ArrayBuffers` in this (whereas leveldown just uses node `Buffer` objects)
 
 ## run the tests
 

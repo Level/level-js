@@ -47,7 +47,7 @@ Iterator.prototype.createIterator = function() {
     this._keyRange = this.options.keyRange || this.db.makeKeyRange({
       lower: lower,
       upper: upper
-      // todo expose excludeUpper/excludeLower
+      // TODO expose excludeUpper/excludeLower
     })
   }
   this.iterator = this.db.iterate(this.onItem.bind(this), {
