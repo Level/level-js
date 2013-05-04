@@ -9,20 +9,20 @@ var dbidx = 0
     }
 
   , cleanup = function (callback) {
-      indexedDB.webkitGetDatabaseNames().onsuccess = function(e, list){
+      indexedDB.webkitGetDatabaseNames().onsuccess = function(e){
+        var list = e.target.result
         if (!list) return callback()
-        
-        list = list.filter(function (f) {
-          return (/^_leveldown_test_db_/).test(f)
+        list = Object.keys(list).map(function(k) { return list[k] })
+        list = list.filter(function(item) {
+          if (item.toString().indexOf('_leveldown_test_db_') > -1) return true
         })
 
         if (!list.length) return callback()
 
         var ret = 0
         
-        function done () {
-          if (++ret == list.length)
-            callback()
+        function done (e) {
+          if (++ret == list.length) callback()
         }
         
         list.forEach(function (f) {
