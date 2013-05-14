@@ -4,6 +4,7 @@ var IDB = require('idb-wrapper')
 var AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
 var util = require('util')
 var Iterator = require('./iterator')
+var isBuffer = require('isbuffer')
 
 function Level(location) {
   if (!(this instanceof Level)) return new Level(location)
@@ -67,20 +68,7 @@ Level.prototype._approximateSize = function() {
   throw new Error('Not implemented')
 }
 
-var isBuffer = Level.prototype._isBuffer = function (buf) {
-  // TODO is there a better way to check this?
-  if (buf instanceof ArrayBuffer) return true
-  if (buf instanceof Int8Array) return true
-  if (buf instanceof Int16Array) return true
-  if (buf instanceof Int32Array) return true
-  if (buf instanceof Uint8Array) return true
-  if (buf instanceof Uint16Array) return true
-  if (buf instanceof Uint32Array) return true
-  if (buf instanceof Uint8ClampedArray) return true
-  if (buf instanceof Float32Array) return true
-  if (buf instanceof Float64Array) return true
-  return false
-}
+Level.prototype._isBuffer = isBuffer
 
 var checkKeyValue = Level.prototype._checkKeyValue = function (obj, type) {
   if (obj === null || obj === undefined)
