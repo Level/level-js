@@ -22,7 +22,7 @@
     "beefy": "~0.3.0"
   },
   "dependencies": {
-    "idb-wrapper": "git://github.com/jensarps/IDBWrapper.git",
+    "idb-wrapper": "1.2.0",
     "abstract-leveldown": "~0.7.1",
     "levelup": "~0.9.0",
     "isbuffer": "0.0.0"
