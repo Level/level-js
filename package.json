@@ -24,7 +24,7 @@
   "dependencies": {
     "idb-wrapper": "git://github.com/maxogden/IDBWrapper.git#autoContinueOption",
     "abstract-leveldown": "~0.7.1",
-    "levelup": "git://github.com/rvagg/node-levelup.git#0.9-wip",
+    "levelup": "~0.9.0",
     "isbuffer": "0.0.0"
   }
 }
