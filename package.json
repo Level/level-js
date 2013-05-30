@@ -1,6 +1,6 @@
 {
   "name": "level-js",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "leveldown/leveldb library for browsers using IndexedDB",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,7 @@
     "beefy": "~0.3.0"
   },
   "dependencies": {
-    "idb-wrapper": "git://github.com/maxogden/IDBWrapper.git#autoContinueOption",
+    "idb-wrapper": "git://github.com/jensarps/IDBWrapper.git",
     "abstract-leveldown": "~0.7.1",
     "levelup": "~0.9.0",
     "isbuffer": "0.0.0"

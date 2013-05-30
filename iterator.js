@@ -60,7 +60,7 @@ Iterator.prototype.createIterator = function() {
 
 // TODO the limit implementation here just ignores all reads after limit has been reached
 // it should cancel the iterator instead but I don't know how
-Iterator.prototype.onItem = function (cursor, cursorTransaction) {
+Iterator.prototype.onItem = function (value, cursor, cursorTransaction) {
   if (!cursor && this.callback) {
     this.callback()
     this.callback = false

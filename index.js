@@ -17,6 +17,7 @@ util.inherits(Level, AbstractLevelDOWN)
 
 Level.prototype._open = function(options, callback) {
   var self = this
+  
   this.idb = new IDB({
     storeName: this.location,
     autoIncrement: false,
