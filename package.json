@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "idb-wrapper": "1.2.0",
-    "abstract-leveldown": "git@github.com:rvagg/node-abstract-leveldown.git",
+    "abstract-leveldown": "git://github.com/rvagg/node-abstract-leveldown.git",
     "levelup": "~0.9.0",
     "isbuffer": "0.0.0"
   }
