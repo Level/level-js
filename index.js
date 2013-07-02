@@ -57,6 +57,17 @@ Level.prototype.iterator = function (options) {
 }
 
 Level.prototype._batch = function (array, options, callback) {
+  var op
+    , i
+
+  for (i=0; i < array.length; i++) {
+    op = array[i]
+
+    if (op.type === 'del') {
+      op.type = 'remove'
+    }
+  }
+
   return this.idb.batch(array, function(){ callback() }, callback)
 }
 
