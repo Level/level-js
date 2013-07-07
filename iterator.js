@@ -17,43 +17,46 @@ function Iterator (db, options) {
 util.inherits(Iterator, AbstractIterator)
 
 Iterator.prototype.createIterator = function() {
+  var self = this
   var lower, upper
-  var onlyStart = typeof this._start !== 'undefined' && typeof this._end === 'undefined'
-  var onlyEnd = typeof this._start === 'undefined' && typeof this._end !== 'undefined'
-  var startAndEnd = typeof this._start !== 'undefined' && typeof this._end !== 'undefined'
+  var onlyStart = typeof self._start !== 'undefined' && typeof self._end === 'undefined'
+  var onlyEnd = typeof self._start === 'undefined' && typeof self._end !== 'undefined'
+  var startAndEnd = typeof self._start !== 'undefined' && typeof self._end !== 'undefined'
   if (onlyStart) {
-    var index = this._start
-    if (this._order === 'ASC') {
+    var index = self._start
+    if (self._order === 'ASC') {
       lower = index
     } else {
       upper = index
     }
   } else if (onlyEnd) {
-    var index = this._end
-    if (this._order === 'DESC') {
+    var index = self._end
+    if (self._order === 'DESC') {
       lower = index
     } else {
       upper = index
     }
   } else if (startAndEnd) {
-    lower = this._start
-    upper = this._end
-    if (this._start > this._end) {
-      lower = this._end
-      upper = this._start
+    lower = self._start
+    upper = self._end
+    if (self._start > self._end) {
+      lower = self._end
+      upper = self._start
     }
   }
   if (lower || upper) {
-    this._keyRange = this.options.keyRange || this.db.makeKeyRange({
+    self._keyRange = self.options.keyRange || self.db.makeKeyRange({
       lower: lower,
       upper: upper
       // TODO expose excludeUpper/excludeLower
     })
   }
-  this.iterator = this.db.iterate(this.onItem.bind(this), {
-    keyRange: this._keyRange,
+  self.iterator = self.db.iterate(function () {
+    self.onItem.apply(self, arguments)
+  }, {
+    keyRange: self._keyRange,
     autoContinue: false,
-    order: this._order,
+    order: self._order,
     onError: function(err) { console.log('horrible error', err) },
   })
 }
