@@ -2,6 +2,8 @@
 
 level.js an implementation of the [leveldown](https://github.com/rvagg/node-leveldown) API on top of [IndexedDB](https://developer.mozilla.org/en-US/docs/IndexedDB) (which is in turn implemented on top of [LevelDB](https://code.google.com/p/leveldb/), which brings this whole shebang full circle)
 
+[![testling badge](https://ci.testling.com/maxogden/level.js.png)](https://ci.testling.com/maxogden/level.js)
+
 level.js uses [IDBWrapper](https://github.com/jensarps/IDBWrapper) by jensarps to ensure compatibility between IDB implementations.
 
 Here are the goals of this level.js:
