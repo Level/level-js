@@ -26,4 +26,4 @@ require('abstract-leveldown/abstract/batch-test').all(factory, tape, testCommon)
 // require('abstract-leveldown/abstract/chained-batch-test').all(factory, tape, testCommon)
 require('abstract-leveldown/abstract/close-test').close(factory, tape, testCommon)
 require('abstract-leveldown/abstract/iterator-test').all(factory, tape, testCommon)
-
+require('abstract-leveldown/abstract/ranges-test').all(factory, tape, testCommon)
