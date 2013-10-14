@@ -25,6 +25,6 @@
   "dependencies": {
     "idb-wrapper": "~1.2.0",
     "isbuffer": "~0.0.0",
-    "abstract-leveldown": "0.7.2"
+    "abstract-leveldown": "0.11.0"
   }
 }
