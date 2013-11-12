@@ -2,6 +2,8 @@
 
 level.js an implementation of the [leveldown](https://github.com/rvagg/node-leveldown) API on top of [IndexedDB](https://developer.mozilla.org/en-US/docs/IndexedDB) (which is in turn implemented on top of [LevelDB](https://code.google.com/p/leveldb/), which brings this whole shebang full circle)
 
+**Most people use [levelup](http://github.com/rvagg/node-levelup) on top of this library. See `test-levelup.js` for details** 
+
 level.js uses [IDBWrapper](https://github.com/jensarps/IDBWrapper) by jensarps to ensure compatibility between IDB implementations.
 
 Here are the goals of this level.js:
@@ -11,8 +13,6 @@ Here are the goals of this level.js:
 - Use the leveldown test suite and sync with [multilevel](https://github.com/juliangruber/multilevel) over either ascii or binary transports (websockets and xhr both have ascii/binary modes in browsers now)
 
 Being leveldown compatible means you can use many of the [level-* modules](https://github.com/rvagg/node-levelup/wiki/Modules) on top of this library.
-
-For example, there is experimental support in using the popular [levelup](http://github.com/rvagg/node-levelup) library on top of level.js. See `test-levelup.js` for details
 
 ## install
 
