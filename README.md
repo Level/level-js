@@ -4,6 +4,10 @@ level.js an implementation of the [leveldown](https://github.com/rvagg/node-leve
 
 **Most people use [levelup](http://github.com/rvagg/node-levelup) on top of this library. See `test-levelup.js` for details** 
 
+[![testling badge](https://ci.testling.com/maxogden/level.js.png)](https://ci.testling.com/maxogden/level.js)
+
+[![NPM](https://nodei.co/npm/level-js.png)](https://nodei.co/npm/level-js/)
+
 level.js uses [IDBWrapper](https://github.com/jensarps/IDBWrapper) by jensarps to ensure compatibility between IDB implementations.
 
 Here are the goals of this level.js:
