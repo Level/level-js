@@ -5,7 +5,6 @@ var AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
 var util = require('util')
 var Iterator = require('./iterator')
 var isBuffer = require('isbuffer')
-var bops = require('bops')
 
 function Level(location) {
   if (!(this instanceof Level)) return new Level(location)
@@ -38,11 +37,8 @@ Level.prototype._get = function (key, options, callback) {
       // 'NotFound' error, consistent with LevelDOWN API
       return callback(new Error('NotFound'))
     }
-    if (options.asBuffer !== false && !bops.is(value))
-      value = bops.from(String(value))
-    value.toString = function() {
-      return bops.to(this)
-    }
+    if (options.asBuffer !== false && !Buffer.isBuffer(value))
+      value = new Buffer(String(value))
     return callback(null, value, key)
   }, callback)
 }
@@ -92,7 +88,7 @@ Level.prototype._approximateSize = function (start, end, callback) {
 }
 
 Level.prototype._isBuffer = function (obj) {
-  return bops.is(obj)
+  return Buffer.isBuffer(obj)
 }
 
 var checkKeyValue = Level.prototype._checkKeyValue = function (obj, type) {
