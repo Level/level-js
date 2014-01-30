@@ -6,12 +6,16 @@ function Iterator (db, options) {
   if (!options) options = {}
   this.options = options
   AbstractIterator.call(this, db)
-  this._order = !!options.reverse ? 'DESC': 'ASC'
+  this._order = options.reverse ? 'DESC': 'ASC'
   this._start = options.start
   this._limit = options.limit
-  if (this._limit) this._count = 0
+  this._count = 0
   this._end   = options.end
-  this._done = false
+  this._done  = false
+  this._gt    = options.gt
+  this._gte   = options.gte
+  this._lt    = options.lt
+  this._lte   = options.lte
 }
 
 util.inherits(Iterator, AbstractIterator)
@@ -44,6 +48,14 @@ Iterator.prototype.createIterator = function() {
       upper = self._start
     }
   }
+  if (!lower) {
+    if (self._gte !== 'undefined') lower = self._gte
+    else if (self._gt !== 'undefined') lower = self._gt
+  }
+  if (!upper) {
+    if (self._lte !== 'undefined') upper = self._lte
+    else if (self._lt !== 'undefined') upper = self._lt
+  }
   if (lower || upper) {
     self._keyRange = self.options.keyRange || self.db.makeKeyRange({
       lower: lower,
@@ -69,12 +81,18 @@ Iterator.prototype.onItem = function (value, cursor, cursorTransaction) {
     this.callback = false
     return
   }
-  if (this._limit && this._limit > 0) {
-    if (this._limit > this._count) this.callback(false, cursor.key, cursor.value)
-  } else {
-    this.callback(false, cursor.key, cursor.value)
-  }
-  if (this._limit) this._count++
+  var shouldCall = true
+
+  if (!!this._limit && this._limit > 0 && this._count++ >= this._limit)
+    shouldCall = false
+
+  if (  (this._lt  && cursor.key >= this._lt)
+     || (this._lte && cursor.key > this._lte)
+     || (this._gt  && cursor.key <= this._gt)
+     || (this._gte && cursor.key < this._gte))
+    shouldCall = false
+
+  if (shouldCall) this.callback(false, cursor.key, cursor.value)
   if (cursor) cursor.continue()
 }
 

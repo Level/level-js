@@ -23,7 +23,7 @@
     "levelup": "~0.13.0"
   },
   "dependencies": {
-    "idb-wrapper": "~1.2.0",
+    "idb-wrapper": "~1.4.1",
     "isbuffer": "~0.0.0",
     "abstract-leveldown": "~0.11.0",
     "bops": "~0.1.1"
