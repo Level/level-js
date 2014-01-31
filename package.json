@@ -28,7 +28,7 @@
     "abstract-leveldown": "~0.11.0"
   },
   "testling": {
-    "files": "test/*.js",
+    "files": "test.js",
     "browsers": [
       "ie/8..latest",
       "firefox/17..latest",
