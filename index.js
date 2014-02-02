@@ -62,16 +62,24 @@ Level.prototype.iterator = function (options) {
 Level.prototype._batch = function (array, options, callback) {
   var op
     , i
+    , copiedOp
+    , modified = []
 
   for (i=0; i < array.length; i++) {
-    op = array[i]
+    copiedOp = {}
+    currentOp = array[i]
+    modified[i] = copiedOp
 
-    if (op.type === 'del') {
-      op.type = 'remove'
+    for (k in currentOp) {
+      if (k === 'type' && currentOp[k] == 'del') {
+        copiedOp[k] = 'remove'
+      } else {
+        copiedOp[k] = currentOp[k]
+      }
     }
   }
 
-  return this.idb.batch(array, function(){ callback() }, callback)
+  return this.idb.batch(modified, function(){ callback() }, callback)
 }
 
 Level.prototype._close = function (callback) {
