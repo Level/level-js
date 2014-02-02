@@ -61,13 +61,13 @@ Level.prototype.iterator = function (options) {
 
 Level.prototype._batch = function (array, options, callback) {
   var op
-    , i
-    , copiedOp
-    , currentOp
-    , k
-    , modified = []
+  var i
+  var k
+  var copiedOp
+  var currentOp
+  var modified = []
 
-  for (i=0; i < array.length; i++) {
+  for (i = 0; i < array.length; i++) {
     copiedOp = {}
     currentOp = array[i]
     modified[i] = copiedOp
@@ -112,17 +112,4 @@ var checkKeyValue = Level.prototype._checkKeyValue = function (obj, type) {
     return new Error(type + ' cannot be an empty String')
   if (obj.length === 0)
     return new Error(type + ' cannot be an empty Array')
-}
-
-function ArrayBufferToString(buf) {
-  return String.fromCharCode.apply(null, new Uint16Array(buf))
-}
-
-function StringToArrayBuffer(str) {
-  var buf = new ArrayBuffer(str.length * 2) // 2 bytes for each char
-  var bufView = new Uint16Array(buf)
-  for (var i = 0, strLen = str.length; i < strLen; i++) {
-    bufView[i] = str.charCodeAt(i)
-  }
-  return buf
 }
