@@ -63,6 +63,8 @@ Level.prototype._batch = function (array, options, callback) {
   var op
     , i
     , copiedOp
+    , currentOp
+    , k
     , modified = []
 
   for (i=0; i < array.length; i++) {
