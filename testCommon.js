@@ -9,28 +9,19 @@ var dbidx = 0
     }
 
   , cleanup = function (callback) {
-      indexedDB.webkitGetDatabaseNames().onsuccess = function(e){
-        var list = e.target.result
-        if (!list) return callback()
-        list = Object.keys(list).map(function(k) { return list[k] })
-        list = list.filter(function(item) {
-          if (item.toString().indexOf('_leveldown_test_db_') > -1) return true
-        })
-
-        if (!list.length) return callback()
-
-        var ret = 0
-        
-        function done (e) {
-          if (++ret == list.length) callback()
-        }
-        
-        list.forEach(function (f) {
-          indexedDB.deleteDatabase(f)
-            .onsuccess = done
-            .onerror = done
-        })
+      var list = []
+      for (var i = 0; i < dbidx; i++) {
+        list.push('IDBWrapper-_leveldown_test_db_' + i)
       }
+      var ret = 0
+      function done (e) {
+        if (++ret == list.length) callback()
+      }
+      list.forEach(function (f) {
+        indexedDB.deleteDatabase(f)
+          .onsuccess = done
+          .onerror = done
+      })
     }
 
   , setUp = function (t) {
