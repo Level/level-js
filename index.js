@@ -51,6 +51,7 @@ Level.prototype._put = function (key, value, options, callback) {
   if (value instanceof ArrayBuffer) {
     value = String.fromCharCode.apply(null, new Uint16Array(value))
   }
+  if (value.toString() === 'NaN') value = 'NaN'
   this.idb.put(key, value, function() { callback() }, callback)
 }
 
@@ -66,6 +67,8 @@ Level.prototype._batch = function (array, options, callback) {
   var copiedOp
   var currentOp
   var modified = []
+  
+  if (array.length === 0) return setTimeout(callback, 0)
 
   for (i = 0; i < array.length; i++) {
     copiedOp = {}

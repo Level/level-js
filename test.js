@@ -2,13 +2,15 @@ var tape   = require('tape')
   , leveljs = require('./')
   , testCommon = require('./testCommon')
 
+// load IndexedDBShim in the tests
+require('./idb-shim.js')()
+
 var str = 'foo'
 var testBuffer = new ArrayBuffer(str.length * 2)
 var bufView = new Uint16Array(testBuffer);
 for (var i = 0, strLen = str.length; i < strLen; i++) {
   bufView[i] = str.charCodeAt(i)
 }
-
 
 /*** compatibility with basic LevelDOWN API ***/
 require('abstract-leveldown/abstract/leveldown-test').args(leveljs, tape, testCommon)
