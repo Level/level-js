@@ -104,6 +104,16 @@ Level.prototype._isBuffer = function (obj) {
   return Buffer.isBuffer(obj)
 }
 
+Level.destroy = function (dbname, callback) {
+  var request = indexedDB.deleteDatabase(dbname);
+  request.onsuccess = function() { 
+    callback(); 
+  }
+  request.onerror = function(err) { 
+    callback(err); 
+  }
+}
+
 var checkKeyValue = Level.prototype._checkKeyValue = function (obj, type) {
   if (obj === null || obj === undefined)
     return new Error(type + ' cannot be `null` or `undefined`')
