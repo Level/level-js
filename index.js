@@ -105,7 +105,7 @@ Level.prototype._isBuffer = function (obj) {
 }
 
 Level.destroy = function (dbname, callback) {
-  var request = indexedDB.deleteDatabase(dbname);
+  var request = indexedDB.deleteDatabase('IDBWrapper-' + dbname);
   request.onsuccess = function() { 
     callback(); 
   }
