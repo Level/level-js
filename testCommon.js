@@ -1,5 +1,5 @@
 var dbidx = 0
-
+  , leveljs = require('./')
   , location = function () {
       return '_leveldown_test_db_' + dbidx++
     }
@@ -11,16 +11,14 @@ var dbidx = 0
   , cleanup = function (callback) {
       var list = []
       for (var i = 0; i < dbidx; i++) {
-        list.push('IDBWrapper-_leveldown_test_db_' + i)
+        list.push('_leveldown_test_db_' + i)
       }
       var ret = 0
       function done (e) {
         if (++ret == list.length) callback()
       }
       list.forEach(function (f) {
-        indexedDB.deleteDatabase(f)
-          .onsuccess = done
-          .onerror = done
+        leveljs.destroy(f, done)
       })
     }
 
