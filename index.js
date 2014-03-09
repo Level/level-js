@@ -5,11 +5,12 @@ var AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
 var util = require('util')
 var Iterator = require('./iterator')
 var isBuffer = require('isbuffer')
+var xtend = require('xtend')
 
 function Level(location) {
   if (!(this instanceof Level)) return new Level(location)
   if (!location) throw new Error("constructor requires at least a location argument")
-  
+  this.IDBOptions = {}
   this.location = location
 }
 
@@ -17,8 +18,8 @@ util.inherits(Level, AbstractLevelDOWN)
 
 Level.prototype._open = function(options, callback) {
   var self = this
-  
-  this.idb = new IDB({
+    
+  var idbOpts = {
     storeName: this.location,
     autoIncrement: false,
     keyPath: null,
@@ -28,7 +29,11 @@ Level.prototype._open = function(options, callback) {
     onError: function(err) {
       callback && callback(err)
     }
-  })
+  }
+  
+  xtend(idbOpts, options)
+  this.IDBOptions = idbOpts
+  this.idb = new IDB(idbOpts)
 }
 
 Level.prototype._get = function (key, options, callback) {
@@ -104,13 +109,20 @@ Level.prototype._isBuffer = function (obj) {
   return Buffer.isBuffer(obj)
 }
 
-Level.destroy = function (dbname, callback) {
-  var request = indexedDB.deleteDatabase('IDBWrapper-' + dbname);
-  request.onsuccess = function() { 
-    callback(); 
+Level.destroy = function (db, callback) {
+  if (typeof db === 'object') {
+    var prefix = db.IDBOptions.storePrefix || 'IDBWrapper-'
+    var dbname = db.location
+  } else {
+    var prefix = 'IDBWrapper-'
+    var dbname = db
   }
-  request.onerror = function(err) { 
-    callback(err); 
+  var request = indexedDB.deleteDatabase(prefix + dbname)
+  request.onsuccess = function() {
+    callback()
+  }
+  request.onerror = function(err) {
+    callback(err)
   }
 }
 

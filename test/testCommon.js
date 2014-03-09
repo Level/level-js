@@ -1,5 +1,5 @@
 var dbidx = 0
-  , leveljs = require('./')
+  , leveljs = require('../')
   , location = function () {
       return '_leveldown_test_db_' + dbidx++
     }

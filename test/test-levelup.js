@@ -2,7 +2,7 @@
   (the actual test suite isnt runnable in browser, and these arent complete)
 ***/
 var levelup = require('levelup')
-var leveljs = require('./')
+var leveljs = require('../')
 
 window.db = levelup('foo', { db: leveljs })
 
