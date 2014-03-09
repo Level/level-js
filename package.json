@@ -31,10 +31,10 @@
   "testling": {
     "files": "test.js",
     "browsers": [
-      "ie/8..latest",
+      "ie/10..latest",
       "firefox/17..latest",
-      "chrome/22..latest",
-      "opera/12..latest",
+      "chrome/23..latest",
+      "opera/15..latest",
       "safari/5.1..latest",
       "android-browser/4.2..latest"
     ]
