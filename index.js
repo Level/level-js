@@ -56,8 +56,21 @@ Level.prototype._put = function (key, value, options, callback) {
   if (value instanceof ArrayBuffer) {
     value = String.fromCharCode.apply(null, new Uint16Array(value))
   }
-  if (value.toString() === 'NaN') value = 'NaN'
-  this.idb.put(key, value, function() { callback() }, callback)
+  var obj = this.convertEncoding(key, value, options)
+  this.idb.put(obj.key, obj.value, function() { callback() }, callback)
+}
+
+Level.prototype.convertEncoding = function(key, value, options) {
+  if (value) {
+    var stringed = value.toString()
+    if (stringed === 'NaN') value = 'NaN'
+  }
+  var valEnc = options.valueEncoding
+  var obj = {key: key, value: value}
+  if (value && (!valEnc || valEnc !== 'binary')) {
+    if (typeof obj.value !== 'object') obj.value = stringed
+  }
+  return obj
 }
 
 Level.prototype.iterator = function (options) {
@@ -74,11 +87,15 @@ Level.prototype._batch = function (array, options, callback) {
   var modified = []
   
   if (array.length === 0) return setTimeout(callback, 0)
-
+  
   for (i = 0; i < array.length; i++) {
     copiedOp = {}
     currentOp = array[i]
     modified[i] = copiedOp
+    
+    var converted = this.convertEncoding(currentOp.key, currentOp.value, options)
+    currentOp.key = converted.key
+    currentOp.value = converted.value
 
     for (k in currentOp) {
       if (k === 'type' && currentOp[k] == 'del') {

@@ -1,6 +1,6 @@
 var tape   = require('tape')
-  , leveljs = require('../')
-  , testCommon = require('./testCommon')
+var leveljs = require('../')
+var testCommon = require('./testCommon')
 
 // load IndexedDBShim in the tests
 require('./idb-shim.js')()
@@ -17,7 +17,6 @@ require('./custom-tests.js').all(leveljs, tape, testCommon)
 
 /*** compatibility with basic LevelDOWN API ***/
 require('abstract-leveldown/abstract/leveldown-test').args(leveljs, tape, testCommon)
-require('abstract-leveldown/abstract/open-test').args(leveljs, tape, testCommon)
 require('abstract-leveldown/abstract/open-test').open(leveljs, tape, testCommon)
 require('abstract-leveldown/abstract/put-test').all(leveljs, tape, testCommon)
 require('abstract-leveldown/abstract/del-test').all(leveljs, tape, testCommon)
@@ -28,4 +27,3 @@ require('abstract-leveldown/abstract/chained-batch-test').all(leveljs, tape, tes
 require('abstract-leveldown/abstract/close-test').close(leveljs, tape, testCommon)
 require('abstract-leveldown/abstract/iterator-test').all(leveljs, tape, testCommon)
 require('abstract-leveldown/abstract/ranges-test').all(leveljs, tape, testCommon)
-

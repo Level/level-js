@@ -91,7 +91,7 @@ Iterator.prototype.onItem = function (value, cursor, cursorTransaction) {
      || (this._gt  && cursor.key <= this._gt)
      || (this._gte && cursor.key < this._gte))
     shouldCall = false
-
+  
   if (shouldCall) this.callback(false, cursor.key, cursor.value)
   if (cursor) cursor.continue()
 }

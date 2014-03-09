@@ -1,6 +1,6 @@
 {
   "name": "level-js",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "leveldown/leveldb library for browsers using IndexedDB",
   "main": "index.js",
   "scripts": {
@@ -17,16 +17,16 @@
   "author": "max ogden",
   "license": "BSD",
   "devDependencies": {
-    "tape": "~0.3.3",
-    "browserify": "~2.13.2",
     "beefy": "~0.3.0",
     "levelup": "~0.13.0"
   },
   "dependencies": {
     "idb-wrapper": "~1.4.1",
     "isbuffer": "~0.0.0",
-    "abstract-leveldown": "~0.11.0",
-    "xtend": "~2.1.2"
+    "xtend": "~2.1.2",
+    "tape": "~2.10.2",
+    "browserify": "~3.32.0",
+    "abstract-leveldown": "~0.11.3"
   },
   "testling": {
     "files": "test.js",
