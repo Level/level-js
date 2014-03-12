@@ -42,8 +42,14 @@ Level.prototype._get = function (key, options, callback) {
       // 'NotFound' error, consistent with LevelDOWN API
       return callback(new Error('NotFound'))
     }
-    if (options.asBuffer !== false && !Buffer.isBuffer(value))
-      value = new Buffer(String(value))
+    // by default return buffers, unless explicitly told not to
+    var asBuffer = true
+    if (options.asBuffer === false) asBuffer = false
+    if (options.raw) asBuffer = false
+    if (asBuffer) {
+      if (value instanceof Uint8Array) value = new Buffer(value)
+      else value = new Buffer(String(value))
+    }
     return callback(null, value, key)
   }, callback)
 }
@@ -54,13 +60,17 @@ Level.prototype._del = function(id, options, callback) {
 
 Level.prototype._put = function (key, value, options, callback) {
   if (value instanceof ArrayBuffer) {
-    value = String.fromCharCode.apply(null, new Uint16Array(value))
+    value = new Buffer(new Uint8Array(value))
   }
   var obj = this.convertEncoding(key, value, options)
+  if (Buffer.isBuffer(obj.value)) {
+    obj.value = new Uint8Array(value.toArrayBuffer())
+  }
   this.idb.put(obj.key, obj.value, function() { callback() }, callback)
 }
 
 Level.prototype.convertEncoding = function(key, value, options) {
+  if (options.raw) return {key: key, value: value}
   if (value) {
     var stringed = value.toString()
     if (stringed === 'NaN') value = 'NaN'
@@ -68,7 +78,9 @@ Level.prototype.convertEncoding = function(key, value, options) {
   var valEnc = options.valueEncoding
   var obj = {key: key, value: value}
   if (value && (!valEnc || valEnc !== 'binary')) {
-    if (typeof obj.value !== 'object') obj.value = stringed
+    if (typeof obj.value !== 'object') {
+      obj.value = stringed
+    }
   }
   return obj
 }

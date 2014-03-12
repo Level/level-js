@@ -10,16 +10,18 @@ var dbidx = 0
 
   , cleanup = function (callback) {
       var list = []
+      if (dbidx === 0) return callback()
       for (var i = 0; i < dbidx; i++) {
         list.push('_leveldown_test_db_' + i)
       }
-      var ret = 0
-      function done (e) {
-        if (++ret == list.length) callback()
+      
+      function destroy() {
+        var f = list.pop()
+        if (list.length === 0) return callback()
+        leveljs.destroy(f, destroy)
       }
-      list.forEach(function (f) {
-        leveljs.destroy(f, done)
-      })
+      
+      destroy()
     }
 
   , setUp = function (t) {

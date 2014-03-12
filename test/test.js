@@ -5,15 +5,7 @@ var testCommon = require('./testCommon')
 // load IndexedDBShim in the tests
 require('./idb-shim.js')()
 
-var str = 'foo'
-var testBuffer = new ArrayBuffer(str.length * 2)
-var bufView = new Uint16Array(testBuffer);
-for (var i = 0, strLen = str.length; i < strLen; i++) {
-  bufView[i] = str.charCodeAt(i)
-}
-
-// non abstract-leveldown tests:
-require('./custom-tests.js').all(leveljs, tape, testCommon)
+var testBuffer = new Buffer('foo')
 
 /*** compatibility with basic LevelDOWN API ***/
 require('abstract-leveldown/abstract/leveldown-test').args(leveljs, tape, testCommon)
@@ -27,3 +19,6 @@ require('abstract-leveldown/abstract/chained-batch-test').all(leveljs, tape, tes
 require('abstract-leveldown/abstract/close-test').close(leveljs, tape, testCommon)
 require('abstract-leveldown/abstract/iterator-test').all(leveljs, tape, testCommon)
 require('abstract-leveldown/abstract/ranges-test').all(leveljs, tape, testCommon)
+
+// non abstract-leveldown tests:
+require('./custom-tests.js').all(leveljs, tape, testCommon)
