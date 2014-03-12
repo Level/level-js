@@ -18,7 +18,7 @@
   "license": "BSD",
   "devDependencies": {
     "beefy": "~0.3.0",
-    "levelup": "~0.13.0"
+    "levelup": "~0.18.2"
   },
   "dependencies": {
     "idb-wrapper": "~1.4.1",
