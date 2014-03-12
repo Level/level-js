@@ -4,6 +4,8 @@ level.js an implementation of the [leveldown](https://github.com/rvagg/node-leve
 
 **Most people use [levelup](http://github.com/rvagg/node-levelup) on top of this library. See `test-levelup.js` for details** 
 
+For some demos of it working, see @brycebaril's presentation "Path of the NodeBases Jedi": http://brycebaril.github.io/nodebase_jedi/#/vanilla
+
 [![testling badge](https://ci.testling.com/maxogden/level.js.png)](https://ci.testling.com/maxogden/level.js)
 
 [![NPM](https://nodei.co/npm/level-js.png)](https://nodei.co/npm/level-js/)
