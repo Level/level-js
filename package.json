@@ -26,7 +26,7 @@
     "xtend": "~2.1.2",
     "tape": "~2.10.2",
     "browserify": "~3.32.0",
-    "abstract-leveldown": "~0.11.3"
+    "abstract-leveldown": "~0.11.4"
   },
   "testling": {
     "files": "test/test.js",
