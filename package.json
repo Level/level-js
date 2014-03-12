@@ -33,10 +33,9 @@
     "browsers": [
       "ie/10..latest",
       "firefox/17..latest",
-      "chrome/23..latest",
+      "chrome/25..latest",
       "opera/15..latest",
-      "safari/5.1..latest",
-      "android-browser/4.2..latest"
+      "safari/6.0..latest"
     ]
   }
 }
