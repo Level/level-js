@@ -93,7 +93,7 @@ Iterator.prototype.onItem = function (value, cursor, cursorTransaction) {
     shouldCall = false
   
   if (shouldCall) this.callback(false, cursor.key, cursor.value)
-  if (cursor) cursor.continue()
+  if (cursor) cursor['continue']()
 }
 
 Iterator.prototype._next = function (callback) {
