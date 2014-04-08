@@ -6,6 +6,7 @@ var util = require('util')
 var Iterator = require('./iterator')
 var isBuffer = require('isbuffer')
 var xtend = require('xtend')
+var toBuffer = require('typedarray-to-buffer')
 
 function Level(location) {
   if (!(this instanceof Level)) return new Level(location)
@@ -47,7 +48,7 @@ Level.prototype._get = function (key, options, callback) {
     if (options.asBuffer === false) asBuffer = false
     if (options.raw) asBuffer = false
     if (asBuffer) {
-      if (value instanceof Uint8Array) value = new Buffer(value)
+      if (value instanceof Uint8Array) value = toBuffer(value)
       else value = new Buffer(String(value))
     }
     return callback(null, value, key)
@@ -60,7 +61,7 @@ Level.prototype._del = function(id, options, callback) {
 
 Level.prototype._put = function (key, value, options, callback) {
   if (value instanceof ArrayBuffer) {
-    value = new Buffer(new Uint8Array(value))
+    value = toBuffer(new Uint8Array(value))
   }
   var obj = this.convertEncoding(key, value, options)
   if (Buffer.isBuffer(obj.value)) {
