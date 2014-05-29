@@ -1,5 +1,7 @@
 var util = require('util')
 var AbstractIterator  = require('abstract-leveldown').AbstractIterator
+var ltgt = require('ltgt')
+
 module.exports = Iterator
 
 function Iterator (db, options) {
@@ -7,62 +9,25 @@ function Iterator (db, options) {
   this.options = options
   AbstractIterator.call(this, db)
   this._order = options.reverse ? 'DESC': 'ASC'
-  this._start = options.start
   this._limit = options.limit
   this._count = 0
-  this._end   = options.end
   this._done  = false
-  this._gt    = options.gt
-  this._gte   = options.gte
-  this._lt    = options.lt
-  this._lte   = options.lte
+  var lower = ltgt.lowerBound(options)
+  var upper = ltgt.upperBound(options)
+  this._keyRange = lower || upper ? this.db.makeKeyRange({
+    lower: lower,
+    upper: upper,
+    excludeLower: ltgt.lowerBoundExclusive(options),
+    excludeUpper: ltgt.upperBoundExclusive(options)
+  }) : null
+  this.callback = null
 }
 
 util.inherits(Iterator, AbstractIterator)
 
 Iterator.prototype.createIterator = function() {
   var self = this
-  var lower, upper
-  var onlyStart = typeof self._start !== 'undefined' && typeof self._end === 'undefined'
-  var onlyEnd = typeof self._start === 'undefined' && typeof self._end !== 'undefined'
-  var startAndEnd = typeof self._start !== 'undefined' && typeof self._end !== 'undefined'
-  if (onlyStart) {
-    var index = self._start
-    if (self._order === 'ASC') {
-      lower = index
-    } else {
-      upper = index
-    }
-  } else if (onlyEnd) {
-    var index = self._end
-    if (self._order === 'DESC') {
-      lower = index
-    } else {
-      upper = index
-    }
-  } else if (startAndEnd) {
-    lower = self._start
-    upper = self._end
-    if (self._start > self._end) {
-      lower = self._end
-      upper = self._start
-    }
-  }
-  if (!lower) {
-    if (self._gte !== 'undefined') lower = self._gte
-    else if (self._gt !== 'undefined') lower = self._gt
-  }
-  if (!upper) {
-    if (self._lte !== 'undefined') upper = self._lte
-    else if (self._lt !== 'undefined') upper = self._lt
-  }
-  if (lower || upper) {
-    self._keyRange = self.options.keyRange || self.db.makeKeyRange({
-      lower: lower,
-      upper: upper
-      // TODO expose excludeUpper/excludeLower
-    })
-  }
+
   self.iterator = self.db.iterate(function () {
     self.onItem.apply(self, arguments)
   }, {
@@ -86,12 +51,6 @@ Iterator.prototype.onItem = function (value, cursor, cursorTransaction) {
   if (!!this._limit && this._limit > 0 && this._count++ >= this._limit)
     shouldCall = false
 
-  if (  (this._lt  && cursor.key >= this._lt)
-     || (this._lte && cursor.key > this._lte)
-     || (this._gt  && cursor.key <= this._gt)
-     || (this._gte && cursor.key < this._gte))
-    shouldCall = false
-  
   if (shouldCall) this.callback(false, cursor.key, cursor.value)
   if (cursor) cursor.continue()
 }
