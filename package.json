@@ -27,7 +27,8 @@
     "xtend": "~2.1.2",
     "tape": "~2.10.2",
     "abstract-leveldown": "~0.12.0",
-    "typedarray-to-buffer": "~1.0.0"
+    "typedarray-to-buffer": "~1.0.0",
+    "ltgt": "~1.0.0"
   },
   "testling": {
     "files": "test/test.js",
