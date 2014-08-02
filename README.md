@@ -22,7 +22,7 @@ Being leveldown compatible means you can use many of the [level-* modules](https
 
 ## install
 
-```js
+```sh
 npm install level-js
 ```
 
@@ -32,7 +32,7 @@ This library is best used with [browserify](http://browserify.org)
 
 ## code examples
 
-```
+```js
 var leveljs = require('level-js')
 var db = leveljs('bigdata')
 db.open(function onOpen() { })
