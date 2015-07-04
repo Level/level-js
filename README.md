@@ -6,8 +6,6 @@ level.js an implementation of the [leveldown](https://github.com/rvagg/node-leve
 
 For some demos of it working, see @brycebaril's presentation "Path of the NodeBases Jedi": http://brycebaril.github.io/nodebase_jedi/#/vanilla
 
-[![testling badge](https://ci.testling.com/maxogden/level.js.png)](https://ci.testling.com/maxogden/level.js)
-
 [![NPM](https://nodei.co/npm/level-js.png)](https://nodei.co/npm/level-js/)
 
 level.js uses [IDBWrapper](https://github.com/jensarps/IDBWrapper) by jensarps to ensure compatibility between IDB implementations.
