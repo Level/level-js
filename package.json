@@ -23,7 +23,7 @@
     "tape": "^4.0.0"
   },
   "dependencies": {
-    "abstract-leveldown": "^2.4.0",
+    "abstract-leveldown": "~0.12.0",
     "idb-wrapper": "^1.5.0",
     "isbuffer": "~0.0.0",
     "ltgt": "^1.0.1",
