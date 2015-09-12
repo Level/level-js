@@ -14,12 +14,18 @@ function Iterator (db, options) {
   this._done  = false
   var lower = ltgt.lowerBound(options)
   var upper = ltgt.upperBound(options)
-  this._keyRange = lower || upper ? this.db.makeKeyRange({
-    lower: lower,
-    upper: upper,
-    excludeLower: ltgt.lowerBoundExclusive(options),
-    excludeUpper: ltgt.upperBoundExclusive(options)
-  }) : null
+  try {
+    this._keyRange = lower || upper ? this.db.makeKeyRange({
+      lower: lower,
+      upper: upper,
+      excludeLower: ltgt.lowerBoundExclusive(options),
+      excludeUpper: ltgt.upperBoundExclusive(options)
+    }) : null
+  } catch (e) {
+    // The lower key is greater than the upper key.
+    // IndexedDB throws an error, but we'll just return 0 results.
+    this._keyRangeError = true
+  }
   this.callback = null
 }
 
@@ -57,6 +63,7 @@ Iterator.prototype.onItem = function (value, cursor, cursorTransaction) {
 
 Iterator.prototype._next = function (callback) {
   if (!callback) return new Error('next() requires a callback argument')
+  if (this._keyRangeError) return callback()
   if (!this._started) {
     this.createIterator()
     this._started = true
