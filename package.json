@@ -1,6 +1,6 @@
 {
   "name": "level-js",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "leveldown/leveldb library for browsers using IndexedDB",
   "main": "index.js",
   "scripts": {
@@ -26,7 +26,7 @@
     "abstract-leveldown": "~0.12.0",
     "idb-wrapper": "^1.5.0",
     "isbuffer": "~0.0.0",
-    "ltgt": "^1.0.1",
+    "ltgt": "^2.1.2",
     "typedarray-to-buffer": "~1.0.0",
     "xtend": "~2.1.2"
   },
