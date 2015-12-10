@@ -1,6 +1,6 @@
 {
   "name": "level-js",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "leveldown/leveldb library for browsers using IndexedDB",
   "main": "index.js",
   "scripts": {
