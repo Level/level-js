@@ -75,4 +75,19 @@ module.exports.all = function(leveljs, tape, testCommon) {
     })
   })
 
+  tape('zero results if gt key > lt key', function(t) {
+    var level = levelup('key-range-test', {db: leveljs})
+    level.open(function(err) {
+      t.notOk(err, 'no error')
+      var s = level.createReadStream({ gte: 'x', lt: 'b' });
+      var item;
+      s.on('readable', function() {
+        item = s.read()
+      })
+      s.on('end', function() {
+        t.end()
+      });
+    })
+  })
+
 }
