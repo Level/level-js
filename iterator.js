@@ -10,6 +10,10 @@ function Iterator (db, options) {
   AbstractIterator.call(this, db)
   this._order = options.reverse ? 'DESC': 'ASC'
   this._limit = options.limit
+  if (!this._limit || this._limit === -1) {
+    this._limit = Infinity;
+  }
+
   this._count = 0
   this._done  = false
   var lower = ltgt.lowerBound(options)
@@ -21,17 +25,14 @@ function Iterator (db, options) {
       excludeLower: ltgt.lowerBoundExclusive(options),
       excludeUpper: ltgt.upperBoundExclusive(options)
     }) : null
-  } catch (e) {
+  } catch (err) {
     // The lower key is greater than the upper key.
-    // IndexedDB throws an error, but we'll just return 0 results.
+    // IndexedDB throws a DataError, but we'll just skip the iterator and return 0 results.
     this._keyRangeError = true
+    return;
   }
   this.callback = null
-}
 
-util.inherits(Iterator, AbstractIterator)
-
-Iterator.prototype.createIterator = function() {
   var self = this
 
   self.iterator = self.db.iterate(function () {
@@ -40,39 +41,57 @@ Iterator.prototype.createIterator = function() {
     keyRange: self._keyRange,
     autoContinue: false,
     order: self._order,
-    onError: function(err) { console.log('horrible error', err) },
-  })
+    onError: function(err) { console.error('horrible error', err) }
+  });
+
+  self.iterator.oncomplete = function () {
+    self._cursorEnded = true;
+    if (self.callback) self.callback()
+  }
 }
 
-// TODO the limit implementation here just ignores all reads after limit has been reached
-// it should cancel the iterator instead but I don't know how
+util.inherits(Iterator, AbstractIterator)
+
 Iterator.prototype.onItem = function (value, cursor, cursorTransaction) {
-  if (!cursor && this.callback) {
-    this.callback()
-    this.callback = false
-    return
+  var self = this;
+  function emitAndContinue(cb) {
+    if (!cursor) {
+      cb()
+      return
+    }
+
+    self._count++;
+
+    var key = self.options.keyAsBuffer !== false
+      ? Buffer(cursor.key)
+      : cursor.key
+    var value = self.options.valueAsBuffer !== false
+      ? Buffer(cursor.value)
+      : cursor.value
+    cb(null, key, value)
+    if (!self._cursorEnded) {
+      // IDBWrapper.limit only works if autoContinue is true
+      if (self._count < self._limit) cursor['continue']() // else timeout
+    }
   }
-  var shouldCall = true
 
-  if (!!this._limit && this._limit > 0 && this._count++ >= this._limit)
-    shouldCall = false
-
-  var key = this.options.keyAsBuffer !== false
-    ? Buffer(cursor.key)
-    : cursor.key
-  var value = this.options.valueAsBuffer !== false
-    ? Buffer(cursor.value)
-    : cursor.value
-  if (shouldCall) this.callback(false, key, value)
-  if (cursor) cursor['continue']()
+  if (this.callback) {
+    emitAndContinue(this.callback)
+    this.callback = false
+  } else {
+    // wait for next handler
+    this._emitAndContinue = emitAndContinue
+  }
 }
 
 Iterator.prototype._next = function (callback) {
-  if (!callback) return new Error('next() requires a callback argument')
   if (this._keyRangeError) return callback()
-  if (!this._started) {
-    this.createIterator()
-    this._started = true
+
+  if (this._emitAndContinue) {
+    this._emitAndContinue(callback)
+    this._emitAndContinue = false
+  } else {
+    // wait for cursor
+    this.callback = callback
   }
-  this.callback = callback
 }
