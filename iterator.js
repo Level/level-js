@@ -9,10 +9,12 @@ function Iterator (db, options) {
   this.options = options
   AbstractIterator.call(this, db)
   this._order = options.reverse ? 'DESC': 'ASC'
-  this._limit = options.limit
-  if (!this._limit || this._limit === -1) {
+  this._limit = options.limit;
+  if (this._limit == null || this._limit === -1) {
     this._limit = Infinity;
   }
+  if (typeof this._limit !== 'number') throw new TypeError('options.limit must be a number')
+  if (this._limit === 0) return // skip further processing and wait for first call to _next
 
   this._count = 0
   this._done  = false
@@ -85,7 +87,7 @@ Iterator.prototype.onItem = function (value, cursor, cursorTransaction) {
 }
 
 Iterator.prototype._next = function (callback) {
-  if (this._keyRangeError) return callback()
+  if (this._keyRangeError || this._limit === 0) return callback()
 
   if (this._emitAndContinue) {
     this._emitAndContinue(callback)
