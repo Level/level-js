@@ -12,6 +12,55 @@ module.exports.all = function(leveljs, tape, testCommon) {
   
   module.exports.setUp(leveljs, tape, testCommon)
   
+  tape('should use a callback only once per next-handler', function(t) {
+    var level = leveljs(testCommon.location())
+    level.open(function(err) {
+      t.notOk(err, 'no error')
+      level.put('akey', 'aval',  function (err) {
+        t.notOk(err, 'no error')
+        level.put('bkey', 'bval',  function (err) {
+          t.notOk(err, 'no error')
+          level.put('ckey', 'cval',  function (err) {
+            t.notOk(err, 'no error')
+
+            var iterator = level.iterator({ keyAsBuffer: false, valueAsBuffer: false })
+
+            iterator.next(function(err, key, value) {
+              t.notOk(err, 'no error')
+              t.equal(key, 'akey', 'should have akey')
+              t.equal(value, 'aval', 'should have avalue')
+
+              setTimeout(function() {
+                iterator.next(function(err, key, value) {
+                  t.notOk(err, 'no error')
+                  t.equal(key, 'bkey', 'should have bkey')
+                  t.equal(value, 'bval', 'should have bvalue')
+
+                  setTimeout(function() {
+                    iterator.next(function(err, key, value) {
+                      t.notOk(err, 'no error')
+                      t.equal(key, 'ckey', 'should have ckey')
+                      t.equal(value, 'cval', 'should have cvalue')
+
+                      setTimeout(function() {
+                        iterator.next(function(err, key, value) {
+                          t.notOk(err, 'no error')
+                          t.notOk(key, 'end, no key')
+                          t.notOk(value, 'end, no value')
+                          t.end()
+                        })
+                      }, 1)
+                    })
+                  }, 1)
+                })
+              }, 1)
+            })
+          })
+        })
+      })
+    })
+  })
+
   tape('store native JS types with raw = true', function(t) {
     var level = leveljs(testCommon.location())
     level.open(function(err) {
@@ -27,7 +76,7 @@ module.exports.all = function(leveljs, tape, testCommon) {
       })
     })
   })
-  
+
   // NOTE: in chrome (at least) indexeddb gets buggy if you try and destroy a db,
   // then create it again, then try and destroy it again. these avoid doing that
 
