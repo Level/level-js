@@ -65,7 +65,11 @@ Level.prototype._put = function (key, value, options, callback) {
   }
   var obj = this.convertEncoding(key, value, options)
   if (Buffer.isBuffer(obj.value)) {
-    obj.value = new Uint8Array(value.toArrayBuffer())
+    if (typeof value.toArrayBuffer === 'function') {
+      obj.value = new Uint8Array(value.toArrayBuffer())
+    } else {
+      obj.value = new Uint8Array(value)
+    }
   }
   this.idb.put(obj.key, obj.value, function() { callback() }, callback)
 }
