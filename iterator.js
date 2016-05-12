@@ -57,7 +57,13 @@ Iterator.prototype.onItem = function (value, cursor, cursorTransaction) {
   if (!!this._limit && this._limit > 0 && this._count++ >= this._limit)
     shouldCall = false
 
-  if (shouldCall) this.callback(false, cursor.key, cursor.value)
+  var key = this.options.keyAsBuffer !== false
+    ? Buffer(cursor.key)
+    : cursor.key
+  var value = this.options.valueAsBuffer !== false
+    ? Buffer(cursor.value)
+    : cursor.value
+  if (shouldCall) this.callback(false, key, value)
   if (cursor) cursor['continue']()
 }
 
