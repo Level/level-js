@@ -28,7 +28,7 @@
     "isbuffer": "~0.0.0",
     "ltgt": "^2.1.2",
     "typedarray-to-buffer": "~1.0.0",
-    "xtend": "~2.1.2"
+    "xtend": "^4.0.1"
   },
   "testling": {
     "files": "test/test.js",
