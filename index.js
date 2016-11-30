@@ -32,7 +32,7 @@ Level.prototype._open = function(options, callback) {
     }
   }
   
-  xtend(idbOpts, options)
+  idbOpts = xtend(idbOpts, options)
   this.IDBOptions = idbOpts
   this.idb = new IDB(idbOpts)
 }
