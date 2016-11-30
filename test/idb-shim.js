@@ -1676,8 +1676,13 @@ module.exports = function() {
           if(!window.IDBTransaction){
               window.IDBTransaction = {};
           }
-          window.IDBTransaction.READ_ONLY = window.IDBTransaction.READ_ONLY || "readonly";
-          window.IDBTransaction.READ_WRITE = window.IDBTransaction.READ_WRITE || "readwrite";
+          if (!window.IDBTransaction.READ_ONLY) {
+            window.IDBTransaction.READ_ONLY = "readonly";
+          }
+          if (!window.IDBTransaction.READ_WRITE) {
+            window.IDBTransaction.READ_WRITE = "readwrite";
+          }
+          
       }
     
   }(window, idbModules));
