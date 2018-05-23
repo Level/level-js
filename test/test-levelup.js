@@ -1,4 +1,4 @@
-/*** Levelup tests 
+/*** Levelup tests
   (the actual test suite isnt runnable in browser, and these arent complete)
 ***/
 var levelup = require('levelup')
@@ -23,37 +23,3 @@ db.put('binary', ary, function (err) {
     console.log('binary', value)
   })
 })
-
-var writeStream = db.createWriteStream()
-writeStream.on('error', function (err) {
-  console.log('Oh my!', err)
-})
-writeStream.on('close', function () {
-  console.log('Stream closed')
-  db.createKeyStream()
-    .on('data', function (data) {
-      console.log('KEYSTREAM', data)
-    })
-    .on('error', function (err) {
-      console.log('Oh my!', err)
-    })
-  db.createReadStream()
-    .on('data', function (data) {
-      console.log('READSTREAM', data.key, '=', data.value)
-    })
-    .on('error', function (err) {
-      console.log('Oh my!', err)
-    })
-  db.createValueStream()
-    .on('data', function (data) {
-      console.log('VALUESTREAM', data)
-    })
-    .on('error', function (err) {
-      console.log('Oh my!', err)
-    })
-})
-writeStream.write({ key: 'name', value: 'Yuri Irsenovich Kim' })
-writeStream.write({ key: 'dob', value: '16 February 1941' })
-writeStream.write({ key: 'spouse', value: 'Kim Young-sook' })
-writeStream.write({ key: 'occupation', value: 'Clown' })
-writeStream.end()
