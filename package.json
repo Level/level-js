@@ -4,7 +4,7 @@
   "description": "leveldown/leveldb library for browsers using IndexedDB",
   "main": "index.js",
   "scripts": {
-    "test": "beefy test/index.js",
+    "test": "airtap --local --no-coverage test/index.js",
     "test-browsers": "airtap --sauce-connect --loopback airtap.local --no-coverage test/index.js"
   },
   "repository": {
@@ -19,7 +19,6 @@
   "license": "BSD-2-Clause",
   "devDependencies": {
     "airtap": "0.0.5",
-    "beefy": "~2.1.8",
     "browserify": "~16.2.2",
     "levelup": "~0.18.2",
     "tape": "^4.0.0"
