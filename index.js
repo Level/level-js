@@ -10,7 +10,9 @@ var toBuffer = require('typedarray-to-buffer')
 
 function Level(location) {
   if (!(this instanceof Level)) return new Level(location)
-  if (!location) throw new Error("constructor requires at least a location argument")
+
+  AbstractLevelDOWN.call(this, location)
+
   this.IDBOptions = {}
   this.location = location
 }
