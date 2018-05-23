@@ -60,17 +60,11 @@ Level.prototype._del = function(id, options, callback) {
 }
 
 Level.prototype._put = function (key, value, options, callback) {
+  // TODO: do we still need to support ArrayBuffer?
   if (value instanceof ArrayBuffer) {
-    value = toBuffer(new Uint8Array(value))
+    value = Buffer.from(value)
   }
   var obj = this.convertEncoding(key, value, options)
-  if (Buffer.isBuffer(obj.value)) {
-    if (typeof value.toArrayBuffer === 'function') {
-      obj.value = new Uint8Array(value.toArrayBuffer())
-    } else {
-      obj.value = new Uint8Array(value)
-    }
-  }
   this.idb.put(obj.key, obj.value, function() { callback() }, callback)
 }
 
