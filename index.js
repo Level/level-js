@@ -5,7 +5,7 @@ var AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
 var util = require('util')
 var Iterator = require('./iterator')
 var isBuffer = require('isbuffer')
-var xtend = require('xtend')
+var xtend = require('xtend/mutable')
 var toBuffer = require('typedarray-to-buffer')
 
 function Level(location) {
