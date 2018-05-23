@@ -21,6 +21,8 @@ module.exports.all = function(leveljs, tape, testCommon) {
     })
   })
 
+  // TODO: this should be supported without raw: true. Which is possible once
+  // we upgrade abstract-leveldown (which only tests strings and Buffers now).
   tape('store native JS types with raw = true', function(t) {
     var level = leveljs(testCommon.location())
     level.open(function(err) {
@@ -31,6 +33,23 @@ module.exports.all = function(leveljs, tape, testCommon) {
           t.notOk(err, 'no error')
           t.ok(typeof value === 'boolean', 'is boolean type')
           t.ok(value, 'is truthy')
+          level.close(t.end.bind(t))
+        })
+      })
+    })
+  })
+
+  // TODO: this should be supported without raw: true. Which is possible once
+  // we upgrade abstract-leveldown (which only tests strings and Buffers now).
+  tape('store NaN value', function(t) {
+    var level = leveljs(testCommon.location())
+    level.open(function(err) {
+      t.notOk(err, 'no error')
+      level.put('key', NaN, { raw: true }, function (err) {
+        t.notOk(err, 'no error')
+        level.get('key', { raw: true }, function(err, value) {
+          t.notOk(err, 'no error')
+          t.ok(Number.isNaN(value), 'is NaN')
           level.close(t.end.bind(t))
         })
       })

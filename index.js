@@ -60,28 +60,24 @@ Level.prototype._del = function(id, options, callback) {
 }
 
 Level.prototype._put = function (key, value, options, callback) {
-  // TODO: do we still need to support ArrayBuffer?
-  if (value instanceof ArrayBuffer) {
-    value = Buffer.from(value)
-  }
-  var obj = this.convertEncoding(key, value, options)
-  this.idb.put(obj.key, obj.value, function() { callback() }, callback)
+  // TODO: once we upgrade abstract-leveldown, it will call _serializeValue for us.
+  value = this._serializeValue(value, options)
+  this.idb.put(key, value, function() { callback() }, callback)
 }
 
-Level.prototype.convertEncoding = function(key, value, options) {
-  if (options.raw) return {key: key, value: value}
-  if (value) {
-    var stringed = value.toString()
-    if (stringed === 'NaN') value = 'NaN'
-  }
-  var valEnc = options.valueEncoding
-  var obj = {key: key, value: value}
-  if (value && (!valEnc || valEnc !== 'binary')) {
-    if (typeof obj.value !== 'object') {
-      obj.value = stringed
-    }
-  }
-  return obj
+// NOTE: doesn't match abstract signature yet (which has no options argument).
+Level.prototype._serializeValue = function (value, options) {
+  // TODO: do we still need to support ArrayBuffer?
+  if (value instanceof ArrayBuffer) return Buffer.from(value)
+  if (value == null) return ''
+
+  // TODO: remove
+  if (options.raw) return value
+
+  // TODO: remove
+  if (typeof value !== 'object') return value.toString()
+
+  return value
 }
 
 Level.prototype.iterator = function (options) {
@@ -104,9 +100,8 @@ Level.prototype._batch = function (array, options, callback) {
     currentOp = array[i]
     modified[i] = copiedOp
 
-    var converted = this.convertEncoding(currentOp.key, currentOp.value, options)
-    currentOp.key = converted.key
-    currentOp.value = converted.value
+    // TODO: once we upgrade abstract-leveldown, it will call _serializeValue for us.
+    currentOp.value = this._serializeValue(currentOp.value, options)
 
     for (k in currentOp) {
       if (k === 'type' && currentOp[k] == 'del') {
