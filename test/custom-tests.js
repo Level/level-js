@@ -9,9 +9,27 @@ module.exports.setUp = function (leveldown, test, testCommon) {
 }
 
 module.exports.all = function(leveljs, tape, testCommon) {
-  
+
   module.exports.setUp(leveljs, tape, testCommon)
-  
+
+  // This is covered by abstract-leveldown tests, but we're
+  // not on latest yet, so this is insurance.
+  tape('store buffer value', function(t) {
+    var level = leveljs(testCommon.location())
+    level.open(function(err) {
+      t.notOk(err, 'no error')
+      level.put('key', Buffer.from('00ff', 'hex'), function (err) {
+        t.notOk(err, 'no error')
+        level.get('key', function(err, value) {
+          t.notOk(err, 'no error')
+          t.ok(Buffer.isBuffer(value), 'is buffer')
+          t.same(value, Buffer.from('00ff', 'hex'))
+          t.end()
+        })
+      })
+    })
+  })
+
   tape('store native JS types with raw = true', function(t) {
     var level = leveljs(testCommon.location())
     level.open(function(err) {
@@ -27,7 +45,7 @@ module.exports.all = function(leveljs, tape, testCommon) {
       })
     })
   })
-  
+
   // NOTE: in chrome (at least) indexeddb gets buggy if you try and destroy a db,
   // then create it again, then try and destroy it again. these avoid doing that
 
