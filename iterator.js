@@ -1,19 +1,36 @@
 var util = require('util')
 var AbstractIterator  = require('abstract-leveldown').AbstractIterator
 var ltgt = require('ltgt')
+var toBuffer = require('typedarray-to-buffer')
+
+// TODO: move this to a util, to be used by get() and iterators.
+// TODO: after upgrading dependencies, use Buffer.from()
+function mixedToBuffer (value) {
+  if (value instanceof Uint8Array) return toBuffer(value)
+  else return new Buffer(String(value))
+}
 
 module.exports = Iterator
 
 function Iterator (db, options) {
+  // TODO: in later abstract-leveldown, options is always an object.
   if (!options) options = {}
-  this.options = options
   AbstractIterator.call(this, db)
+
   this._order = options.reverse ? 'DESC': 'ASC'
   this._limit = options.limit
   this._count = 0
-  this._done  = false
+  this._callback = null
+  this._cache = []
+  this._finished = false
+
+  // TODO: in later abstract-leveldown, these have proper defaults
+  this._keyAsBuffer = options.keyAsBuffer !== false
+  this._valueAsBuffer = options.valueAsBuffer !== false
+
   var lower = ltgt.lowerBound(options)
   var upper = ltgt.upperBound(options)
+
   try {
     this._keyRange = lower || upper ? this.db.makeKeyRange({
       lower: lower,
@@ -24,9 +41,11 @@ function Iterator (db, options) {
   } catch (e) {
     // The lower key is greater than the upper key.
     // IndexedDB throws an error, but we'll just return 0 results.
-    this._keyRangeError = true
+    this._finished = true
+    return
   }
-  this.callback = null
+
+  this.createIterator()
 }
 
 util.inherits(Iterator, AbstractIterator)
@@ -40,33 +59,56 @@ Iterator.prototype.createIterator = function() {
     keyRange: self._keyRange,
     autoContinue: false,
     order: self._order,
-    onError: function(err) { console.log('horrible error', err) },
+    onError: function(err) {
+      if (err.type !== 'abort' && !self._ended) {
+        // TODO: pass to next() callback
+        console.error('horrible error', err)
+      }
+    }
   })
 }
 
-// TODO the limit implementation here just ignores all reads after limit has been reached
-// it should cancel the iterator instead but I don't know how
 Iterator.prototype.onItem = function (value, cursor, cursorTransaction) {
-  if (!cursor && this.callback) {
-    this.callback()
-    this.callback = false
-    return
+  if (!cursor) {
+    this._finished = true
+  } else if (!!this._limit && this._limit > 0 && this._count++ >= this._limit) {
+    cursorTransaction.abort()
+    this._finished = true
+  } else {
+    this._cache.push(cursor.key, value)
+    cursor['continue']()
   }
-  var shouldCall = true
 
-  if (!!this._limit && this._limit > 0 && this._count++ >= this._limit)
-    shouldCall = false
-
-  if (shouldCall) this.callback(false, cursor.key, cursor.value)
-  if (cursor) cursor['continue']()
+  if (this._callback) {
+    this._next(this._callback)
+    this._callback = null
+  }
 }
 
+// TODO: use setImmediate (see memdown)
 Iterator.prototype._next = function (callback) {
+  // TODO: can remove this after upgrading abstract-leveldown
   if (!callback) return new Error('next() requires a callback argument')
-  if (this._keyRangeError) return callback()
-  if (!this._started) {
-    this.createIterator()
-    this._started = true
+
+  if (this._cache.length > 0) {
+    var key = this._cache.shift()
+    var value = this._cache.shift()
+
+    if (this._keyAsBuffer) key = mixedToBuffer(key)
+    if (this._valueAsBuffer) value = mixedToBuffer(value)
+
+    setTimeout(function() {
+      callback(null, key, value)
+    }, 0)
+  } else if (this._finished) {
+    setTimeout(callback, 0)
+  } else {
+    this._callback = callback
   }
-  this.callback = callback
+}
+
+// TODO: use setImmediate (see memdown)
+Iterator.prototype._end = function (callback) {
+  if (!this._finished) this.iterator.abort()
+  setTimeout(callback, 0)
 }
