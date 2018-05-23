@@ -1,16 +1,7 @@
 var levelup = require('levelup')
 
-module.exports.setUp = function (leveldown, test, testCommon) {
-  test('setUp common', testCommon.setUp)
-  test('setUp db', function (t) {
-    db = leveldown(testCommon.location())
-    db.open(t.end.bind(t))
-  })
-}
-
 module.exports.all = function(leveljs, tape, testCommon) {
-
-  module.exports.setUp(leveljs, tape, testCommon)
+  tape('setUp', testCommon.setUp)
 
   // This is covered by abstract-leveldown tests, but we're
   // not on latest yet, so this is insurance.
@@ -24,7 +15,7 @@ module.exports.all = function(leveljs, tape, testCommon) {
           t.notOk(err, 'no error')
           t.ok(Buffer.isBuffer(value), 'is buffer')
           t.same(value, Buffer.from('00ff', 'hex'))
-          t.end()
+          level.close(t.end.bind(t))
         })
       })
     })
@@ -40,7 +31,7 @@ module.exports.all = function(leveljs, tape, testCommon) {
           t.notOk(err, 'no error')
           t.ok(typeof value === 'boolean', 'is boolean type')
           t.ok(value, 'is truthy')
-          t.end()
+          level.close(t.end.bind(t))
         })
       })
     })
@@ -50,7 +41,8 @@ module.exports.all = function(leveljs, tape, testCommon) {
   // then create it again, then try and destroy it again. these avoid doing that
 
   tape('test levelup .destroy w/ string', function(t) {
-    var level = levelup('destroy-test', {db: leveljs})
+    var location = testCommon.location()
+    var level = levelup(location, {db: leveljs})
     level.put('key', 'value', function (err) {
       t.notOk(err, 'no error')
       level.get('key', function (err, value) {
@@ -58,12 +50,12 @@ module.exports.all = function(leveljs, tape, testCommon) {
         t.equal(value, 'value', 'should have value')
         level.close(function (err) {
           t.notOk(err, 'no error')
-          leveljs.destroy('destroy-test', function (err) {
+          leveljs.destroy(location, function (err) {
             t.notOk(err, 'no error')
-            var level2 = levelup('destroy-test', {db: leveljs})
+            var level2 = levelup(location, {db: leveljs})
             level2.get('key', function (err, value) {
               t.ok(err, 'key is not there')
-              t.end()
+              level2.close(t.end.bind(t))
             })
           })
         })
@@ -72,7 +64,8 @@ module.exports.all = function(leveljs, tape, testCommon) {
   })
 
   tape('test levelup .destroy w/ db instance', function(t) {
-    var level = levelup('destroy-test-2', {db: leveljs})
+    var location = testCommon.location()
+    var level = levelup(location, {db: leveljs})
     level.put('key', 'value', function (err) {
       t.notOk(err, 'no error')
       level.get('key', function (err, value) {
@@ -82,10 +75,10 @@ module.exports.all = function(leveljs, tape, testCommon) {
           t.notOk(err, 'no error')
           leveljs.destroy(level.db, function (err) {
             t.notOk(err, 'no error')
-            var level2 = levelup('destroy-test-2', {db: leveljs})
+            var level2 = levelup(location, {db: leveljs})
             level2.get('key', function (err, value) {
               t.ok(err, 'key is not there')
-              t.end()
+              level2.close(t.end.bind(t))
             })
           })
         })
@@ -93,4 +86,5 @@ module.exports.all = function(leveljs, tape, testCommon) {
     })
   })
 
+  tape('teardown', testCommon.tearDown)
 }

@@ -2,7 +2,7 @@
 
 level.js an implementation of the [leveldown](https://github.com/rvagg/node-leveldown) API on top of [IndexedDB](https://developer.mozilla.org/en-US/docs/IndexedDB) (which is in turn implemented on top of [LevelDB](https://code.google.com/p/leveldb/), which brings this whole shebang full circle)
 
-**Most people use [levelup](http://github.com/rvagg/node-levelup) on top of this library. See `test-levelup.js` for details** 
+**Most people use [levelup](http://github.com/rvagg/node-levelup) on top of this library. See `test-levelup.js` for details**
 
 For some demos of it working, see @brycebaril's presentation "Path of the NodeBases Jedi": http://brycebaril.github.io/nodebase_jedi/#/vanilla
 
@@ -27,6 +27,10 @@ npm install level-js
 (Not to be confused with [leveljs](https://github.com/rvagg/node-leveljs))
 
 This library is best used with [browserify](http://browserify.org)
+
+## Browser support
+
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/level-js.svg)](https://saucelabs.com/u/level-js)
 
 ## code examples
 
@@ -53,6 +57,12 @@ open localhost:9966
 ```
 
 Then look in your browser console
+
+## Big Thanks
+
+Cross-browser Testing Platform and Open Source ♥ Provided by [Sauce Labs](https://saucelabs.com).
+
+[![Sauce Labs logo](./sauce-labs.svg)](https://saucelabs.com)
 
 ## license
 
