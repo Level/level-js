@@ -4,11 +4,12 @@
   "description": "leveldown/leveldb library for browsers using IndexedDB",
   "main": "index.js",
   "scripts": {
-    "test": "beefy test/test.js:test.js test/test-levelup.js:test-levelup.js"
+    "test": "beefy test/test.js:test.js test/test-levelup.js:test-levelup.js",
+    "test-browsers": "airtap --sauce-connect --loopback airtap.local --no-coverage test.js"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:maxogden/level.js.git"
+    "url": "git@github.com:Level/level.js.git"
   },
   "keywords": [
     "level",
@@ -17,6 +18,7 @@
   "author": "max ogden",
   "license": "BSD-2-Clause",
   "devDependencies": {
+    "airtap": "0.0.5",
     "beefy": "~2.1.8",
     "browserify": "~16.2.2",
     "levelup": "~0.18.2",
