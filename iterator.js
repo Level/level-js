@@ -4,10 +4,9 @@ var ltgt = require('ltgt')
 var toBuffer = require('typedarray-to-buffer')
 
 // TODO: move this to a util, to be used by get() and iterators.
-// TODO: after upgrading dependencies, use Buffer.from()
 function mixedToBuffer (value) {
   if (value instanceof Uint8Array) return toBuffer(value)
-  else return new Buffer(String(value))
+  else return Buffer.from(String(value))
 }
 
 module.exports = Iterator

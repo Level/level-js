@@ -19,19 +19,19 @@ util.inherits(Level, AbstractLevelDOWN)
 
 Level.prototype._open = function(options, callback) {
   var self = this
-    
+
   var idbOpts = {
     storeName: this.location,
     autoIncrement: false,
     keyPath: null,
     onStoreReady: function () {
       callback && callback(null, self.idb)
-    }, 
+    },
     onError: function(err) {
       callback && callback(err)
     }
   }
-  
+
   xtend(idbOpts, options)
   this.IDBOptions = idbOpts
   this.idb = new IDB(idbOpts)
@@ -49,7 +49,7 @@ Level.prototype._get = function (key, options, callback) {
     if (options.raw) asBuffer = false
     if (asBuffer) {
       if (value instanceof Uint8Array) value = toBuffer(value)
-      else value = new Buffer(String(value))
+      else value = Buffer.from(String(value))
     }
     return callback(null, value, key)
   }, callback)
@@ -102,14 +102,14 @@ Level.prototype._batch = function (array, options, callback) {
   var copiedOp
   var currentOp
   var modified = []
-  
+
   if (array.length === 0) return setTimeout(callback, 0)
-  
+
   for (i = 0; i < array.length; i++) {
     copiedOp = {}
     currentOp = array[i]
     modified[i] = copiedOp
-    
+
     var converted = this.convertEncoding(currentOp.key, currentOp.value, options)
     currentOp.key = converted.key
     currentOp.value = converted.value
