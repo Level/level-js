@@ -4,8 +4,8 @@
   "description": "leveldown/leveldb library for browsers using IndexedDB",
   "main": "index.js",
   "scripts": {
-    "test": "beefy test/test.js:test.js test/test-levelup.js:test-levelup.js",
-    "test-browsers": "airtap --sauce-connect --loopback airtap.local --no-coverage test.js"
+    "test": "beefy test/index.js",
+    "test-browsers": "airtap --sauce-connect --loopback airtap.local --no-coverage test/index.js"
   },
   "repository": {
     "type": "git",
