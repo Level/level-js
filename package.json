@@ -30,15 +30,5 @@
     "ltgt": "^2.1.2",
     "typedarray-to-buffer": "~3.1.5",
     "xtend": "~4.0.1"
-  },
-  "testling": {
-    "files": "test/test.js",
-    "browsers": [
-      "ie/10..latest",
-      "firefox/17..latest",
-      "chrome/25..latest",
-      "opera/15..latest",
-      "safari/6.0..latest"
-    ]
   }
 }
