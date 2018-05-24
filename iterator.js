@@ -18,15 +18,20 @@ function Iterator (db, options) {
   AbstractIterator.call(this, db)
 
   this._order = options.reverse ? 'DESC': 'ASC'
-  this._limit = options.limit || -1
+  this._limit = options.limit
   this._count = 0
   this._callback = null
   this._cache = []
   this._completed = false
+  this.transaction = null
 
-  // TODO: in later abstract-leveldown, these have proper defaults
-  this._keyAsBuffer = options.keyAsBuffer !== false
-  this._valueAsBuffer = options.valueAsBuffer !== false
+  this._keyAsBuffer = options.keyAsBuffer
+  this._valueAsBuffer = options.valueAsBuffer
+
+  if (this._limit === 0) {
+    this._completed = true
+    return
+  }
 
   var lower = ltgt.lowerBound(options)
   var upper = ltgt.upperBound(options)
@@ -98,7 +103,7 @@ Iterator.prototype._next = function (callback) {
   // TODO: can remove this after upgrading abstract-leveldown
   if (!callback) throw new Error('next() requires a callback argument')
 
-  if (this.transaction.error !== null) {
+  if (this.transaction !== null && this.transaction.error !== null) {
     var err = this.transaction.error
 
     setTimeout(function() {

@@ -10,12 +10,26 @@ var toBuffer = require('typedarray-to-buffer')
 
 function Level(location) {
   if (!(this instanceof Level)) return new Level(location)
-  if (!location) throw new Error("constructor requires at least a location argument")
+  AbstractLevelDOWN.call(this, location)
   this.IDBOptions = {}
   this.location = location
 }
 
 util.inherits(Level, AbstractLevelDOWN)
+
+// Detect binary key support (IndexedDB Second Edition)
+Level.binaryKeys = (function () {
+  if (typeof indexedDB === 'undefined') {
+    return false
+  }
+
+  try {
+    indexedDB.cmp(new Uint8Array(0), 0)
+    return true
+  } catch (err) {
+    return false
+  }
+})()
 
 Level.prototype._open = function(options, callback) {
   var self = this
@@ -43,14 +57,12 @@ Level.prototype._get = function (key, options, callback) {
       // 'NotFound' error, consistent with LevelDOWN API
       return callback(new Error('NotFound'))
     }
-    // by default return buffers, unless explicitly told not to
-    var asBuffer = true
-    if (options.asBuffer === false) asBuffer = false
-    if (options.raw) asBuffer = false
-    if (asBuffer) {
+
+    if (options.asBuffer) {
       if (value instanceof Uint8Array) value = toBuffer(value)
       else value = Buffer.from(String(value))
     }
+
     return callback(null, value, key)
   }, callback)
 }
@@ -60,28 +72,42 @@ Level.prototype._del = function(id, options, callback) {
 }
 
 Level.prototype._put = function (key, value, options, callback) {
-  // TODO: once we upgrade abstract-leveldown, it will call _serializeValue for us.
-  value = this._serializeValue(value, options)
   this.idb.put(key, value, function() { callback() }, callback)
 }
 
-// NOTE: doesn't match abstract signature yet (which has no options argument).
-Level.prototype._serializeValue = function (value, options) {
+// Valid key types in IndexedDB Second Edition:
+//
+// - Number, except NaN. Includes Infinity and -Infinity
+// - Date, except invalid (NaN)
+// - String
+// - ArrayBuffer or a view thereof (typed arrays)
+// - Array, except cyclical and empty (e.g. Array(10)). Elements must be valid
+//   types themselves.
+Level.prototype._serializeKey = function (key) {
+  // TODO: do we still need to support ArrayBuffer?
+  if (key instanceof ArrayBuffer) {
+    key = Buffer.from(key)
+    return Level.binaryKeys ? key : key.toString()
+  } else if (Buffer.isBuffer(key)) {
+    return Level.binaryKeys ? key : key.toString()
+  } else if (Array.isArray(key)) {
+    return key.map(this._serializeKey, this)
+  } else if ((typeof key === 'number' || key instanceof Date) && !isNaN(key)) {
+    return key
+  }
+
+  return String(key)
+}
+
+Level.prototype._serializeValue = function (value) {
   // TODO: do we still need to support ArrayBuffer?
   if (value instanceof ArrayBuffer) return Buffer.from(value)
   if (value == null) return ''
 
-  // TODO: remove
-  if (options.raw) return value
-
-  // TODO: remove
-  if (typeof value !== 'object') return value.toString()
-
   return value
 }
 
-Level.prototype.iterator = function (options) {
-  if (typeof options !== 'object') options = {}
+Level.prototype._iterator = function (options) {
   return new Iterator(this.idb, options)
 }
 
@@ -100,9 +126,6 @@ Level.prototype._batch = function (array, options, callback) {
     currentOp = array[i]
     modified[i] = copiedOp
 
-    // TODO: once we upgrade abstract-leveldown, it will call _serializeValue for us.
-    currentOp.value = this._serializeValue(currentOp.value, options)
-
     for (k in currentOp) {
       if (k === 'type' && currentOp[k] == 'del') {
         copiedOp[k] = 'remove'
@@ -118,18 +141,6 @@ Level.prototype._batch = function (array, options, callback) {
 Level.prototype._close = function (callback) {
   this.idb.db.close()
   callback()
-}
-
-Level.prototype._approximateSize = function (start, end, callback) {
-  var err = new Error('Not implemented')
-  if (callback)
-    return callback(err)
-
-  throw err
-}
-
-Level.prototype._isBuffer = function (obj) {
-  return Buffer.isBuffer(obj)
 }
 
 Level.destroy = function (db, callback) {
