@@ -126,31 +126,33 @@ Level.prototype._iterator = function (options) {
   return new Iterator(this.idb, options)
 }
 
-Level.prototype._batch = function (array, options, callback) {
-  var op
-  var i
-  var k
-  var copiedOp
-  var currentOp
-  var modified = []
+Level.prototype._batch = function (operations, options, callback) {
+  if (operations.length === 0) return setTimeout(callback, 0)
 
-  if (array.length === 0) return setTimeout(callback, 0)
+  var store = this.store('readwrite')
+  var transaction = store.transaction
+  var index = 0
 
-  for (i = 0; i < array.length; i++) {
-    copiedOp = {}
-    currentOp = array[i]
-    modified[i] = copiedOp
+  transaction.onabort = function () {
+    callback(transaction.error || new Error('aborted by user'))
+  }
 
-    for (k in currentOp) {
-      if (k === 'type' && currentOp[k] == 'del') {
-        copiedOp[k] = 'remove'
-      } else {
-        copiedOp[k] = currentOp[k]
-      }
+  transaction.oncomplete = function () {
+    callback()
+  }
+
+  // Wait for a request to complete before making the next, saving CPU.
+  function loop () {
+    var op = operations[index++]
+    var key = op.key
+    var req = op.type === 'del' ? store.delete(key) : store.put(op.value, key)
+
+    if (index < operations.length) {
+      req.onsuccess = loop
     }
   }
 
-  return this.idb.batch(modified, function(){ callback() }, callback)
+  loop()
 }
 
 Level.prototype._close = function (callback) {
