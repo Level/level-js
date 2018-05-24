@@ -20,6 +20,7 @@
   "license": "MIT",
   "devDependencies": {
     "airtap": "0.0.5",
+    "brfs": "~1.6.1",
     "browserify": "~16.2.2",
     "levelup": "~3.0.0",
     "tape": "^4.0.0"
