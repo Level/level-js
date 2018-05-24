@@ -43,14 +43,12 @@ Level.prototype._get = function (key, options, callback) {
       // 'NotFound' error, consistent with LevelDOWN API
       return callback(new Error('NotFound'))
     }
-    // by default return buffers, unless explicitly told not to
-    var asBuffer = true
-    if (options.asBuffer === false) asBuffer = false
-    if (options.raw) asBuffer = false
-    if (asBuffer) {
+
+    if (options.asBuffer) {
       if (value instanceof Uint8Array) value = toBuffer(value)
       else value = Buffer.from(String(value))
     }
+
     return callback(null, value, key)
   }, callback)
 }
@@ -97,12 +95,6 @@ Level.prototype._serializeValue = function (value, options) {
   // TODO: do we still need to support ArrayBuffer?
   if (value instanceof ArrayBuffer) return Buffer.from(value)
   if (value == null) return ''
-
-  // TODO: remove
-  if (options.raw) return value
-
-  // TODO: remove
-  if (typeof value !== 'object') return value.toString()
 
   return value
 }
