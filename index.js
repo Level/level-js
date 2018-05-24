@@ -88,8 +88,7 @@ Level.prototype._serializeKey = function (key) {
   return String(key)
 }
 
-// NOTE: doesn't match abstract signature yet (which has no options argument).
-Level.prototype._serializeValue = function (value, options) {
+Level.prototype._serializeValue = function (value) {
   // TODO: do we still need to support ArrayBuffer?
   if (value instanceof ArrayBuffer) return Buffer.from(value)
   if (value == null) return ''
