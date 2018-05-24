@@ -12,7 +12,7 @@ level.js uses [IDBWrapper](https://github.com/jensarps/IDBWrapper) by jensarps t
 
 Here are the goals of this level.js:
 
-- Store large amounts of ascii (strings, JSON) and binary (ArrayBuffers, Typed Arrays) data in modern browsers
+- Store large amounts of ascii (strings, JSON) and binary (Buffer) data in modern browsers
 - Be as fast as possible
 - Use the leveldown test suite and sync with [multilevel](https://github.com/juliangruber/multilevel) over either ascii or binary transports (websockets and xhr both have ascii/binary modes in browsers now)
 
@@ -43,8 +43,6 @@ db.open(function onOpen() { })
 The test suite for this library is in the [abstract-leveldown](https://github.com/rvagg/node-abstract-leveldown) repo and is shared between various leveldown implementations across different environments and platforms.
 
 For more code examples see the [abstract-leveldown test suite](https://github.com/rvagg/node-abstract-leveldown/tree/master/abstract)
-
-The only differences between this and leveldown is that you can store `ArrayBuffers` in this (whereas leveldown just uses node `Buffer` objects)
 
 ## run the tests
 

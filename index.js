@@ -4,7 +4,6 @@ var IDB = require('idb-wrapper')
 var AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
 var util = require('util')
 var Iterator = require('./iterator')
-var isBuffer = require('isbuffer')
 var xtend = require('xtend')
 var toBuffer = require('typedarray-to-buffer')
 
@@ -80,15 +79,12 @@ Level.prototype._put = function (key, value, options, callback) {
 // - Number, except NaN. Includes Infinity and -Infinity
 // - Date, except invalid (NaN)
 // - String
-// - ArrayBuffer or a view thereof (typed arrays)
+// - ArrayBuffer or a view thereof (typed arrays). In level-js we only support
+//   Buffer (which is an Uint8Array).
 // - Array, except cyclical and empty (e.g. Array(10)). Elements must be valid
 //   types themselves.
 Level.prototype._serializeKey = function (key) {
-  // TODO: do we still need to support ArrayBuffer?
-  if (key instanceof ArrayBuffer) {
-    key = Buffer.from(key)
-    return Level.binaryKeys ? key : key.toString()
-  } else if (Buffer.isBuffer(key)) {
+  if (Buffer.isBuffer(key)) {
     return Level.binaryKeys ? key : key.toString()
   } else if (Array.isArray(key)) {
     return key.map(this._serializeKey, this)
@@ -100,11 +96,7 @@ Level.prototype._serializeKey = function (key) {
 }
 
 Level.prototype._serializeValue = function (value) {
-  // TODO: do we still need to support ArrayBuffer?
-  if (value instanceof ArrayBuffer) return Buffer.from(value)
-  if (value == null) return ''
-
-  return value
+  return value == null ? '' : value
 }
 
 Level.prototype._iterator = function (options) {
@@ -158,17 +150,4 @@ Level.destroy = function (db, callback) {
   request.onerror = function(err) {
     callback(err)
   }
-}
-
-var checkKeyValue = Level.prototype._checkKeyValue = function (obj, type) {
-  if (obj === null || obj === undefined)
-    return new Error(type + ' cannot be `null` or `undefined`')
-  if (obj === null || obj === undefined)
-    return new Error(type + ' cannot be `null` or `undefined`')
-  if (isBuffer(obj) && obj.byteLength === 0)
-    return new Error(type + ' cannot be an empty ArrayBuffer')
-  if (String(obj) === '')
-    return new Error(type + ' cannot be an empty String')
-  if (obj.length === 0)
-    return new Error(type + ' cannot be an empty Array')
 }
