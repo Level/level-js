@@ -128,10 +128,6 @@ Level.prototype._approximateSize = function (start, end, callback) {
   throw err
 }
 
-Level.prototype._isBuffer = function (obj) {
-  return Buffer.isBuffer(obj)
-}
-
 Level.destroy = function (db, callback) {
   if (typeof db === 'object') {
     var prefix = db.IDBOptions.storePrefix || 'IDBWrapper-'
