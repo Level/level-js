@@ -105,9 +105,6 @@ Iterator.prototype.maybeNext = function () {
 
 // TODO: use setImmediate (see memdown)
 Iterator.prototype._next = function (callback) {
-  // TODO: can remove this after upgrading abstract-leveldown
-  if (!callback) throw new Error('next() requires a callback argument')
-
   if (this._transaction !== null && this._transaction.error !== null) {
     var err = this._transaction.error
 
