@@ -101,8 +101,6 @@ module.exports.all = function(leveljs, tape, testCommon) {
     })
   })
 
-  // TODO: this should be supported without raw: true. Which is possible once
-  // we upgrade abstract-leveldown (which only tests strings and Buffers now).
   tape('store NaN value', function(t) {
     var level = leveljs(testCommon.location())
     level.open(function(err) {
