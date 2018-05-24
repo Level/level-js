@@ -59,6 +59,31 @@ module.exports.all = function(leveljs, tape, testCommon) {
     })
   })
 
+  // Adapted from a memdown test.
+  tape('iterator stringifies buffer input', function (t) {
+    t.plan(6)
+
+    var db = leveljs(testCommon.location())
+
+    db.open(function (err) {
+      t.ifError(err, 'no open error')
+
+      db.put(1, 2, function (err) {
+        t.ifError(err, 'no put error')
+
+        testCommon.collectEntries(db.iterator(), function (err, entries) {
+          t.ifError(err, 'no iterator error')
+          t.same(entries[0].key, Buffer.from('1'), 'key is stringified')
+          t.same(entries[0].value, Buffer.from('2'), 'value is stringified')
+
+          db.close(function (err) {
+            t.ifError(err, 'no close error')
+          })
+        })
+      })
+    })
+  })
+
   // TODO: merge this and the test below. Test all types.
   tape('store native JS types', function(t) {
     var level = leveljs(testCommon.location())
