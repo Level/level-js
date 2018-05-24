@@ -22,7 +22,7 @@ function Iterator (db, options) {
   this._count = 0
   this._callback = null
   this._cache = []
-  this._finished = false
+  this._completed = false
 
   // TODO: in later abstract-leveldown, these have proper defaults
   this._keyAsBuffer = options.keyAsBuffer !== false
@@ -41,7 +41,7 @@ function Iterator (db, options) {
   } catch (e) {
     // The lower key is greater than the upper key.
     // IndexedDB throws an error, but we'll just return 0 results.
-    this._finished = true
+    this._completed = true
     return
   }
 
@@ -82,7 +82,7 @@ Iterator.prototype.onItem = function (value, cursor, cursorTransaction) {
 }
 
 Iterator.prototype.onComplete = function () {
-  this._finished = true
+  this._completed = true
   this.maybeNext()
 }
 
@@ -114,7 +114,7 @@ Iterator.prototype._next = function (callback) {
     setTimeout(function() {
       callback(null, key, value)
     }, 0)
-  } else if (this._finished) {
+  } else if (this._completed) {
     setTimeout(callback, 0)
   } else {
     this._callback = callback
@@ -123,7 +123,7 @@ Iterator.prototype._next = function (callback) {
 
 // TODO: use setImmediate (see memdown)
 Iterator.prototype._end = function (callback) {
-  if (this._finished) {
+  if (this._completed) {
     setTimeout(callback, 0)
     return
   }
