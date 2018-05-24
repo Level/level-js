@@ -60,20 +60,20 @@ module.exports.all = function(leveljs, tape, testCommon) {
 
   tape('test levelup .destroy w/ string', function(t) {
     var location = testCommon.location()
-    var level = levelup(location, {db: leveljs})
-    level.put('key', 'value', function (err) {
+    var db = levelup(leveljs(location))
+    db.put('key', 'value', function (err) {
       t.notOk(err, 'no error')
-      level.get('key', function (err, value) {
+      db.get('key', { asBuffer: false }, function (err, value) {
         t.notOk(err, 'no error')
         t.equal(value, 'value', 'should have value')
-        level.close(function (err) {
+        db.close(function (err) {
           t.notOk(err, 'no error')
           leveljs.destroy(location, function (err) {
             t.notOk(err, 'no error')
-            var level2 = levelup(location, {db: leveljs})
-            level2.get('key', function (err, value) {
-              t.ok(err, 'key is not there')
-              level2.close(t.end.bind(t))
+            var db2 = levelup(leveljs(location))
+            db2.get('key', { asBuffer: false }, function (err, value) {
+              t.ok(err && err.notFound, 'key is not there')
+              db2.close(t.end.bind(t))
             })
           })
         })
@@ -83,20 +83,20 @@ module.exports.all = function(leveljs, tape, testCommon) {
 
   tape('test levelup .destroy w/ db instance', function(t) {
     var location = testCommon.location()
-    var level = levelup(location, {db: leveljs})
-    level.put('key', 'value', function (err) {
+    var db = levelup(leveljs(location))
+    db.put('key', 'value', function (err) {
       t.notOk(err, 'no error')
-      level.get('key', function (err, value) {
+      db.get('key', { asBuffer: false }, function (err, value) {
         t.notOk(err, 'no error')
         t.equal(value, 'value', 'should have value')
-        level.close(function (err) {
+        db.close(function (err) {
           t.notOk(err, 'no error')
-          leveljs.destroy(level.db, function (err) {
+          leveljs.destroy(db.db, function (err) {
             t.notOk(err, 'no error')
-            var level2 = levelup(location, {db: leveljs})
-            level2.get('key', function (err, value) {
-              t.ok(err, 'key is not there')
-              level2.close(t.end.bind(t))
+            var db2 = levelup(leveljs(location))
+            db2.get('key', { asBuffer: false }, function (err, value) {
+              t.ok(err && err.notFound, 'key is not there')
+              db2.close(t.end.bind(t))
             })
           })
         })
