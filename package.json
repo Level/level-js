@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "airtap --local --no-coverage test/index.js",
+    "test-end": "airtap --local --no-coverage test/manual/end-test.js",
     "test-browsers": "airtap --sauce-connect --loopback airtap.local --no-coverage test/index.js"
   },
   "repository": {

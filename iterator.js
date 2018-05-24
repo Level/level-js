@@ -2,6 +2,7 @@ var util = require('util')
 var AbstractIterator  = require('abstract-leveldown').AbstractIterator
 var ltgt = require('ltgt')
 var toBuffer = require('typedarray-to-buffer')
+var noop = function () {}
 
 // TODO: move this to a util, to be used by get() and iterators.
 function mixedToBuffer (value) {
@@ -17,11 +18,11 @@ function Iterator (db, options) {
   AbstractIterator.call(this, db)
 
   this._order = options.reverse ? 'DESC': 'ASC'
-  this._limit = options.limit
+  this._limit = options.limit || -1
   this._count = 0
   this._callback = null
   this._cache = []
-  this._finished = false
+  this._completed = false
 
   // TODO: in later abstract-leveldown, these have proper defaults
   this._keyAsBuffer = options.keyAsBuffer !== false
@@ -40,7 +41,7 @@ function Iterator (db, options) {
   } catch (e) {
     // The lower key is greater than the upper key.
     // IndexedDB throws an error, but we'll just return 0 results.
-    this._finished = true
+    this._completed = true
     return
   }
 
@@ -52,32 +53,40 @@ util.inherits(Iterator, AbstractIterator)
 Iterator.prototype.createIterator = function() {
   var self = this
 
-  self.iterator = self.db.iterate(function () {
+  self.transaction = self.db.iterate(function () {
     self.onItem.apply(self, arguments)
   }, {
     keyRange: self._keyRange,
     autoContinue: false,
     order: self._order,
-    onError: function(err) {
-      if (err.type !== 'abort' && !self._ended) {
-        // TODO: pass to next() callback
-        console.error('horrible error', err)
-      }
-    }
+
+    // If an error occurs, the transaction will abort and we can
+    // get the error from "transaction.error".
+    onError: noop
   })
+
+  // Override IDBWrapper's event handlers for a simpler flow.
+  self.transaction.oncomplete = self.transaction.onabort = function () {
+    self.onComplete()
+  }
 }
 
 Iterator.prototype.onItem = function (value, cursor, cursorTransaction) {
-  if (!cursor) {
-    this._finished = true
-  } else if (!!this._limit && this._limit > 0 && this._count++ >= this._limit) {
-    cursorTransaction.abort()
-    this._finished = true
-  } else {
-    this._cache.push(cursor.key, value)
+  this._cache.push(cursor.key, value)
+
+  if (this._limit <= 0 || ++this._count < this._limit) {
     cursor['continue']()
   }
 
+  this.maybeNext()
+}
+
+Iterator.prototype.onComplete = function () {
+  this._completed = true
+  this.maybeNext()
+}
+
+Iterator.prototype.maybeNext = function () {
   if (this._callback) {
     this._next(this._callback)
     this._callback = null
@@ -89,7 +98,13 @@ Iterator.prototype._next = function (callback) {
   // TODO: can remove this after upgrading abstract-leveldown
   if (!callback) throw new Error('next() requires a callback argument')
 
-  if (this._cache.length > 0) {
+  if (this.transaction.error !== null) {
+    var err = this.transaction.error
+
+    setTimeout(function() {
+      callback(err)
+    }, 0)
+  } else if (this._cache.length > 0) {
     var key = this._cache.shift()
     var value = this._cache.shift()
 
@@ -99,7 +114,7 @@ Iterator.prototype._next = function (callback) {
     setTimeout(function() {
       callback(null, key, value)
     }, 0)
-  } else if (this._finished) {
+  } else if (this._completed) {
     setTimeout(callback, 0)
   } else {
     this._callback = callback
@@ -108,6 +123,18 @@ Iterator.prototype._next = function (callback) {
 
 // TODO: use setImmediate (see memdown)
 Iterator.prototype._end = function (callback) {
-  if (!this._finished) this.iterator.abort()
-  setTimeout(callback, 0)
+  if (this._completed) {
+    setTimeout(callback, 0)
+    return
+  }
+
+  var transaction = this.transaction
+
+  // Don't advance the cursor anymore, and the transaction will complete
+  // on its own in the next tick. This approach is much cleaner than calling
+  // transaction.abort() with its unpredictable event order.
+  this.onItem = noop
+  this.onComplete = function () {
+    callback(transaction.error)
+  }
 }
