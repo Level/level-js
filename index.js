@@ -50,8 +50,31 @@ Level.prototype._open = function(options, callback) {
   this.idb = new IDB(idbOpts)
 }
 
+Level.prototype.store = function (mode) {
+  var storeName = this.idb.storeName
+  var transaction = this.idb.db.transaction([storeName], mode)
+
+  return transaction.objectStore(storeName)
+}
+
+Level.prototype.await = function (request, callback) {
+  var transaction = request.transaction
+
+  // Take advantage of the fact that a non-canceled request error aborts
+  // the transaction. I.e. no need to listen for "request.onerror".
+  transaction.onabort = function () {
+    callback(transaction.error || new Error('aborted by user'))
+  }
+
+  transaction.oncomplete = function () {
+    callback(null, request.result)
+  }
+}
+
 Level.prototype._get = function (key, options, callback) {
-  this.idb.get(key, function (value) {
+  this.await(this.store('readonly').get(key), function (err, value) {
+    if (err) return callback(err)
+
     if (value === undefined) {
       // 'NotFound' error, consistent with LevelDOWN API
       return callback(new Error('NotFound'))
@@ -62,16 +85,16 @@ Level.prototype._get = function (key, options, callback) {
       else value = Buffer.from(String(value))
     }
 
-    return callback(null, value, key)
-  }, callback)
+    callback(null, value)
+  })
 }
 
-Level.prototype._del = function(id, options, callback) {
-  this.idb.remove(id, callback, callback)
+Level.prototype._del = function(key, options, callback) {
+  this.await(this.store('readwrite').delete(key), callback)
 }
 
 Level.prototype._put = function (key, value, options, callback) {
-  this.idb.put(key, value, function() { callback() }, callback)
+  this.await(this.store('readwrite').put(value, key), callback)
 }
 
 // Valid key types in IndexedDB Second Edition:
