@@ -80,8 +80,7 @@ Level.prototype._serializeValue = function (value, options) {
   return value
 }
 
-Level.prototype.iterator = function (options) {
-  if (typeof options !== 'object') options = {}
+Level.prototype._iterator = function (options) {
   return new Iterator(this.idb, options)
 }
 
