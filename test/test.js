@@ -18,11 +18,7 @@ require('abstract-leveldown/abstract/batch-test').all(leveljs, tape, testCommon)
 require('abstract-leveldown/abstract/chained-batch-test').all(leveljs, tape, testCommon)
 require('abstract-leveldown/abstract/close-test').close(leveljs, tape, testCommon)
 require('abstract-leveldown/abstract/iterator-test').all(leveljs, tape, testCommon)
-
-// NOTE: exclude this because the handling of buffers is inconsistent between
-// iterator-test and ranges-test. We can't make both pass, but that's OK, as
-// ranges-test is removed in a later abstract-leveldown version anyway.
-// require('abstract-leveldown/abstract/ranges-test').all(leveljs, tape, testCommon)
+require('abstract-leveldown/abstract/iterator-range-test').all(leveljs, tape, testCommon)
 
 // non abstract-leveldown tests:
 require('./custom-tests.js').all(leveljs, tape, testCommon)
