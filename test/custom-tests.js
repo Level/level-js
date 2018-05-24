@@ -3,9 +3,7 @@ var levelup = require('levelup')
 module.exports.all = function(leveljs, tape, testCommon) {
   tape('setUp', testCommon.setUp)
 
-  // This is covered by abstract-leveldown tests, but we're
-  // not on latest yet, so this is insurance.
-  tape('store buffer value', function(t) {
+  tape('buffer value', function(t) {
     var level = leveljs(testCommon.location())
     level.open(function(err) {
       t.notOk(err, 'no error')
@@ -16,6 +14,46 @@ module.exports.all = function(leveljs, tape, testCommon) {
           t.ok(Buffer.isBuffer(value), 'is buffer')
           t.same(value, Buffer.from('00ff', 'hex'))
           level.close(t.end.bind(t))
+        })
+      })
+    })
+  })
+
+  // This should be covered by abstract-leveldown tests, but that's
+  // prevented by process.browser checks (Level/abstract-leveldown#121).
+  // This test is adapted from memdown.
+  tape('buffer keys', function (t) {
+    var db = leveljs(testCommon.location())
+
+    db.open(function (err) {
+      t.ifError(err, 'no open error')
+
+      var one = Buffer.from('80', 'hex')
+      var two = Buffer.from('c0', 'hex')
+
+      t.ok(two.toString() === one.toString(), 'would be equal when not buffer-aware')
+      t.ok(Buffer.compare(two, one) > 0, 'but greater when buffer-aware')
+
+      db.put(one, 'one', function (err) {
+        t.notOk(err, 'no error')
+
+        db.get(one, { asBuffer: false }, function (err, value) {
+          t.notOk(err, 'no error')
+          t.equal(value, 'one', 'value one ok')
+
+          db.put(two, 'two', function (err) {
+            t.notOk(err, 'no error')
+
+            db.get(one, { asBuffer: false }, function (err, value) {
+              t.notOk(err, 'no error')
+              t.equal(value, 'one', 'value one is the same')
+
+              db.close(function (err) {
+                t.ifError(err, 'no close error')
+                t.end()
+              })
+            })
+          })
         })
       })
     })
