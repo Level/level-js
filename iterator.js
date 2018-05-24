@@ -53,7 +53,7 @@ util.inherits(Iterator, AbstractIterator)
 Iterator.prototype.createIterator = function() {
   var self = this
 
-  self.iterator = self.db.iterate(function () {
+  self.transaction = self.db.iterate(function () {
     self.onItem.apply(self, arguments)
   }, {
     keyRange: self._keyRange,
@@ -66,7 +66,7 @@ Iterator.prototype.createIterator = function() {
   })
 
   // Override IDBWrapper's event handlers for a simpler flow.
-  self.iterator.oncomplete = self.iterator.onabort = function () {
+  self.transaction.oncomplete = self.transaction.onabort = function () {
     self.onComplete()
   }
 }
@@ -98,8 +98,8 @@ Iterator.prototype._next = function (callback) {
   // TODO: can remove this after upgrading abstract-leveldown
   if (!callback) throw new Error('next() requires a callback argument')
 
-  if (this.iterator.error !== null) {
-    var err = this.iterator.error
+  if (this.transaction.error !== null) {
+    var err = this.transaction.error
 
     setTimeout(function() {
       callback(err)
@@ -128,13 +128,13 @@ Iterator.prototype._end = function (callback) {
     return
   }
 
-  var iterator = this.iterator
+  var transaction = this.transaction
 
   // Don't advance the cursor anymore, and the transaction will complete
   // on its own in the next tick. This approach is much cleaner than calling
   // transaction.abort() with its unpredictable event order.
   this.onItem = noop
   this.onComplete = function () {
-    callback(iterator.error)
+    callback(transaction.error)
   }
 }
