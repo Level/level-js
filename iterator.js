@@ -12,18 +12,15 @@ function mixedToBuffer (value) {
 
 module.exports = Iterator
 
-function Iterator (db, options) {
-  // TODO: in later abstract-leveldown, options is always an object.
-  if (!options) options = {}
+function Iterator (db, storeName, options) {
   AbstractIterator.call(this, db)
 
-  this._order = options.reverse ? 'DESC': 'ASC'
   this._limit = options.limit
   this._count = 0
   this._callback = null
   this._cache = []
   this._completed = false
-  this.transaction = null
+  this._transaction = null
 
   this._keyAsBuffer = options.keyAsBuffer
   this._valueAsBuffer = options.valueAsBuffer
@@ -33,16 +30,8 @@ function Iterator (db, options) {
     return
   }
 
-  var lower = ltgt.lowerBound(options)
-  var upper = ltgt.upperBound(options)
-
   try {
-    this._keyRange = lower || upper ? this.db.makeKeyRange({
-      lower: lower,
-      upper: upper,
-      excludeLower: ltgt.lowerBoundExclusive(options),
-      excludeUpper: ltgt.upperBoundExclusive(options)
-    }) : null
+    var keyRange = this.createKeyRange(options)
   } catch (e) {
     // The lower key is greater than the upper key.
     // IndexedDB throws an error, but we'll just return 0 results.
@@ -50,34 +39,50 @@ function Iterator (db, options) {
     return
   }
 
-  this.createIterator()
+  this.createIterator(storeName, keyRange, options.reverse)
 }
 
 util.inherits(Iterator, AbstractIterator)
 
-Iterator.prototype.createIterator = function() {
+Iterator.prototype.createKeyRange = function (options) {
+  var lower = ltgt.lowerBound(options)
+  var upper = ltgt.upperBound(options)
+  var lowerOpen = ltgt.lowerBoundExclusive(options)
+  var upperOpen = ltgt.upperBoundExclusive(options)
+
+  if (lower !== undefined && upper !== undefined) {
+    return IDBKeyRange.bound(lower, upper, lowerOpen, upperOpen)
+  } else if (lower !== undefined) {
+    return IDBKeyRange.lowerBound(lower, lowerOpen)
+  } else if (upper !== undefined) {
+    return IDBKeyRange.upperBound(upper, upperOpen)
+  } else {
+    return null
+  }
+}
+
+Iterator.prototype.createIterator = function (storeName, keyRange, reverse) {
   var self = this
+  var transaction = this.db.transaction([storeName], 'readonly')
+  var store = transaction.objectStore(storeName)
+  var req = store.openCursor(keyRange, reverse ? 'prev' : 'next')
 
-  self.transaction = self.db.iterate(function () {
-    self.onItem.apply(self, arguments)
-  }, {
-    keyRange: self._keyRange,
-    autoContinue: false,
-    order: self._order,
+  req.onsuccess = function (ev) {
+    var cursor = ev.target.result
+    if (cursor) self.onItem(cursor)
+  }
 
-    // If an error occurs, the transaction will abort and we can
-    // get the error from "transaction.error".
-    onError: noop
-  })
+  this._transaction = transaction
 
-  // Override IDBWrapper's event handlers for a simpler flow.
-  self.transaction.oncomplete = self.transaction.onabort = function () {
+  // If an error occurs, the transaction will abort and we can
+  // get the error from "transaction.error".
+  transaction.oncomplete = transaction.onabort = function () {
     self.onComplete()
   }
 }
 
-Iterator.prototype.onItem = function (value, cursor, cursorTransaction) {
-  this._cache.push(cursor.key, value)
+Iterator.prototype.onItem = function (cursor) {
+  this._cache.push(cursor.key, cursor.value)
 
   if (this._limit <= 0 || ++this._count < this._limit) {
     cursor['continue']()
@@ -103,8 +108,8 @@ Iterator.prototype._next = function (callback) {
   // TODO: can remove this after upgrading abstract-leveldown
   if (!callback) throw new Error('next() requires a callback argument')
 
-  if (this.transaction !== null && this.transaction.error !== null) {
-    var err = this.transaction.error
+  if (this._transaction !== null && this._transaction.error !== null) {
+    var err = this._transaction.error
 
     setTimeout(function() {
       callback(err)
@@ -133,7 +138,7 @@ Iterator.prototype._end = function (callback) {
     return
   }
 
-  var transaction = this.transaction
+  var transaction = this._transaction
 
   // Don't advance the cursor anymore, and the transaction will complete
   // on its own in the next tick. This approach is much cleaner than calling

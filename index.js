@@ -123,7 +123,7 @@ Level.prototype._serializeValue = function (value) {
 }
 
 Level.prototype._iterator = function (options) {
-  return new Iterator(this.idb, options)
+  return new Iterator(this.idb.db, this.idb.storeName, options)
 }
 
 Level.prototype._batch = function (operations, options, callback) {
