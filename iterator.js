@@ -24,9 +24,8 @@ function Iterator (db, options) {
   this._cache = []
   this._completed = false
 
-  // TODO: in later abstract-leveldown, these have proper defaults
-  this._keyAsBuffer = options.keyAsBuffer !== false
-  this._valueAsBuffer = options.valueAsBuffer !== false
+  this._keyAsBuffer = options.keyAsBuffer
+  this._valueAsBuffer = options.valueAsBuffer
 
   var lower = ltgt.lowerBound(options)
   var upper = ltgt.upperBound(options)
