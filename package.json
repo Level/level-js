@@ -16,7 +16,7 @@
     "leveldb"
   ],
   "author": "max ogden",
-  "license": "BSD-2-Clause",
+  "license": "MIT",
   "devDependencies": {
     "airtap": "0.0.5",
     "browserify": "~16.2.2",
