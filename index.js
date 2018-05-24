@@ -58,8 +58,6 @@ Level.prototype._del = function(id, options, callback) {
 }
 
 Level.prototype._put = function (key, value, options, callback) {
-  // TODO: once we upgrade abstract-leveldown, it will call _serializeValue for us.
-  value = this._serializeValue(value, options)
   this.idb.put(key, value, function() { callback() }, callback)
 }
 
@@ -117,9 +115,6 @@ Level.prototype._batch = function (array, options, callback) {
     copiedOp = {}
     currentOp = array[i]
     modified[i] = copiedOp
-
-    // TODO: once we upgrade abstract-leveldown, it will call _serializeValue for us.
-    currentOp.value = this._serializeValue(currentOp.value, options)
 
     for (k in currentOp) {
       if (k === 'type' && currentOp[k] == 'del') {
