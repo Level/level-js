@@ -17,6 +17,20 @@ function Level(location) {
 
 util.inherits(Level, AbstractLevelDOWN)
 
+// Detect binary key support (IndexedDB Second Edition)
+Level.binaryKeys = (function () {
+  if (typeof indexedDB === 'undefined') {
+    return false
+  }
+
+  try {
+    indexedDB.cmp(new Uint8Array(0), 0)
+    return true
+  } catch (err) {
+    return false
+  }
+})()
+
 Level.prototype._open = function(options, callback) {
   var self = this
 
@@ -71,17 +85,14 @@ Level.prototype._put = function (key, value, options, callback) {
 //   types themselves.
 Level.prototype._serializeKey = function (key) {
   // TODO: do we still need to support ArrayBuffer?
-  if (key instanceof ArrayBuffer) return Buffer.from(key)
-
-  if (typeof key === 'string' || Buffer.isBuffer(key)) {
-    return key
-  }
-
-  if (Array.isArray(key)) {
+  if (key instanceof ArrayBuffer) {
+    key = Buffer.from(key)
+    return Level.binaryKeys ? key : key.toString()
+  } else if (Buffer.isBuffer(key)) {
+    return Level.binaryKeys ? key : key.toString()
+  } else if (Array.isArray(key)) {
     return key.map(this._serializeKey, this)
-  }
-
-  if ((typeof key === 'number' || key instanceof Date) && !isNaN(key)) {
+  } else if ((typeof key === 'number' || key instanceof Date) && !isNaN(key)) {
     return key
   }
 

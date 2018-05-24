@@ -22,7 +22,7 @@ module.exports.all = function(leveljs, tape, testCommon) {
   // This should be covered by abstract-leveldown tests, but that's
   // prevented by process.browser checks (Level/abstract-leveldown#121).
   // This test is adapted from memdown.
-  tape('buffer keys', function (t) {
+  leveljs.binaryKeys && tape('buffer keys', function (t) {
     var db = leveljs(testCommon.location())
 
     db.open(function (err) {
@@ -60,7 +60,7 @@ module.exports.all = function(leveljs, tape, testCommon) {
   })
 
   // Adapted from a memdown test.
-  tape('iterator stringifies buffer input', function (t) {
+  leveljs.binaryKeys && tape('iterator stringifies buffer input', function (t) {
     t.plan(6)
 
     var db = leveljs(testCommon.location())
