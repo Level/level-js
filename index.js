@@ -65,6 +65,33 @@ Level.prototype._put = function (key, value, options, callback) {
   this.idb.put(key, value, function() { callback() }, callback)
 }
 
+// Valid key types in IndexedDB Second Edition:
+//
+// - Number, except NaN. Includes Infinity and -Infinity
+// - Date, except invalid (NaN)
+// - String
+// - ArrayBuffer or a view thereof (typed arrays)
+// - Array, except cyclical and empty (e.g. Array(10)). Elements must be valid
+//   types themselves.
+Level.prototype._serializeKey = function (key) {
+  // TODO: do we still need to support ArrayBuffer?
+  if (key instanceof ArrayBuffer) return Buffer.from(key)
+
+  if (typeof key === 'string' || Buffer.isBuffer(key)) {
+    return key
+  }
+
+  if (Array.isArray(key)) {
+    return key.map(this._serializeKey, this)
+  }
+
+  if ((typeof key === 'number' || key instanceof Date) && !isNaN(key)) {
+    return key
+  }
+
+  return String(key)
+}
+
 // NOTE: doesn't match abstract signature yet (which has no options argument).
 Level.prototype._serializeValue = function (value, options) {
   // TODO: do we still need to support ArrayBuffer?
