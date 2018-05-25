@@ -109,7 +109,7 @@ module.exports.all = function(leveljs, tape, testCommon) {
         t.notOk(err, 'no error')
         level.get('key', { asBuffer: false }, function(err, value) {
           t.notOk(err, 'no error')
-          t.ok(Number.isNaN(value), 'is NaN')
+          t.ok(typeof value === 'number' && isNaN(value), 'is NaN')
           level.close(t.end.bind(t))
         })
       })
