@@ -23,6 +23,7 @@
     "browserify": "~16.2.2",
     "encoding-down": "~5.0.2",
     "levelup": "~3.0.0",
+    "pinkie": "~2.0.4",
     "tape": "^4.0.0"
   },
   "dependencies": {
