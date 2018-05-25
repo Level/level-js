@@ -1,14 +1,10 @@
+'use strict'
+
 var util = require('util')
 var AbstractIterator  = require('abstract-leveldown').AbstractIterator
 var ltgt = require('ltgt')
-var toBuffer = require('typedarray-to-buffer')
+var mixedToBuffer = require('./util/mixed-to-buffer')
 var noop = function () {}
-
-// TODO: move this to a util, to be used by get() and iterators.
-function mixedToBuffer (value) {
-  if (value instanceof Uint8Array) return toBuffer(value)
-  else return Buffer.from(String(value))
-}
 
 module.exports = Iterator
 

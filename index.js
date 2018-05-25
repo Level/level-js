@@ -1,9 +1,11 @@
+'use strict'
+
 module.exports = Level
 
 var AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
 var util = require('util')
 var Iterator = require('./iterator')
-var toBuffer = require('typedarray-to-buffer')
+var mixedToBuffer = require('./util/mixed-to-buffer')
 
 var DEFAULT_PREFIX = 'level-js-'
 
@@ -88,8 +90,7 @@ Level.prototype._get = function (key, options, callback) {
     }
 
     if (options.asBuffer) {
-      if (value instanceof Uint8Array) value = toBuffer(value)
-      else value = Buffer.from(String(value))
+      value = mixedToBuffer(value)
     }
 
     callback(null, value)
