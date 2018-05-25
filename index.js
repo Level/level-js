@@ -20,12 +20,17 @@ util.inherits(Level, AbstractLevelDOWN)
 
 // Detect binary key support (IndexedDB Second Edition)
 Level.binaryKeys = (function () {
-  if (typeof indexedDB === 'undefined') {
-    return false
-  }
-
   try {
     indexedDB.cmp(new Uint8Array(0), 0)
+    return true
+  } catch (err) {
+    return false
+  }
+})()
+
+Level.arrayKeys = (function () {
+  try {
+    indexedDB.cmp([1], 0)
     return true
   } catch (err) {
     return false
@@ -112,7 +117,7 @@ Level.prototype._serializeKey = function (key) {
   if (Buffer.isBuffer(key)) {
     return Level.binaryKeys ? key : key.toString()
   } else if (Array.isArray(key)) {
-    return key.map(this._serializeKey, this)
+    return Level.arrayKeys ? key.map(this._serializeKey, this) : String(key)
   } else if ((typeof key === 'number' || key instanceof Date) && !isNaN(key)) {
     return key
   }
