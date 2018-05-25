@@ -6,6 +6,7 @@ var AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
 var util = require('util')
 var Iterator = require('./iterator')
 var mixedToBuffer = require('./util/mixed-to-buffer')
+var setImmediate = require('./util/immediate')
 var support = require('./util/support')
 
 var DEFAULT_PREFIX = 'level-js-'
@@ -121,7 +122,7 @@ Level.prototype._iterator = function (options) {
 }
 
 Level.prototype._batch = function (operations, options, callback) {
-  if (operations.length === 0) return setTimeout(callback, 0)
+  if (operations.length === 0) return setImmediate(callback)
 
   var store = this.store('readwrite')
   var transaction = store.transaction
