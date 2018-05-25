@@ -20,6 +20,8 @@ function Iterator (db, location, options) {
   this._callback = null
   this._cache = []
   this._completed = false
+  this._aborted = false
+  this._error = null
   this._transaction = null
 
   this._keyAsBuffer = options.keyAsBuffer
@@ -74,9 +76,12 @@ Iterator.prototype.createIterator = function (location, keyRange, reverse) {
 
   this._transaction = transaction
 
-  // If an error occurs, the transaction will abort and we can
-  // get the error from "transaction.error".
-  transaction.oncomplete = transaction.onabort = function () {
+  // If an error occurs (on the request), the transaction will abort.
+  transaction.onabort = function () {
+    self.onAbort(self._transaction.error || new Error('aborted by user'))
+  }
+
+  transaction.oncomplete = function () {
     self.onComplete()
   }
 }
@@ -88,6 +93,12 @@ Iterator.prototype.onItem = function (cursor) {
     cursor['continue']()
   }
 
+  this.maybeNext()
+}
+
+Iterator.prototype.onAbort = function (err) {
+  this._aborted = true
+  this._error = err
   this.maybeNext()
 }
 
@@ -105,8 +116,10 @@ Iterator.prototype.maybeNext = function () {
 
 // TODO: use setImmediate (see memdown)
 Iterator.prototype._next = function (callback) {
-  if (this._transaction !== null && this._transaction.error !== null) {
-    var err = this._transaction.error
+  if (this._aborted) {
+    // The error should be picked up by either next() or end().
+    var err = this._error
+    this._error = null
 
     setTimeout(function() {
       callback(err)
@@ -130,18 +143,20 @@ Iterator.prototype._next = function (callback) {
 
 // TODO: use setImmediate (see memdown)
 Iterator.prototype._end = function (callback) {
-  if (this._completed) {
-    setTimeout(callback, 0)
+  if (this._aborted || this._completed) {
+    var err = this._error
+
+    setTimeout(function () {
+      callback(err)
+    }, 0)
+
     return
   }
-
-  var transaction = this._transaction
 
   // Don't advance the cursor anymore, and the transaction will complete
   // on its own in the next tick. This approach is much cleaner than calling
   // transaction.abort() with its unpredictable event order.
   this.onItem = noop
-  this.onComplete = function () {
-    callback(transaction.error)
-  }
+  this.onAbort = callback
+  this.onComplete = callback
 }
