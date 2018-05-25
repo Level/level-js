@@ -18,7 +18,7 @@
   "author": "max ogden",
   "license": "MIT",
   "devDependencies": {
-    "airtap": "0.0.5",
+    "airtap": "0.0.7",
     "browserify": "~16.2.2",
     "encoding-down": "~5.0.2",
     "levelup": "~3.0.0",
