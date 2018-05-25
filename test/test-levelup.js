@@ -6,7 +6,7 @@ var levelup = require('levelup')
 var encoding = require('encoding-down')
 var leveljs = require('../')
 var test = require('tape')
-var testCommon = require('./testCommon')
+var testCommon = require('./util/test-common')
 
 test('setup', testCommon.setUp)
 

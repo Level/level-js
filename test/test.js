@@ -1,6 +1,6 @@
 var tape   = require('tape')
 var leveljs = require('../')
-var testCommon = require('./testCommon')
+var testCommon = require('./util/test-common')
 
 // load IndexedDBShim in the tests
 // require('./util/idb-shim.js')()
