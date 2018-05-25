@@ -7,10 +7,11 @@ var Iterator = require('./iterator')
 var xtend = require('xtend')
 var toBuffer = require('typedarray-to-buffer')
 
-function Level(location) {
+function Level(location, storePrefix) {
   if (!(this instanceof Level)) return new Level(location)
   AbstractLevelDOWN.call(this, location)
   this.IDBOptions = {}
+  this.storePrefix = storePrefix || 'IDBWrapper-'
   this.location = location
 }
 
@@ -35,6 +36,7 @@ Level.prototype._open = function(options, callback) {
 
   var idbOpts = {
     storeName: this.location,
+    storePrefix: this.storePrefix,
     autoIncrement: false,
     keyPath: null,
     onStoreReady: function () {
