@@ -5,3 +5,12 @@ browsers:
   - name: firefox
     version: latest
     platform: Windows 10
+  - name: safari
+    version: latest
+    platform: Mac 10.13
+  - name: microsoftedge
+    version: latest
+    platform: Windows 10
+  - name: ie
+    version: latest
+    platform: Windows 10
