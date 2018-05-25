@@ -1,17 +1,19 @@
 module.exports = Level
 
-var IDB = require('idb-wrapper')
 var AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
 var util = require('util')
 var Iterator = require('./iterator')
-var xtend = require('xtend')
 var toBuffer = require('typedarray-to-buffer')
 
-function Level(location) {
-  if (!(this instanceof Level)) return new Level(location)
+var DEFAULT_PREFIX = 'level-js-'
+
+function Level (location, opts) {
+  if (!(this instanceof Level)) return new Level(location, opts)
   AbstractLevelDOWN.call(this, location)
-  this.IDBOptions = {}
-  this.location = location
+  opts = opts || {}
+
+  this.prefix = opts.prefix || DEFAULT_PREFIX
+  this.version = parseInt(opts.version || 1, 10)
 }
 
 util.inherits(Level, AbstractLevelDOWN)
@@ -30,28 +32,51 @@ Level.binaryKeys = (function () {
   }
 })()
 
-Level.prototype._open = function(options, callback) {
+Level.prototype._open = function (options, callback) {
+  var req = indexedDB.open(this.prefix + this.location, this.version)
   var self = this
 
-  var idbOpts = {
-    storeName: this.location,
-    autoIncrement: false,
-    keyPath: null,
-    onStoreReady: function () {
-      callback && callback(null, self.idb)
-    },
-    onError: function(err) {
-      callback && callback(err)
-    }
+  req.onerror = function () {
+    callback(req.error || new Error('unknown error'))
   }
 
-  xtend(idbOpts, options)
-  this.IDBOptions = idbOpts
-  this.idb = new IDB(idbOpts)
+  req.onsuccess = function () {
+    self.db = req.result
+    callback()
+  }
+
+  req.onupgradeneeded = function (ev) {
+    var db = ev.target.result
+
+    if (!db.objectStoreNames.contains(self.location)) {
+      db.createObjectStore(self.location)
+    }
+  }
+}
+
+Level.prototype.store = function (mode) {
+  var transaction = this.db.transaction([this.location], mode)
+  return transaction.objectStore(this.location)
+}
+
+Level.prototype.await = function (request, callback) {
+  var transaction = request.transaction
+
+  // Take advantage of the fact that a non-canceled request error aborts
+  // the transaction. I.e. no need to listen for "request.onerror".
+  transaction.onabort = function () {
+    callback(transaction.error || new Error('aborted by user'))
+  }
+
+  transaction.oncomplete = function () {
+    callback(null, request.result)
+  }
 }
 
 Level.prototype._get = function (key, options, callback) {
-  this.idb.get(key, function (value) {
+  this.await(this.store('readonly').get(key), function (err, value) {
+    if (err) return callback(err)
+
     if (value === undefined) {
       // 'NotFound' error, consistent with LevelDOWN API
       return callback(new Error('NotFound'))
@@ -62,16 +87,16 @@ Level.prototype._get = function (key, options, callback) {
       else value = Buffer.from(String(value))
     }
 
-    return callback(null, value, key)
-  }, callback)
+    callback(null, value)
+  })
 }
 
-Level.prototype._del = function(id, options, callback) {
-  this.idb.remove(id, callback, callback)
+Level.prototype._del = function(key, options, callback) {
+  this.await(this.store('readwrite').delete(key), callback)
 }
 
 Level.prototype._put = function (key, value, options, callback) {
-  this.idb.put(key, value, function() { callback() }, callback)
+  this.await(this.store('readwrite').put(value, key), callback)
 }
 
 // Valid key types in IndexedDB Second Edition:
@@ -100,50 +125,52 @@ Level.prototype._serializeValue = function (value) {
 }
 
 Level.prototype._iterator = function (options) {
-  return new Iterator(this.idb, options)
+  return new Iterator(this.db, this.location, options)
 }
 
-Level.prototype._batch = function (array, options, callback) {
-  var op
-  var i
-  var k
-  var copiedOp
-  var currentOp
-  var modified = []
+Level.prototype._batch = function (operations, options, callback) {
+  if (operations.length === 0) return setTimeout(callback, 0)
 
-  if (array.length === 0) return setTimeout(callback, 0)
+  var store = this.store('readwrite')
+  var transaction = store.transaction
+  var index = 0
 
-  for (i = 0; i < array.length; i++) {
-    copiedOp = {}
-    currentOp = array[i]
-    modified[i] = copiedOp
+  transaction.onabort = function () {
+    callback(transaction.error || new Error('aborted by user'))
+  }
 
-    for (k in currentOp) {
-      if (k === 'type' && currentOp[k] == 'del') {
-        copiedOp[k] = 'remove'
-      } else {
-        copiedOp[k] = currentOp[k]
-      }
+  transaction.oncomplete = function () {
+    callback()
+  }
+
+  // Wait for a request to complete before making the next, saving CPU.
+  function loop () {
+    var op = operations[index++]
+    var key = op.key
+    var req = op.type === 'del' ? store.delete(key) : store.put(op.value, key)
+
+    if (index < operations.length) {
+      req.onsuccess = loop
     }
   }
 
-  return this.idb.batch(modified, function(){ callback() }, callback)
+  loop()
 }
 
 Level.prototype._close = function (callback) {
-  this.idb.db.close()
+  this.db.close()
   callback()
 }
 
 Level.destroy = function (db, callback) {
   if (typeof db === 'object') {
-    var prefix = db.IDBOptions.storePrefix || 'IDBWrapper-'
-    var dbname = db.location
+    var prefix = db.prefix || DEFAULT_PREFIX
+    var location = db.location
   } else {
-    var prefix = 'IDBWrapper-'
-    var dbname = db
+    prefix = DEFAULT_PREFIX
+    location = db
   }
-  var request = indexedDB.deleteDatabase(prefix + dbname)
+  var request = indexedDB.deleteDatabase(prefix + location)
   request.onsuccess = function() {
     callback()
   }
