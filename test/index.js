@@ -3,5 +3,6 @@ if (process.browser && typeof Promise !== 'function') {
   global.Promise = require('pinkie')
 }
 
+require('./test-support')
 require('./test')
 require('./test-levelup')
