@@ -1,17 +1,19 @@
 module.exports = Level
 
-var IDB = require('idb-wrapper')
 var AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
 var util = require('util')
 var Iterator = require('./iterator')
-var xtend = require('xtend')
 var toBuffer = require('typedarray-to-buffer')
 
-function Level(location) {
-  if (!(this instanceof Level)) return new Level(location)
+var DEFAULT_PREFIX = 'level-js-'
+
+function Level (location, opts) {
+  if (!(this instanceof Level)) return new Level(location, opts)
   AbstractLevelDOWN.call(this, location)
-  this.IDBOptions = {}
-  this.location = location
+  opts = opts || {}
+
+  this.prefix = opts.prefix || DEFAULT_PREFIX
+  this.version = parseInt(opts.version || 1, 10)
 }
 
 util.inherits(Level, AbstractLevelDOWN)
@@ -30,31 +32,31 @@ Level.binaryKeys = (function () {
   }
 })()
 
-Level.prototype._open = function(options, callback) {
+Level.prototype._open = function (options, callback) {
+  var req = indexedDB.open(this.prefix + this.location, this.version)
   var self = this
 
-  var idbOpts = {
-    storeName: this.location,
-    autoIncrement: false,
-    keyPath: null,
-    onStoreReady: function () {
-      callback && callback(null, self.idb)
-    },
-    onError: function(err) {
-      callback && callback(err)
-    }
+  req.onerror = function () {
+    callback(req.error || new Error('unknown error'))
   }
 
-  xtend(idbOpts, options)
-  this.IDBOptions = idbOpts
-  this.idb = new IDB(idbOpts)
+  req.onsuccess = function () {
+    self.db = req.result
+    callback()
+  }
+
+  req.onupgradeneeded = function (ev) {
+    var db = ev.target.result
+
+    if (!db.objectStoreNames.contains(self.location)) {
+      db.createObjectStore(self.location)
+    }
+  }
 }
 
 Level.prototype.store = function (mode) {
-  var storeName = this.idb.storeName
-  var transaction = this.idb.db.transaction([storeName], mode)
-
-  return transaction.objectStore(storeName)
+  var transaction = this.db.transaction([this.location], mode)
+  return transaction.objectStore(this.location)
 }
 
 Level.prototype.await = function (request, callback) {
@@ -123,7 +125,7 @@ Level.prototype._serializeValue = function (value) {
 }
 
 Level.prototype._iterator = function (options) {
-  return new Iterator(this.idb.db, this.idb.storeName, options)
+  return new Iterator(this.db, this.location, options)
 }
 
 Level.prototype._batch = function (operations, options, callback) {
@@ -156,19 +158,19 @@ Level.prototype._batch = function (operations, options, callback) {
 }
 
 Level.prototype._close = function (callback) {
-  this.idb.db.close()
+  this.db.close()
   callback()
 }
 
 Level.destroy = function (db, callback) {
   if (typeof db === 'object') {
-    var prefix = db.IDBOptions.storePrefix || 'IDBWrapper-'
-    var dbname = db.location
+    var prefix = db.prefix || DEFAULT_PREFIX
+    var location = db.location
   } else {
-    var prefix = 'IDBWrapper-'
-    var dbname = db
+    prefix = DEFAULT_PREFIX
+    location = db
   }
-  var request = indexedDB.deleteDatabase(prefix + dbname)
+  var request = indexedDB.deleteDatabase(prefix + location)
   request.onsuccess = function() {
     callback()
   }

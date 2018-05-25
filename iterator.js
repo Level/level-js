@@ -12,7 +12,7 @@ function mixedToBuffer (value) {
 
 module.exports = Iterator
 
-function Iterator (db, storeName, options) {
+function Iterator (db, location, options) {
   AbstractIterator.call(this, db)
 
   this._limit = options.limit
@@ -39,7 +39,7 @@ function Iterator (db, storeName, options) {
     return
   }
 
-  this.createIterator(storeName, keyRange, options.reverse)
+  this.createIterator(location, keyRange, options.reverse)
 }
 
 util.inherits(Iterator, AbstractIterator)
@@ -61,10 +61,10 @@ Iterator.prototype.createKeyRange = function (options) {
   }
 }
 
-Iterator.prototype.createIterator = function (storeName, keyRange, reverse) {
+Iterator.prototype.createIterator = function (location, keyRange, reverse) {
   var self = this
-  var transaction = this.db.transaction([storeName], 'readonly')
-  var store = transaction.objectStore(storeName)
+  var transaction = this.db.transaction([location], 'readonly')
+  var store = transaction.objectStore(location)
   var req = store.openCursor(keyRange, reverse ? 'prev' : 'next')
 
   req.onsuccess = function (ev) {
