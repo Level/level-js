@@ -24,6 +24,8 @@ Being `abstract-leveldown` compliant means you can use many of the [Level module
 
 ## Example
 
+**This assumes use of version `3.0.0-rc1`. The next release will have an upgrade guide.**
+
 ```js
 var levelup = require('levelup')
 var leveljs = require('level-js')
@@ -50,8 +52,9 @@ db.open(function (err) {
 
 ## Install
 
-```
-npm install level-js
+```bash
+npm install level-js       # Stable
+npm install level-js@next  # Bleeding edge
 ```
 
 Not to be confused with [leveljs](https://www.npmjs.com/package/leveljs).
