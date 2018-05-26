@@ -1,9 +1,13 @@
+'use strict'
+
 module.exports = Level
 
 var AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
 var util = require('util')
 var Iterator = require('./iterator')
-var toBuffer = require('typedarray-to-buffer')
+var mixedToBuffer = require('./util/mixed-to-buffer')
+var setImmediate = require('./util/immediate')
+var support = require('./util/support')
 
 var DEFAULT_PREFIX = 'level-js-'
 
@@ -18,24 +22,9 @@ function Level (location, opts) {
 
 util.inherits(Level, AbstractLevelDOWN)
 
-// Detect binary key support (IndexedDB Second Edition)
-Level.binaryKeys = (function () {
-  try {
-    indexedDB.cmp(new Uint8Array(0), 0)
-    return true
-  } catch (err) {
-    return false
-  }
-})()
-
-Level.arrayKeys = (function () {
-  try {
-    indexedDB.cmp([1], 0)
-    return true
-  } catch (err) {
-    return false
-  }
-})()
+// Detect binary and array key support (IndexedDB Second Edition)
+Level.binaryKeys = support.binaryKeys(indexedDB)
+Level.arrayKeys = support.arrayKeys(indexedDB)
 
 Level.prototype._open = function (options, callback) {
   var req = indexedDB.open(this.prefix + this.location, this.version)
@@ -88,8 +77,7 @@ Level.prototype._get = function (key, options, callback) {
     }
 
     if (options.asBuffer) {
-      if (value instanceof Uint8Array) value = toBuffer(value)
-      else value = Buffer.from(String(value))
+      value = mixedToBuffer(value)
     }
 
     callback(null, value)
@@ -134,7 +122,7 @@ Level.prototype._iterator = function (options) {
 }
 
 Level.prototype._batch = function (operations, options, callback) {
-  if (operations.length === 0) return setTimeout(callback, 0)
+  if (operations.length === 0) return setImmediate(callback)
 
   var store = this.store('readwrite')
   var transaction = store.transaction

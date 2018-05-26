@@ -1,9 +1,11 @@
+'use strict'
+
 var levelup = require('levelup')
 
-module.exports.all = function(leveljs, tape, testCommon) {
-  tape('setUp', testCommon.setUp)
+module.exports = function (leveljs, test, testCommon) {
+  test('setUp', testCommon.setUp)
 
-  tape('buffer value', function(t) {
+  test('buffer value', function(t) {
     var level = leveljs(testCommon.location())
     level.open(function(err) {
       t.notOk(err, 'no error')
@@ -22,7 +24,7 @@ module.exports.all = function(leveljs, tape, testCommon) {
   // This should be covered by abstract-leveldown tests, but that's
   // prevented by process.browser checks (Level/abstract-leveldown#121).
   // This test is adapted from memdown.
-  leveljs.binaryKeys && tape('buffer keys', function (t) {
+  leveljs.binaryKeys && test('buffer keys', function (t) {
     var db = leveljs(testCommon.location())
 
     db.open(function (err) {
@@ -60,7 +62,7 @@ module.exports.all = function(leveljs, tape, testCommon) {
   })
 
   // Adapted from a memdown test.
-  leveljs.binaryKeys && tape('iterator stringifies buffer input', function (t) {
+  leveljs.binaryKeys && test('iterator stringifies buffer input', function (t) {
     t.plan(6)
 
     var db = leveljs(testCommon.location())
@@ -85,7 +87,7 @@ module.exports.all = function(leveljs, tape, testCommon) {
   })
 
   // TODO: merge this and the test below. Test all types.
-  tape('store native JS types', function(t) {
+  test('store native JS types', function(t) {
     var level = leveljs(testCommon.location())
     level.open(function(err) {
       t.notOk(err, 'no error')
@@ -101,7 +103,7 @@ module.exports.all = function(leveljs, tape, testCommon) {
     })
   })
 
-  tape('store NaN value', function(t) {
+  test('store NaN value', function(t) {
     var level = leveljs(testCommon.location())
     level.open(function(err) {
       t.notOk(err, 'no error')
@@ -119,7 +121,7 @@ module.exports.all = function(leveljs, tape, testCommon) {
   // NOTE: in chrome (at least) indexeddb gets buggy if you try and destroy a db,
   // then create it again, then try and destroy it again. these avoid doing that
 
-  tape('test levelup .destroy w/ string', function(t) {
+  test('test levelup .destroy w/ string', function(t) {
     var location = testCommon.location()
     var db = levelup(leveljs(location))
     db.put('key', 'value', function (err) {
@@ -142,7 +144,7 @@ module.exports.all = function(leveljs, tape, testCommon) {
     })
   })
 
-  tape('test levelup .destroy w/ db instance', function(t) {
+  test('test levelup .destroy w/ db instance', function(t) {
     var location = testCommon.location()
     var db = levelup(leveljs(location))
     db.put('key', 'value', function (err) {
@@ -165,5 +167,5 @@ module.exports.all = function(leveljs, tape, testCommon) {
     })
   })
 
-  tape('teardown', testCommon.tearDown)
+  test('teardown', testCommon.tearDown)
 }

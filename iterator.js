@@ -1,14 +1,11 @@
+'use strict'
+
 var util = require('util')
 var AbstractIterator  = require('abstract-leveldown').AbstractIterator
 var ltgt = require('ltgt')
-var toBuffer = require('typedarray-to-buffer')
+var mixedToBuffer = require('./util/mixed-to-buffer')
+var setImmediate = require('./util/immediate')
 var noop = function () {}
-
-// TODO: move this to a util, to be used by get() and iterators.
-function mixedToBuffer (value) {
-  if (value instanceof Uint8Array) return toBuffer(value)
-  else return Buffer.from(String(value))
-}
 
 module.exports = Iterator
 
@@ -114,16 +111,15 @@ Iterator.prototype.maybeNext = function () {
   }
 }
 
-// TODO: use setImmediate (see memdown)
 Iterator.prototype._next = function (callback) {
   if (this._aborted) {
     // The error should be picked up by either next() or end().
     var err = this._error
     this._error = null
 
-    setTimeout(function() {
+    setImmediate(function() {
       callback(err)
-    }, 0)
+    })
   } else if (this._cache.length > 0) {
     var key = this._cache.shift()
     var value = this._cache.shift()
@@ -131,24 +127,23 @@ Iterator.prototype._next = function (callback) {
     if (this._keyAsBuffer) key = mixedToBuffer(key)
     if (this._valueAsBuffer) value = mixedToBuffer(value)
 
-    setTimeout(function() {
+    setImmediate(function() {
       callback(null, key, value)
-    }, 0)
+    })
   } else if (this._completed) {
-    setTimeout(callback, 0)
+    setImmediate(callback)
   } else {
     this._callback = callback
   }
 }
 
-// TODO: use setImmediate (see memdown)
 Iterator.prototype._end = function (callback) {
   if (this._aborted || this._completed) {
     var err = this._error
 
-    setTimeout(function () {
+    setImmediate(function () {
       callback(err)
-    }, 0)
+    })
 
     return
   }
