@@ -1,22 +1,20 @@
 ![logo](logo.png)
 
-level.js an implementation of the [leveldown](https://github.com/rvagg/node-leveldown) API on top of [IndexedDB](https://developer.mozilla.org/en-US/docs/IndexedDB) (which is in turn implemented on top of [LevelDB](https://code.google.com/p/leveldb/), which brings this whole shebang full circle)
+level.js an implementation of the [`abstract-leveldown`](https://github.com/Level/abstract-leveldown) API on top of [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API), which is in turn implemented on top of [LevelDB](https://github.com/google/leveldb), which brings this whole shebang full circle.
 
-**Most people use [levelup](http://github.com/rvagg/node-levelup) on top of this library. See `test-levelup.js` for details**
+**Most people use [`levelup`](https://github.com/Level/levelup) on top of this library.**
 
-For some demos of it working, see @brycebaril's presentation "Path of the NodeBases Jedi": http://brycebaril.github.io/nodebase_jedi/#/vanilla
+For some demos of it working, see @brycebaril's presentation [Path of the NodeBases Jedi](http://brycebaril.github.io/nodebase_jedi/#/vanilla).
 
 [![NPM](https://nodei.co/npm/level-js.png)](https://nodei.co/npm/level-js/)
 
-level.js uses [IDBWrapper](https://github.com/jensarps/IDBWrapper) by jensarps to ensure compatibility between IDB implementations.
-
-Here are the goals of this level.js:
+Here are the goals of `level.js`:
 
 - Store large amounts of ascii (strings, JSON) and binary (Buffer) data in modern browsers
 - Be as fast as possible
 - Use the leveldown test suite and sync with [multilevel](https://github.com/juliangruber/multilevel) over either ascii or binary transports (websockets and xhr both have ascii/binary modes in browsers now)
 
-Being leveldown compatible means you can use many of the [level-* modules](https://github.com/rvagg/node-levelup/wiki/Modules) on top of this library.
+Being `abstract-leveldown` compatible means you can use many of the [Level modules](https://github.com/Level/awesome/) on top of this library.
 
 ## install
 
@@ -24,9 +22,9 @@ Being leveldown compatible means you can use many of the [level-* modules](https
 npm install level-js
 ```
 
-(Not to be confused with [leveljs](https://github.com/rvagg/node-leveljs))
+Not to be confused with [leveljs](https://www.npmjs.com/package/leveljs).
 
-This library is best used with [browserify](http://browserify.org)
+This library is best used with [browserify](http://browserify.org).
 
 ## Browser support
 
@@ -39,10 +37,6 @@ var leveljs = require('level-js')
 var db = leveljs('bigdata')
 db.open(function onOpen() { })
 ```
-
-The test suite for this library is in the [abstract-leveldown](https://github.com/rvagg/node-abstract-leveldown) repo and is shared between various leveldown implementations across different environments and platforms.
-
-For more code examples see the [abstract-leveldown test suite](https://github.com/rvagg/node-abstract-leveldown/tree/master/abstract)
 
 ## run the tests
 
