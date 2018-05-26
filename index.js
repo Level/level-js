@@ -6,6 +6,7 @@ var AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
 var util = require('util')
 var Iterator = require('./iterator')
 var mixedToBuffer = require('./util/mixed-to-buffer')
+var isDataCloneError = require('./util/is-data-clone-error')
 var setImmediate = require('./util/immediate')
 var support = require('./util/support')
 
@@ -89,7 +90,23 @@ Level.prototype._del = function(key, options, callback) {
 }
 
 Level.prototype._put = function (key, value, options, callback) {
-  this.await(this.store('readwrite').put(value, key), callback)
+  var store = this.store('readwrite')
+
+  try {
+    // Will throw a DataCloneError if the environment
+    // does not support serializing the key or value.
+    var req = store.put(value, key)
+  } catch (err) {
+    if (!isDataCloneError(err)) {
+      throw err
+    }
+
+    return setImmediate(function () {
+      callback(err)
+    })
+  }
+
+  this.await(req, callback)
 }
 
 // Valid key types in IndexedDB Second Edition:

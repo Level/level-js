@@ -62,7 +62,7 @@ module.exports = function (leveljs, test, testCommon) {
   })
 
   // Adapted from a memdown test.
-  leveljs.binaryKeys && test('iterator stringifies buffer input', function (t) {
+  test('iterator stringifies buffer input', function (t) {
     t.plan(6)
 
     var db = leveljs(testCommon.location())
@@ -81,38 +81,6 @@ module.exports = function (leveljs, test, testCommon) {
           db.close(function (err) {
             t.ifError(err, 'no close error')
           })
-        })
-      })
-    })
-  })
-
-  // TODO: merge this and the test below. Test all types.
-  test('store native JS types', function(t) {
-    var level = leveljs(testCommon.location())
-    level.open(function(err) {
-      t.notOk(err, 'no error')
-      level.put('key', true, function (err) {
-        t.notOk(err, 'no error')
-        level.get('key', { asBuffer: false }, function(err, value) {
-          t.notOk(err, 'no error')
-          t.ok(typeof value === 'boolean', 'is boolean type')
-          t.ok(value, 'is truthy')
-          level.close(t.end.bind(t))
-        })
-      })
-    })
-  })
-
-  test('store NaN value', function(t) {
-    var level = leveljs(testCommon.location())
-    level.open(function(err) {
-      t.notOk(err, 'no error')
-      level.put('key', NaN, function (err) {
-        t.notOk(err, 'no error')
-        level.get('key', { asBuffer: false }, function(err, value) {
-          t.notOk(err, 'no error')
-          t.ok(typeof value === 'number' && isNaN(value), 'is NaN')
-          level.close(t.end.bind(t))
         })
       })
     })
