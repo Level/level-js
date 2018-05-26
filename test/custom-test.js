@@ -62,7 +62,7 @@ module.exports = function (leveljs, test, testCommon) {
   })
 
   // Adapted from a memdown test.
-  leveljs.binaryKeys && test('iterator stringifies buffer input', function (t) {
+  test('iterator stringifies buffer input', function (t) {
     t.plan(6)
 
     var db = leveljs(testCommon.location())
