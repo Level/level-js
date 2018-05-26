@@ -171,7 +171,7 @@ Level.prototype._batch = function (operations, options, callback) {
 
 Level.prototype._close = function (callback) {
   this.db.close()
-  callback()
+  setImmediate(callback)
 }
 
 Level.destroy = function (location, prefix, callback) {
