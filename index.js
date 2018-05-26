@@ -85,7 +85,7 @@ Level.prototype._get = function (key, options, callback) {
   })
 }
 
-Level.prototype._del = function(key, options, callback) {
+Level.prototype._del = function (key, options, callback) {
   this.await(this.store('readwrite').delete(key), callback)
 }
 
@@ -181,10 +181,10 @@ Level.destroy = function (db, callback) {
     location = db
   }
   var request = indexedDB.deleteDatabase(prefix + location)
-  request.onsuccess = function() {
+  request.onsuccess = function () {
     callback()
   }
-  request.onerror = function(err) {
+  request.onerror = function (err) {
     callback(err)
   }
 }

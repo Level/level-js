@@ -5,13 +5,13 @@ var levelup = require('levelup')
 module.exports = function (leveljs, test, testCommon) {
   test('setUp', testCommon.setUp)
 
-  test('buffer value', function(t) {
+  test('buffer value', function (t) {
     var level = leveljs(testCommon.location())
-    level.open(function(err) {
+    level.open(function (err) {
       t.notOk(err, 'no error')
       level.put('key', Buffer.from('00ff', 'hex'), function (err) {
         t.notOk(err, 'no error')
-        level.get('key', function(err, value) {
+        level.get('key', function (err, value) {
           t.notOk(err, 'no error')
           t.ok(Buffer.isBuffer(value), 'is buffer')
           t.same(value, Buffer.from('00ff', 'hex'))
@@ -89,7 +89,7 @@ module.exports = function (leveljs, test, testCommon) {
   // NOTE: in chrome (at least) indexeddb gets buggy if you try and destroy a db,
   // then create it again, then try and destroy it again. these avoid doing that
 
-  test('test levelup .destroy w/ string', function(t) {
+  test('test levelup .destroy w/ string', function (t) {
     var location = testCommon.location()
     var db = levelup(leveljs(location))
     db.put('key', 'value', function (err) {
@@ -112,7 +112,7 @@ module.exports = function (leveljs, test, testCommon) {
     })
   })
 
-  test('test levelup .destroy w/ db instance', function(t) {
+  test('test levelup .destroy w/ db instance', function (t) {
     var location = testCommon.location()
     var db = levelup(leveljs(location))
     db.put('key', 'value', function (err) {
