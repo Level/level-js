@@ -1,6 +1,5 @@
 'use strict'
 
-var levelup = require('levelup')
 var isDataCloneError = require('../util/is-data-clone-error')
 var bytes = [0, 127]
 
