@@ -58,9 +58,9 @@ var types = [
     type: 'Map',
     ctor: true,
     allowFailure: true,
-    createValue: function (ctor) {
+    createValue: function (Constructor) {
       // Replacement for Map constructor arguments (for IE 11)
-      var value = new ctor()
+      var value = new Constructor()
       value.set('test', 123)
       return value
     },
@@ -72,9 +72,9 @@ var types = [
     type: 'Set',
     ctor: true,
     allowFailure: true,
-    createValue: function (ctor) {
+    createValue: function (Constructor) {
       // Replacement for Set constructor arguments (for IE 11)
-      var value = new ctor()
+      var value = new Constructor()
       value.add(123)
       return value
     },
@@ -86,8 +86,8 @@ var types = [
     type: 'Blob',
     ctor: true,
     allowFailure: true,
-    createValue: function (ctor) {
-      return new ctor(['test'])
+    createValue: function (Constructor) {
+      return new Constructor(['test'])
     },
     test: function (value) {
       // TODO. This test would be asynchronous.
@@ -98,8 +98,8 @@ var types = [
     type: 'File',
     ctor: true,
     allowFailure: true,
-    createValue: function (ctor) {
-      return new ctor(['test'], 'filename')
+    createValue: function (Constructor) {
+      return new Constructor(['test'], 'filename')
     },
     test: function (value) {
       // TODO. This test would be asynchronous.
@@ -120,8 +120,8 @@ var types = [
     type: 'ImageData',
     ctor: true,
     allowFailure: true,
-    createValue: function (ctor) {
-      return new ctor(1, 1)
+    createValue: function (Constructor) {
+      return new Constructor(1, 1)
     },
     test: function (value) {
       return value.data.length === 4
