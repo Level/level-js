@@ -1,3 +1,5 @@
+/* global indexedDB */
+
 'use strict'
 
 var support = require('../util/support')

@@ -1,3 +1,5 @@
+/* global indexedDB */
+
 'use strict'
 
 module.exports = Level
