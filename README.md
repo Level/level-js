@@ -1,60 +1,72 @@
-![logo](logo.png)
+# level-js
 
-level.js an implementation of the [leveldown](https://github.com/rvagg/node-leveldown) API on top of [IndexedDB](https://developer.mozilla.org/en-US/docs/IndexedDB) (which is in turn implemented on top of [LevelDB](https://code.google.com/p/leveldb/), which brings this whole shebang full circle)
+> An [`abstract-leveldown`](https://github.com/Level/abstract-leveldown) compliant store on top of [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API), which is in turn implemented on top of [LevelDB](https://github.com/google/leveldb) which brings this whole shebang full circle.
 
-**Most people use [levelup](http://github.com/rvagg/node-levelup) on top of this library. See `test-levelup.js` for details**
+[![level badge][level-badge]](https://github.com/level/awesome)
+[![npm](https://img.shields.io/npm/v/level-js.svg)](https://www.npmjs.com/package/level-js)
+[![npm next](https://img.shields.io/npm/v/level-js/next.svg)](https://www.npmjs.com/package/level-js)
+[![Travis](https://secure.travis-ci.org/Level/level.js.svg?branch=master)](http://travis-ci.org/Level/level.js)
+[![npm](https://img.shields.io/npm/dm/level-js.svg)](https://www.npmjs.com/package/level-js)
 
-For some demos of it working, see @brycebaril's presentation "Path of the NodeBases Jedi": http://brycebaril.github.io/nodebase_jedi/#/vanilla
+## Background
 
-[![NPM](https://nodei.co/npm/level-js.png)](https://nodei.co/npm/level-js/)
+Here are the goals of `level-js`:
 
-level.js uses [IDBWrapper](https://github.com/jensarps/IDBWrapper) by jensarps to ensure compatibility between IDB implementations.
-
-Here are the goals of this level.js:
-
-- Store large amounts of ascii (strings, JSON) and binary (Buffer) data in modern browsers
+- Store large amounts of data in modern browsers
+- Pass the full `abstract-leveldown` test suite
+- Support [Buffer](https://nodejs.org/api/buffer.html) values (in all target environments)
+- Support all key types of IndexedDB Second Edition, including binary keys (depends on environment)
+- Support all value types of the structured clone algorithm (depends on environment)
 - Be as fast as possible
-- Use the leveldown test suite and sync with [multilevel](https://github.com/juliangruber/multilevel) over either ascii or binary transports (websockets and xhr both have ascii/binary modes in browsers now)
+- Sync with [multilevel](https://github.com/juliangruber/multilevel) over either ASCII or binary transports.
 
-Being leveldown compatible means you can use many of the [level-* modules](https://github.com/rvagg/node-levelup/wiki/Modules) on top of this library.
+Being `abstract-leveldown` compliant means you can use many of the [Level modules](https://github.com/Level/awesome/) on top of this library. For some demos of it working, see @brycebaril's presentation [Path of the NodeBases Jedi](http://brycebaril.github.io/nodebase_jedi/#/vanilla).
 
-## install
+## Example
 
-```sh
-npm install level-js
+**This assumes use of version `3.0.0-rc1`. The next release will have an upgrade guide.**
+
+```js
+var levelup = require('levelup')
+var leveljs = require('level-js')
+var db = levelup(leveljs('bigdata'))
+
+db.put('hello', Buffer.from('world'), function (err) {
+  if (err) throw err
+
+  db.get('hello', function (err, value) {
+    if (err) throw err
+
+    console.log(value.toString()) // 'world'
+  })
+})
 ```
 
-(Not to be confused with [leveljs](https://github.com/rvagg/node-leveljs))
-
-This library is best used with [browserify](http://browserify.org)
-
-## Browser support
+## Browser Support
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/level-js.svg)](https://saucelabs.com/u/level-js)
 
-## code examples
+## Install
 
-```js
-var leveljs = require('level-js')
-var db = leveljs('bigdata')
-db.open(function onOpen() { })
+```bash
+npm install level-js       # Stable
+npm install level-js@next  # Bleeding edge
 ```
 
-The test suite for this library is in the [abstract-leveldown](https://github.com/rvagg/node-abstract-leveldown) repo and is shared between various leveldown implementations across different environments and platforms.
+Not to be confused with [leveljs](https://www.npmjs.com/package/leveljs).
 
-For more code examples see the [abstract-leveldown test suite](https://github.com/rvagg/node-abstract-leveldown/tree/master/abstract)
+This library is best used with [browserify](http://browserify.org).
 
-## run the tests
+## Running Tests
 
 ```sh
-git clone git@github.com:maxogden/level.js.git
+git clone git@github.com:Level/level.js.git
 cd level.js
 npm install
 npm test
-open localhost:9966
 ```
 
-Then look in your browser console
+It will print out a URL to open in a browser of choice.
 
 ## Big Thanks
 
@@ -67,3 +79,5 @@ Cross-browser Testing Platform and Open Source ♥ Provided by [Sauce Labs](http
 Copyright (c) 2012-2018 `level.js` [contributors](https://github.com/level/community#contributors).
 
 `level.js` is licensed under the MIT license. All rights not explicitly granted in the MIT license are reserved. See the included `LICENSE.md` file for more details.
+
+[level-badge]: http://leveldb.org/img/badge.svg
