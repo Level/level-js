@@ -1,12 +1,16 @@
 # level-js
 
-An implementation of the [`abstract-leveldown`](https://github.com/Level/abstract-leveldown) API on top of [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API), which is in turn implemented on top of [LevelDB](https://github.com/google/leveldb), which brings this whole shebang full circle.
+> An [`abstract-leveldown`](https://github.com/Level/abstract-leveldown) compliant store on top of [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API), which is in turn implemented on top of [LevelDB](https://github.com/google/leveldb) which brings this whole shebang full circle.
 
-**Most people use [`levelup`](https://github.com/Level/levelup) on top of this library.**
+[![level badge][level-badge]](https://github.com/level/awesome)
+[![npm](https://img.shields.io/npm/v/level-js.svg)](https://www.npmjs.com/package/level-js)
+[![npm next](https://img.shields.io/npm/v/level-js/next.svg)](https://www.npmjs.com/package/level-js)
+[![Travis](https://secure.travis-ci.org/Level/level.js.svg?branch=master)](http://travis-ci.org/Level/level.js)
+[![npm](https://img.shields.io/npm/dm/level-js.svg)](https://www.npmjs.com/package/level-js)
+
+## Background
 
 For some demos of it working, see @brycebaril's presentation [Path of the NodeBases Jedi](http://brycebaril.github.io/nodebase_jedi/#/vanilla).
-
-[![NPM](https://nodei.co/npm/level-js.png)](https://nodei.co/npm/level-js/)
 
 Here are the goals of `level-js`:
 
@@ -74,3 +78,5 @@ Cross-browser Testing Platform and Open Source ♥ Provided by [Sauce Labs](http
 Copyright (c) 2012-2018 `level.js` [contributors](https://github.com/level/community#contributors).
 
 `level.js` is licensed under the MIT license. All rights not explicitly granted in the MIT license are reserved. See the included `LICENSE.md` file for more details.
+
+[level-badge]: http://leveldb.org/img/badge.svg
