@@ -1,3 +1,5 @@
+/* global IDBKeyRange */
+
 'use strict'
 
 var util = require('util')
