@@ -34,5 +34,10 @@
   },
   "browser": {
     "./util/immediate.js": "./util/immediate-browser.js"
+  },
+  "standard": {
+    "ignore": [
+      "test/util/idb-shim.js"
+    ]
   }
 }
