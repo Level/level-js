@@ -86,38 +86,6 @@ module.exports = function (leveljs, test, testCommon) {
     })
   })
 
-  // TODO: merge this and the test below. Test all types.
-  test('store native JS types', function(t) {
-    var level = leveljs(testCommon.location())
-    level.open(function(err) {
-      t.notOk(err, 'no error')
-      level.put('key', true, function (err) {
-        t.notOk(err, 'no error')
-        level.get('key', { asBuffer: false }, function(err, value) {
-          t.notOk(err, 'no error')
-          t.ok(typeof value === 'boolean', 'is boolean type')
-          t.ok(value, 'is truthy')
-          level.close(t.end.bind(t))
-        })
-      })
-    })
-  })
-
-  test('store NaN value', function(t) {
-    var level = leveljs(testCommon.location())
-    level.open(function(err) {
-      t.notOk(err, 'no error')
-      level.put('key', NaN, function (err) {
-        t.notOk(err, 'no error')
-        level.get('key', { asBuffer: false }, function(err, value) {
-          t.notOk(err, 'no error')
-          t.ok(typeof value === 'number' && isNaN(value), 'is NaN')
-          level.close(t.end.bind(t))
-        })
-      })
-    })
-  })
-
   // NOTE: in chrome (at least) indexeddb gets buggy if you try and destroy a db,
   // then create it again, then try and destroy it again. these avoid doing that
 
