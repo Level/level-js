@@ -1,6 +1,6 @@
-![logo](logo.png)
+# level-js
 
-level.js an implementation of the [`abstract-leveldown`](https://github.com/Level/abstract-leveldown) API on top of [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API), which is in turn implemented on top of [LevelDB](https://github.com/google/leveldb), which brings this whole shebang full circle.
+An implementation of the [`abstract-leveldown`](https://github.com/Level/abstract-leveldown) API on top of [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API), which is in turn implemented on top of [LevelDB](https://github.com/google/leveldb), which brings this whole shebang full circle.
 
 **Most people use [`levelup`](https://github.com/Level/levelup) on top of this library.**
 
@@ -8,7 +8,7 @@ For some demos of it working, see @brycebaril's presentation [Path of the NodeBa
 
 [![NPM](https://nodei.co/npm/level-js.png)](https://nodei.co/npm/level-js/)
 
-Here are the goals of `level.js`:
+Here are the goals of `level-js`:
 
 - Store large amounts of ascii (strings, JSON) and binary (Buffer) data in modern browsers
 - Be as fast as possible
@@ -16,9 +16,9 @@ Here are the goals of `level.js`:
 
 Being `abstract-leveldown` compatible means you can use many of the [Level modules](https://github.com/Level/awesome/) on top of this library.
 
-## install
+## Install
 
-```sh
+```
 npm install level-js
 ```
 
@@ -26,29 +26,42 @@ Not to be confused with [leveljs](https://www.npmjs.com/package/leveljs).
 
 This library is best used with [browserify](http://browserify.org).
 
-## Browser support
+## Browser Support
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/level-js.svg)](https://saucelabs.com/u/level-js)
 
-## code examples
+## Example
 
 ```js
+var levelup = require('levelup')
 var leveljs = require('level-js')
-var db = leveljs('bigdata')
-db.open(function onOpen() { })
+var db = levelup(leveljs('bigdata'))
+
+db.open(function (err) {
+  if (err) throw err
+
+  db.put('hello', Buffer.from('world'), function (err) {
+    if (err) throw err
+
+    db.get('hello', function (err, value) {
+      if (err) throw err
+
+      console.log(value.toString()) // 'world'
+    })
+  })
+})
 ```
 
-## run the tests
+## Running Tests
 
 ```sh
-git clone git@github.com:maxogden/level.js.git
+git clone git@github.com:Level/level.js.git
 cd level.js
 npm install
 npm test
-open localhost:9966
 ```
 
-Then look in your browser console
+It will print out a URL to open in a browser of choice.
 
 ## Big Thanks
 
