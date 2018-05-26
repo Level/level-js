@@ -26,8 +26,8 @@ var types = [
   { type: '+Infinity', value: Infinity },
   { type: '-Infinity', value: -Infinity },
   { type: 'string', value: 'test' },
-  { type: 'Boolean object', value: new Boolean(false) },
-  { type: 'String object', value: new String('test') },
+  { type: 'Boolean object', value: new Boolean(false) }, // eslint-disable-line
+  { type: 'String object', value: new String('test') }, // eslint-disable-line
   { type: 'Date', ctor: true, value: new Date() },
   { type: 'RegExp', ctor: true, value: /r/g },
   { type: 'Array', ctor: true, value: [0, null, undefined] },
