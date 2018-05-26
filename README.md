@@ -10,15 +10,17 @@
 
 ## Background
 
-For some demos of it working, see @brycebaril's presentation [Path of the NodeBases Jedi](http://brycebaril.github.io/nodebase_jedi/#/vanilla).
-
 Here are the goals of `level-js`:
 
-- Store large amounts of ascii (strings, JSON) and binary (Buffer) data in modern browsers
+- Store large amounts of data in modern browsers
+- Pass the full `abstract-leveldown` test suite
+- Support [Buffer](https://nodejs.org/api/buffer.html) values (in all target environments)
+- Support all key types of IndexedDB Second Edition, including binary keys (depends on environment)
+- Support all value types of the structured clone algorithm (depends on environment)
 - Be as fast as possible
-- Use the leveldown test suite and sync with [multilevel](https://github.com/juliangruber/multilevel) over either ascii or binary transports (websockets and xhr both have ascii/binary modes in browsers now)
+- Sync with [multilevel](https://github.com/juliangruber/multilevel) over either ASCII or binary transports.
 
-Being `abstract-leveldown` compatible means you can use many of the [Level modules](https://github.com/Level/awesome/) on top of this library.
+Being `abstract-leveldown` compliant means you can use many of the [Level modules](https://github.com/Level/awesome/) on top of this library. For some demos of it working, see @brycebaril's presentation [Path of the NodeBases Jedi](http://brycebaril.github.io/nodebase_jedi/#/vanilla).
 
 ## Install
 
