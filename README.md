@@ -22,16 +22,6 @@ Here are the goals of `level-js`:
 
 Being `abstract-leveldown` compliant means you can use many of the [Level modules](https://github.com/Level/awesome/) on top of this library. For some demos of it working, see @brycebaril's presentation [Path of the NodeBases Jedi](http://brycebaril.github.io/nodebase_jedi/#/vanilla).
 
-## Install
-
-```
-npm install level-js
-```
-
-Not to be confused with [leveljs](https://www.npmjs.com/package/leveljs).
-
-This library is best used with [browserify](http://browserify.org).
-
 ## Browser Support
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/level-js.svg)](https://saucelabs.com/u/level-js)
@@ -57,6 +47,16 @@ db.open(function (err) {
   })
 })
 ```
+
+## Install
+
+```
+npm install level-js
+```
+
+Not to be confused with [leveljs](https://www.npmjs.com/package/leveljs).
+
+This library is best used with [browserify](http://browserify.org).
 
 ## Running Tests
 
