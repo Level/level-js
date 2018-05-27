@@ -5,7 +5,7 @@
 [![level badge][level-badge]](https://github.com/level/awesome)
 [![npm](https://img.shields.io/npm/v/level-js.svg)](https://www.npmjs.com/package/level-js)
 [![npm next](https://img.shields.io/npm/v/level-js/next.svg)](https://www.npmjs.com/package/level-js)
-[![Travis](https://secure.travis-ci.org/Level/level.js.svg?branch=master)](http://travis-ci.org/Level/level.js)
+[![Travis](https://secure.travis-ci.org/Level/level-js.svg?branch=master)](http://travis-ci.org/Level/level-js)
 [![npm](https://img.shields.io/npm/dm/level-js.svg)](https://www.npmjs.com/package/level-js)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
@@ -75,8 +75,8 @@ See [`IDBFactory#open`](https://developer.mozilla.org/en-US/docs/Web/API/IDBFact
 ## Running Tests
 
 ```sh
-git clone git@github.com:Level/level.js.git
-cd level.js
+git clone git@github.com:Level/level-js.git
+cd level-js
 npm install
 npm test
 ```
@@ -91,8 +91,8 @@ Cross-browser Testing Platform and Open Source ♥ Provided by [Sauce Labs](http
 
 ## License
 
-Copyright (c) 2012-2018 `level.js` [contributors](https://github.com/level/community#contributors).
+Copyright (c) 2012-2018 `level-js` [contributors](https://github.com/level/community#contributors).
 
-`level.js` is licensed under the MIT license. All rights not explicitly granted in the MIT license are reserved. See the included `LICENSE.md` file for more details.
+`level-js` is licensed under the MIT license. All rights not explicitly granted in the MIT license are reserved. See the included `LICENSE.md` file for more details.
 
 [level-badge]: http://leveldb.org/img/badge.svg
