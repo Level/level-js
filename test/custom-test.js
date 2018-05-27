@@ -112,5 +112,29 @@ module.exports = function (leveljs, test, testCommon) {
     })
   })
 
+  test('test levelup .destroy w/ string and custom prefix', function (t) {
+    var location = testCommon.location()
+    var prefix = 'CUSTOM-PREFIX-'
+    var db = levelup(leveljs(location, { prefix: prefix }))
+    db.put('key', 'value', function (err) {
+      t.notOk(err, 'no error')
+      db.get('key', { asBuffer: false }, function (err, value) {
+        t.notOk(err, 'no error')
+        t.equal(value, 'value', 'should have value')
+        db.close(function (err) {
+          t.notOk(err, 'no error')
+          leveljs.destroy(location, prefix, function (err) {
+            t.notOk(err, 'no error')
+            var db2 = levelup(leveljs(location, { prefix: prefix }))
+            db2.get('key', { asBuffer: false }, function (err, value) {
+              t.ok(err && err.notFound, 'key is not there')
+              db2.close(t.end.bind(t))
+            })
+          })
+        })
+      })
+    })
+  })
+
   test('teardown', testCommon.tearDown)
 }
