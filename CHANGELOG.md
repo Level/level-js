@@ -28,7 +28,7 @@
 * Detect binary key support and fallback to `String(buffer)` (@vweevers)
 * Detect array key support and fallback to `String(array)` (@vweevers)
 * Test all value types of the structured clone algorithm (@vweevers)
-* Catch `DataCloneError` if the environment does not support serializing the type of a key or value
+* Catch `DataCloneError` if the environment does not support serializing the type of a key or value (@vweevers)
 * Include Promise polyfill for `levelup` integration tests (@vweevers)
 * Test that `Iterator` stringifies `Buffer.from()` argument (@vweevers)
 * Add README badges, new goals and a code example with `levelup` (@vweevers)
