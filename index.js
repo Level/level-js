@@ -5,7 +5,6 @@
 module.exports = Level
 
 var AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
-var isDate = require('is-date-object')
 var util = require('util')
 var Iterator = require('./iterator')
 var mixedToBuffer = require('./util/mixed-to-buffer')
@@ -117,8 +116,8 @@ Level.prototype._put = function (key, value, options, callback) {
 // - Number, except NaN. Includes Infinity and -Infinity
 // - Date, except invalid (NaN)
 // - String
-// - ArrayBuffer or a view thereof (typed arrays). In level-js we only support
-//   Buffer (which is an Uint8Array).
+// - ArrayBuffer or a view thereof (typed arrays). In level-js we also support
+//   Buffer (which is an Uint8Array) (and the primary binary type of Level).
 // - Array, except cyclical and empty (e.g. Array(10)). Elements must be valid
 //   types themselves.
 Level.prototype._serializeKey = function (key) {
@@ -126,11 +125,13 @@ Level.prototype._serializeKey = function (key) {
     return Level.binaryKeys ? key : key.toString()
   } else if (Array.isArray(key)) {
     return Level.arrayKeys ? key.map(this._serializeKey, this) : String(key)
-  } else if ((typeof key === 'number' || isDate(key)) && !isNaN(key)) {
+  } else if (typeof key === 'boolean' || (typeof key === 'number' && isNaN(key))) {
+    // These types are invalid per the IndexedDB spec and ideally we'd treat
+    // them that way, but they're valid per the current abstract test suite.
+    return String(key)
+  } else {
     return key
   }
-
-  return String(key)
 }
 
 Level.prototype._serializeValue = function (value) {
