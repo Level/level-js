@@ -4,7 +4,7 @@
 
 ## [3.0.0-rc1] - 2016-05-26
 
-## Changed
+### Changed
 * Upgrade `abstract-leveldown` from `0.12.0` to `5.0.0` (@vweevers)
 * Upgrade `typedarray-to-buffer` from `1.0.0` to `3.1.5` (@vweevers)
 * Upgrade `levelup` devDependency from `0.18.2` to `3.0.0` (@vweevers)
@@ -22,7 +22,7 @@
 * Make real `tape` tests out of `test-levelup.js` (@vweevers)
 * Restructure custom tests to follow abstract test suite format (@vweevers)
 
-## Added
+### Added
 * Add continuous browser tests with `airtap` and Sauce Labs (@vweevers)
 * Add `prefix` and `version` options to constructor (@vweevers)
 * Detect binary key support and fallback to `String(buffer)` (@vweevers)
@@ -34,7 +34,7 @@
 * Add README badges, new goals and a code example with `levelup` (@vweevers)
 * Add npm files to `.gitignore` (@vweevers)
 
-## Fixed
+### Fixed
 * Start `Iterator` cursor immediately and fill an in-memory cache to fulfill `abstract-leveldown` snapshot guarantees (@vweevers)
 * Stop advancing `Iterator` cursor when `options.limit` is reached (@vweevers)
 * Rename public `#iterator` to private `#_iterator` (@vweevers)
@@ -45,7 +45,7 @@
 * Properly close and destroy db's in custom tests (@vweevers)
 * Update README links (@vweevers)
 
-## Removed
+### Removed
 * Remove support of `ArrayBuffer` values in favor of `Buffer` (@vweevers)
 * Remove now unneeded `raw` option from `#_get()` and `#_iterator()` (@vweevers)
 * Run tests without `IndexedDBShim` (@vweevers)
