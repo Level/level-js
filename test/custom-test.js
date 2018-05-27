@@ -89,7 +89,7 @@ module.exports = function (leveljs, test, testCommon) {
   // NOTE: in chrome (at least) indexeddb gets buggy if you try and destroy a db,
   // then create it again, then try and destroy it again. these avoid doing that
 
-  test('test levelup .destroy w/ string', function (t) {
+  test('test levelup .destroy', function (t) {
     var location = testCommon.location()
     var db = levelup(leveljs(location))
     db.put('key', 'value', function (err) {
@@ -112,7 +112,7 @@ module.exports = function (leveljs, test, testCommon) {
     })
   })
 
-  test('test levelup .destroy w/ string and custom prefix', function (t) {
+  test('test levelup .destroy and custom prefix', function (t) {
     var location = testCommon.location()
     var prefix = 'CUSTOM-PREFIX-'
     var db = levelup(leveljs(location, { prefix: prefix }))
