@@ -2,6 +2,73 @@
 
 ## [Unreleased]
 
+## [3.0.0-rc1] - 2016-05-26
+
+### Changed
+* Upgrade `abstract-leveldown` from `0.12.0` to `5.0.0` (@vweevers)
+* Upgrade `typedarray-to-buffer` from `1.0.0` to `3.1.5` (@vweevers)
+* Upgrade `levelup` devDependency from `0.18.2` to `3.0.0` (@vweevers)
+* Upgrade `browserify` devDependency from `4.1.2` to `16.2.2` (@vweevers)
+* Switch license from BSD to MIT (@ralphtheninja)
+* Replace `IDBWrapper` with straight IndexedDB code (@vweevers)
+* Change default database prefix from `IDBWrapper-` to `level-js-` (@vweevers)
+* Implement abstract `#_serializeKey` with support of all IndexedDB Second Edition types including binary keys (as Buffers) (@vweevers)
+* Implement abstract `#_serializeValue` with support of all types of the structured clone algorithm except for `null` and `undefined` (@vweevers)
+* Use `immediate` module for consistent microtask behavior (@vweevers)
+* Replace `Buffer()` with `Buffer.from()` (@vweevers)
+* Rename `Iterator#iterator` to `#transaction` (@vweevers)
+* Replace `beefy` with `airtap --local` for local testing (@vweevers)
+* Homogenize README title, description and headers (@vweevers)
+* Make real `tape` tests out of `test-levelup.js` (@vweevers)
+* Restructure custom tests to follow abstract test suite format (@vweevers)
+
+### Added
+* Add continuous browser tests with `airtap` and Sauce Labs (@vweevers)
+* Add `prefix` and `version` options to constructor (@vweevers)
+* Detect binary key support and fallback to `String(buffer)` (@vweevers)
+* Detect array key support and fallback to `String(array)` (@vweevers)
+* Test all value types of the structured clone algorithm (@vweevers)
+* Catch `DataCloneError` if the environment does not support serializing the type of a key or value (@vweevers)
+* Include Promise polyfill for `levelup` integration tests (@vweevers)
+* Test that `Iterator` stringifies `Buffer.from()` argument (@vweevers)
+* Add README badges, new goals and a code example with `levelup` (@vweevers)
+* Add npm files to `.gitignore` (@vweevers)
+
+### Fixed
+* Start `Iterator` cursor immediately and fill an in-memory cache to fulfill `abstract-leveldown` snapshot guarantees (@vweevers)
+* Stop advancing `Iterator` cursor when `options.limit` is reached (@vweevers)
+* Rename public `#iterator` to private `#_iterator` (@vweevers)
+* Fix `#_iterator({ limit: 0 })` to yield 0 entries (@vweevers)
+* Handle transaction errors in `Iterator` (@vweevers)
+* Fix constructor to call super (@vweevers)
+* Make one request at a time in a batch transaction, saving CPU time (@vweevers)
+* Properly close and destroy db's in custom tests (@vweevers)
+* Update README links (@vweevers)
+
+### Removed
+* Remove support of `ArrayBuffer` values in favor of `Buffer` (@vweevers)
+* Remove now unneeded `raw` option from `#_get()` and `#_iterator()` (@vweevers)
+* Run tests without `IndexedDBShim` (@vweevers)
+* Remove `Buffer` to `Uint8Array` conversion in `#_put()` and `#_batch()` (@vweevers)
+* Remove obsolete `#_approximateSize` (@vweevers)
+* Remove obsolete `#_isBuffer` (@vweevers)
+* Remove obsolete `testBuffer` from abstract tests (@vweevers)
+* Remove obsolete writestream test from `test-levelup.js` (@vweevers)
+* Rely on `abstract-leveldown` defaults in `Iterator` constructor (@vweevers)
+* Rely on `abstract-leveldown` callback defaults (@vweevers)
+* Remove testling from `package.json` (@vweevers)
+* Remove `level.js` logo (@vweevers)
+
+**Historical Note** As a result of removing `IDBWrapper`, only modern browsers with a non-prefixed `window.indexedDB` are supported in this release. IE10 and Firefox 52 are known to be broken. The current test matrix of `level-js` includes the latest versions of Chrome, Firefox, Safari, Edge and IE.
+
+**Historical Note** Though `level-js` now passes the full `abstract-leveldown` test suite, fulfulling the snapshot guarantee (reads not being affected by simultaneous writes) means a loss of backpressure as iterators have to keep reading from their IndexedDB cursors. Memory consumption might increase if an iterator is not consumed fast enough. A future release will have an option to favor backpressure over snapshot guarantees.
+
+**Historical Note** This release introduced the boolean `binaryKeys` and `arrayKeys` properties on the constructor, indicating whether the environment supports binary and array keys respectively. These properties may become private.
+
+**Historical Note** The vendored `IndexedDBShim` is still included, but likely to be removed.
+
+**Historical Note** Though we upgraded `browserify` to `16.2.2`, the effective version used in tests is `13.3.0` because we switched from `beefy` to `airtap`, which ships with its own `browserify` dependency.
+
 ## [2.2.4] - 2016-05-09
 
 ### Changed
@@ -210,7 +277,8 @@
 
 :seedling: Initial release.
 
-[Unreleased]: https://github.com/level/level.js/compare/v2.2.4...HEAD
+[Unreleased]: https://github.com/level/level.js/compare/v3.0.0-rc1...HEAD
+[3.0.0-rc1]: https://github.com/level/level.js/compare/v2.2.4...v3.0.0-rc1
 [2.2.4]: https://github.com/level/level.js/compare/v2.2.3...v2.2.4
 [2.2.3]: https://github.com/level/level.js/compare/v2.2.2...v2.2.3
 [2.2.2]: https://github.com/level/level.js/compare/v2.2.1...v2.2.2
@@ -235,4 +303,3 @@
 [1.0.3]: https://github.com/level/level.js/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/level/level.js/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/level/level.js/compare/v1.0.0...v1.0.1
-

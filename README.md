@@ -25,7 +25,7 @@ Being `abstract-leveldown` compliant means you can use many of the [Level module
 
 ## Example
 
-**This assumes use of version `3.0.0-rc1`. The next release will have an upgrade guide.**
+**This assumes use of version `3.0.0-rc1`. The next release will have an upgrade guide. Until then, please see the [changelog](CHANGELOG.md).**
 
 ```js
 var levelup = require('levelup')
