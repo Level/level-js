@@ -58,6 +58,20 @@ Not to be confused with [leveljs](https://www.npmjs.com/package/leveljs).
 
 This library is best used with [browserify](http://browserify.org).
 
+## API
+
+### `db = leveljs(location[, options])`
+Returns a new `leveljs` instance. `location` is a String pointing to the IndexedDB location to be opened.
+
+#### `options`
+
+The optional `options` argument may contain:
+
+* `prefix` *(string, default: `'level-js-'`)*: Prepended to the location for the underlying IndexedDB store.
+* `version` *(string | number, default: `1`)*: The version to open the database with.
+
+See [`IDBFactory#open`](https://developer.mozilla.org/en-US/docs/Web/API/IDBFactory/open) for more details.
+
 ## Running Tests
 
 ```sh
