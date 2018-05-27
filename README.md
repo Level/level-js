@@ -17,7 +17,7 @@ Here are the goals of `level-js`:
 - Pass the full `abstract-leveldown` test suite
 - Support [Buffer](https://nodejs.org/api/buffer.html) values (in all target environments)
 - Support all key types of IndexedDB Second Edition, including binary keys (depends on environment)
-- Support all value types of the structured clone algorithm (depends on environment)
+- Support all value types of the structured clone algorithm (depends on environment) except for `null` and `undefined`
 - Be as fast as possible
 - Sync with [multilevel](https://github.com/juliangruber/multilevel) over either ASCII or binary transports.
 
