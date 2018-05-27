@@ -28,7 +28,6 @@
   "devDependencies": {
     "airtap": "0.0.7",
     "buffer": "~5.1.0",
-    "encoding-down": "~5.0.2",
     "levelup": "~3.0.0",
     "pinkie": "~2.0.4",
     "standard": "^11.0.1",
