@@ -5,6 +5,7 @@
 module.exports = Level
 
 var AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
+var isDate = require('is-date-object')
 var util = require('util')
 var Iterator = require('./iterator')
 var mixedToBuffer = require('./util/mixed-to-buffer')
@@ -125,7 +126,7 @@ Level.prototype._serializeKey = function (key) {
     return Level.binaryKeys ? key : key.toString()
   } else if (Array.isArray(key)) {
     return Level.arrayKeys ? key.map(this._serializeKey, this) : String(key)
-  } else if ((typeof key === 'number' || key instanceof Date) && !isNaN(key)) {
+  } else if ((typeof key === 'number' || isDate(key)) && !isNaN(key)) {
     return key
   }
 
