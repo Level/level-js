@@ -57,7 +57,7 @@
 * Rely on `abstract-leveldown` defaults in `Iterator` constructor (@vweevers)
 * Rely on `abstract-leveldown` callback defaults (@vweevers)
 * Remove testling from `package.json` (@vweevers)
-* Remove `level-js` logo (@vweevers)
+* Remove `level.js` logo (@vweevers)
 
 **Historical Note** As a result of removing `IDBWrapper`, only modern browsers with a non-prefixed `window.indexedDB` are supported in this release. IE10 and Firefox 52 are known to be broken. The current test matrix of `level-js` includes the latest versions of Chrome, Firefox, Safari, Edge and IE.
 
