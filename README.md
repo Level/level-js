@@ -67,7 +67,7 @@ Returns a new `leveljs` instance. `location` is the string name of the IndexedDB
 
 The optional `options` argument may contain:
 
-* `prefix` *(string, default: `'level-js-'`)*: Prepended to the location for the underlying IndexedDB store.
+* `prefix` *(string, default: `'level-js-'`)*: Prefix for `IDBDatabase` name.
 * `version` *(string | number, default: `1`)*: The version to open the database with.
 
 See [`IDBFactory#open`](https://developer.mozilla.org/en-US/docs/Web/API/IDBFactory/open) for more details.
