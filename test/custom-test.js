@@ -105,6 +105,38 @@ module.exports = function (leveljs, test, testCommon) {
     })
   })
 
+  // This should be covered by abstract-leveldown tests, but that's
+  // prevented by process.browser checks (Level/abstract-leveldown#121).
+  leveljs.binaryKeys && test('iterator yields buffer keys', function (t) {
+    var db = leveljs(testCommon.location())
+
+    db.open(function (err) {
+      t.ifError(err, 'no open error')
+
+      db.batch([
+        { type: 'put', key: Buffer.from([0]), value: 0 },
+        { type: 'put', key: Buffer.from([1]), value: 1 }
+      ], function (err) {
+        t.ifError(err, 'no batch error')
+
+        var it = db.iterator({ valueAsBuffer: false })
+        testCommon.collectEntries(it, function (err, entries) {
+          t.ifError(err, 'no iterator error')
+
+          t.same(entries, [
+            { key: Buffer.from([0]), value: 0 },
+            { key: Buffer.from([1]), value: 1 }
+          ], 'keys are Buffers')
+
+          db.close(function (err) {
+            t.ifError(err, 'no close error')
+            t.end()
+          })
+        })
+      })
+    })
+  })
+
   // Adapted from a memdown test.
   test('iterator stringifies buffer input', function (t) {
     t.plan(6)

@@ -37,7 +37,6 @@
   "dependencies": {
     "abstract-leveldown": "~5.0.0",
     "immediate": "~3.2.3",
-    "is-date-object": "~1.0.1",
     "ltgt": "^2.1.2",
     "typedarray-to-buffer": "~3.1.5"
   },

@@ -1,19 +1,15 @@
 'use strict'
 
-exports.binaryKeys = function (impl) {
-  try {
-    impl.cmp(new Uint8Array(0), 0)
-    return true
-  } catch (err) {
-    return false
+exports.test = function (key) {
+  return function test (impl) {
+    try {
+      impl.cmp(key, 0)
+      return true
+    } catch (err) {
+      return false
+    }
   }
 }
 
-exports.arrayKeys = function (impl) {
-  try {
-    impl.cmp([1], 0)
-    return true
-  } catch (err) {
-    return false
-  }
-}
+exports.binaryKeys = exports.test(new Uint8Array(0))
+exports.arrayKeys = exports.test([1])

@@ -1,14 +1,7 @@
 'use strict'
 
 var isDataCloneError = require('../util/is-data-clone-error')
-var bytes = [0, 127]
-
-// Replacement for TypedArray.from(bytes)
-function ta (TypedArray) {
-  var arr = new TypedArray(bytes.length)
-  for (var i = 0; i < bytes.length; i++) arr[i] = bytes[i]
-  return arr
-}
+var ta = require('./util/create-typed-array')
 
 // level-js supports all types of the structured clone algorithm
 // except for null and undefined (unless nested in another type).
