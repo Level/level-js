@@ -174,13 +174,10 @@ Level.prototype._close = function (callback) {
   callback()
 }
 
-Level.destroy = function (db, callback) {
-  if (typeof db === 'object') {
-    var prefix = db.prefix || DEFAULT_PREFIX
-    var location = db.location
-  } else {
+Level.destroy = function (location, prefix, callback) {
+  if (typeof prefix === 'function') {
+    callback = prefix
     prefix = DEFAULT_PREFIX
-    location = db
   }
   var request = indexedDB.deleteDatabase(prefix + location)
   request.onsuccess = function () {
