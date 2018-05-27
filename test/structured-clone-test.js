@@ -129,6 +129,13 @@ var types = [
   }
 ]
 
+// Types that are not supported by the structured clone algorithm
+var illegalTypes = [
+  { name: 'Error', value: new Error() },
+  { name: 'Function', value: function () {} },
+  { name: 'DOMNode', value: global.document }
+]
+
 module.exports = function (leveljs, test, testCommon) {
   var db
 
@@ -190,6 +197,22 @@ module.exports = function (leveljs, test, testCommon) {
             t.same(value, input, 'correct value')
           }
 
+          t.end()
+        })
+      })
+    })
+  })
+
+  illegalTypes.forEach(function (item) {
+    test('structured clone (illegal type): ' + item.name, function (t) {
+      t.ok(item.value != null, 'got a value to test')
+
+      db.put(item.name, item.value, function (err) {
+        t.ok(err, 'got an error')
+        t.ok(isDataCloneError(err), 'is DataCloneError')
+
+        db.get(item.name, { asBuffer: false }, function (err, value) {
+          t.ok(/notfound/i.test(err), 'nothing was stored')
           t.end()
         })
       })
