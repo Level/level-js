@@ -61,7 +61,7 @@ This library is best used with [browserify](http://browserify.org).
 ## API
 
 ### `db = leveljs(location[, options])`
-Returns a new `leveljs` instance. `location` is a String pointing to the IndexedDB location to be opened.
+Returns a new `leveljs` instance. `location` is the string name of the IndexedDB object store to be opened.
 
 #### `options`
 
