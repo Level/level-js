@@ -5,6 +5,50 @@ var levelup = require('levelup')
 module.exports = function (leveljs, test, testCommon) {
   test('setUp', testCommon.setUp)
 
+  test('default prefix', function (t) {
+    var location = testCommon.location()
+    var db = leveljs(location)
+
+    t.is(db.location, location, 'instance has location property')
+    t.is(db.prefix, 'level-js-', 'instance has prefix property')
+
+    db.open(function (err) {
+      t.notOk(err, 'no open error')
+
+      var idb = db.db
+      var databaseName = idb.name
+      var storeNames = idb.objectStoreNames
+
+      t.is(databaseName, 'level-js-' + location, 'database name is prefixed')
+      t.is(storeNames.length, 1, 'created 1 object store')
+      t.is(storeNames.item(0), location, 'object store name equals location')
+
+      db.close(t.end.bind(t))
+    })
+  })
+
+  test('custom prefix', function (t) {
+    var location = testCommon.location()
+    var db = leveljs(location, { prefix: 'custom-' })
+
+    t.is(db.location, location, 'instance has location property')
+    t.is(db.prefix, 'custom-', 'instance has prefix property')
+
+    db.open(function (err) {
+      t.notOk(err, 'no open error')
+
+      var idb = db.db
+      var databaseName = idb.name
+      var storeNames = idb.objectStoreNames
+
+      t.is(databaseName, 'custom-' + location, 'database name is prefixed')
+      t.is(storeNames.length, 1, 'created 1 object store')
+      t.is(storeNames.item(0), location, 'object store name equals location')
+
+      db.close(t.end.bind(t))
+    })
+  })
+
   test('buffer value', function (t) {
     var level = leveljs(testCommon.location())
     level.open(function (err) {
