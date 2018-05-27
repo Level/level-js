@@ -89,7 +89,7 @@ module.exports = function (leveljs, test, testCommon) {
   // NOTE: in chrome (at least) indexeddb gets buggy if you try and destroy a db,
   // then create it again, then try and destroy it again. these avoid doing that
 
-  test('test levelup .destroy w/ string', function (t) {
+  test('test levelup .destroy', function (t) {
     var location = testCommon.location()
     var db = levelup(leveljs(location))
     db.put('key', 'value', function (err) {
@@ -112,9 +112,10 @@ module.exports = function (leveljs, test, testCommon) {
     })
   })
 
-  test('test levelup .destroy w/ db instance', function (t) {
+  test('test levelup .destroy and custom prefix', function (t) {
     var location = testCommon.location()
-    var db = levelup(leveljs(location))
+    var prefix = 'CUSTOM-PREFIX-'
+    var db = levelup(leveljs(location, { prefix: prefix }))
     db.put('key', 'value', function (err) {
       t.notOk(err, 'no error')
       db.get('key', { asBuffer: false }, function (err, value) {
@@ -122,9 +123,9 @@ module.exports = function (leveljs, test, testCommon) {
         t.equal(value, 'value', 'should have value')
         db.close(function (err) {
           t.notOk(err, 'no error')
-          leveljs.destroy(db.db, function (err) {
+          leveljs.destroy(location, prefix, function (err) {
             t.notOk(err, 'no error')
-            var db2 = levelup(leveljs(location))
+            var db2 = levelup(leveljs(location, { prefix: prefix }))
             db2.get('key', { asBuffer: false }, function (err, value) {
               t.ok(err && err.notFound, 'key is not there')
               db2.close(t.end.bind(t))
