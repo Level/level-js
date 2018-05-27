@@ -1,6 +1,5 @@
 'use strict'
 
-var levelup = require('levelup')
 var isDataCloneError = require('../util/is-data-clone-error')
 var bytes = [0, 127]
 
@@ -27,8 +26,8 @@ var types = [
   { type: '+Infinity', value: Infinity },
   { type: '-Infinity', value: -Infinity },
   { type: 'string', value: 'test' },
-  { type: 'Boolean object', value: new Boolean(false) },
-  { type: 'String object', value: new String('test') },
+  { type: 'Boolean object', value: new Boolean(false) }, // eslint-disable-line
+  { type: 'String object', value: new String('test') }, // eslint-disable-line
   { type: 'Date', ctor: true, value: new Date() },
   { type: 'RegExp', ctor: true, value: /r/g },
   { type: 'Array', ctor: true, value: [0, null, undefined] },
@@ -59,9 +58,9 @@ var types = [
     type: 'Map',
     ctor: true,
     allowFailure: true,
-    createValue: function (ctor) {
+    createValue: function (Constructor) {
       // Replacement for Map constructor arguments (for IE 11)
-      var value = new ctor()
+      var value = new Constructor()
       value.set('test', 123)
       return value
     },
@@ -73,9 +72,9 @@ var types = [
     type: 'Set',
     ctor: true,
     allowFailure: true,
-    createValue: function (ctor) {
+    createValue: function (Constructor) {
       // Replacement for Set constructor arguments (for IE 11)
-      var value = new ctor()
+      var value = new Constructor()
       value.add(123)
       return value
     },
@@ -87,8 +86,8 @@ var types = [
     type: 'Blob',
     ctor: true,
     allowFailure: true,
-    createValue: function (ctor) {
-      return new ctor(['test'])
+    createValue: function (Constructor) {
+      return new Constructor(['test'])
     },
     test: function (value) {
       // TODO. This test would be asynchronous.
@@ -99,8 +98,8 @@ var types = [
     type: 'File',
     ctor: true,
     allowFailure: true,
-    createValue: function (ctor) {
-      return new ctor(['test'], 'filename')
+    createValue: function (Constructor) {
+      return new Constructor(['test'], 'filename')
     },
     test: function (value) {
       // TODO. This test would be asynchronous.
@@ -121,8 +120,8 @@ var types = [
     type: 'ImageData',
     ctor: true,
     allowFailure: true,
-    createValue: function (ctor) {
-      return new ctor(1, 1)
+    createValue: function (Constructor) {
+      return new Constructor(1, 1)
     },
     test: function (value) {
       return value.data.length === 4

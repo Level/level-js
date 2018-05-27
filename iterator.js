@@ -1,7 +1,9 @@
+/* global IDBKeyRange */
+
 'use strict'
 
 var util = require('util')
-var AbstractIterator  = require('abstract-leveldown').AbstractIterator
+var AbstractIterator = require('abstract-leveldown').AbstractIterator
 var ltgt = require('ltgt')
 var mixedToBuffer = require('./util/mixed-to-buffer')
 var setImmediate = require('./util/immediate')
@@ -117,7 +119,7 @@ Iterator.prototype._next = function (callback) {
     var err = this._error
     this._error = null
 
-    setImmediate(function() {
+    setImmediate(function () {
       callback(err)
     })
   } else if (this._cache.length > 0) {
@@ -127,7 +129,7 @@ Iterator.prototype._next = function (callback) {
     if (this._keyAsBuffer) key = mixedToBuffer(key)
     if (this._valueAsBuffer) value = mixedToBuffer(value)
 
-    setImmediate(function() {
+    setImmediate(function () {
       callback(null, key, value)
     })
   } else if (this._completed) {
