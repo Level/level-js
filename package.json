@@ -7,6 +7,14 @@
     "test": "standard && airtap --local --no-coverage test/index.js",
     "test-browsers": "standard && airtap --sauce-connect --loopback airtap.local --no-coverage test/index.js"
   },
+  "files": [
+    "index.js",
+    "iterator.js",
+    "util",
+    "collaborators.md",
+    "CHANGELOG.md",
+    "sauce-labs.svg"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:Level/level-js.git"
