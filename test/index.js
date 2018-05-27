@@ -5,9 +5,6 @@ if (process.browser && typeof Promise !== 'function') {
   global.Promise = require('pinkie')
 }
 
-// Load IndexedDBShim
-// require('./util/idb-shim.js')()
-
 var test = require('tape')
 var leveljs = require('..')
 var testCommon = require('./util/test-common')
