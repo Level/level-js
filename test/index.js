@@ -1,10 +1,5 @@
 'use strict'
 
-// Promise polyfill for IE and others.
-if (process.browser && typeof Promise !== 'function') {
-  global.Promise = require('pinkie')
-}
-
 // Load IndexedDBShim
 // require('./util/idb-shim.js')()
 

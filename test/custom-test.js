@@ -1,7 +1,5 @@
 'use strict'
 
-var levelup = require('levelup')
-
 module.exports = function (leveljs, test, testCommon) {
   test('setUp', testCommon.setUp)
 
@@ -165,22 +163,28 @@ module.exports = function (leveljs, test, testCommon) {
   // NOTE: in chrome (at least) indexeddb gets buggy if you try and destroy a db,
   // then create it again, then try and destroy it again. these avoid doing that
 
-  test('test levelup .destroy', function (t) {
+  test('test .destroy', function (t) {
     var location = testCommon.location()
-    var db = levelup(leveljs(location))
-    db.put('key', 'value', function (err) {
+    var db = leveljs(location)
+    db.open(function (err) {
       t.notOk(err, 'no error')
-      db.get('key', { asBuffer: false }, function (err, value) {
+      db.put('key', 'value', function (err) {
         t.notOk(err, 'no error')
-        t.equal(value, 'value', 'should have value')
-        db.close(function (err) {
+        db.get('key', { asBuffer: false }, function (err, value) {
           t.notOk(err, 'no error')
-          leveljs.destroy(location, function (err) {
+          t.equal(value, 'value', 'should have value')
+          db.close(function (err) {
             t.notOk(err, 'no error')
-            var db2 = levelup(leveljs(location))
-            db2.get('key', { asBuffer: false }, function (err, value) {
-              t.ok(err && err.notFound, 'key is not there')
-              db2.close(t.end.bind(t))
+            leveljs.destroy(location, function (err) {
+              t.notOk(err, 'no error')
+              var db2 = leveljs(location)
+              db2.open(function (err) {
+                t.notOk(err, 'no error')
+                db2.get('key', { asBuffer: false }, function (err, value) {
+                  t.is(err.message, 'NotFound', 'key is not there')
+                  db2.close(t.end.bind(t))
+                })
+              })
             })
           })
         })
@@ -188,23 +192,29 @@ module.exports = function (leveljs, test, testCommon) {
     })
   })
 
-  test('test levelup .destroy and custom prefix', function (t) {
+  test('test .destroy and custom prefix', function (t) {
     var location = testCommon.location()
-    var prefix = 'CUSTOM-PREFIX-'
-    var db = levelup(leveljs(location, { prefix: prefix }))
-    db.put('key', 'value', function (err) {
+    var prefix = 'custom-'
+    var db = leveljs(location, { prefix: prefix })
+    db.open(function (err) {
       t.notOk(err, 'no error')
-      db.get('key', { asBuffer: false }, function (err, value) {
+      db.put('key', 'value', function (err) {
         t.notOk(err, 'no error')
-        t.equal(value, 'value', 'should have value')
-        db.close(function (err) {
+        db.get('key', { asBuffer: false }, function (err, value) {
           t.notOk(err, 'no error')
-          leveljs.destroy(location, prefix, function (err) {
+          t.equal(value, 'value', 'should have value')
+          db.close(function (err) {
             t.notOk(err, 'no error')
-            var db2 = levelup(leveljs(location, { prefix: prefix }))
-            db2.get('key', { asBuffer: false }, function (err, value) {
-              t.ok(err && err.notFound, 'key is not there')
-              db2.close(t.end.bind(t))
+            leveljs.destroy(location, prefix, function (err) {
+              t.notOk(err, 'no error')
+              var db2 = leveljs(location, { prefix: prefix })
+              db2.open(function (err) {
+                t.notOk(err, 'no error')
+                db2.get('key', { asBuffer: false }, function (err, value) {
+                  t.is(err.message, 'NotFound', 'key is not there')
+                  db2.close(t.end.bind(t))
+                })
+              })
             })
           })
         })
