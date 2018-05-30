@@ -2,7 +2,7 @@
 
 'use strict'
 
-var util = require('util')
+var inherits = require('inherits')
 var AbstractIterator = require('abstract-leveldown').AbstractIterator
 var ltgt = require('ltgt')
 var mixedToBuffer = require('./util/mixed-to-buffer')
@@ -43,7 +43,7 @@ function Iterator (db, location, options) {
   this.createIterator(location, keyRange, options.reverse)
 }
 
-util.inherits(Iterator, AbstractIterator)
+inherits(Iterator, AbstractIterator)
 
 Iterator.prototype.createKeyRange = function (options) {
   var lower = ltgt.lowerBound(options)

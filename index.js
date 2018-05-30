@@ -5,7 +5,7 @@
 module.exports = Level
 
 var AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
-var util = require('util')
+var inherits = require('inherits')
 var Iterator = require('./iterator')
 var mixedToBuffer = require('./util/mixed-to-buffer')
 var isDataCloneError = require('./util/is-data-clone-error')
@@ -23,7 +23,7 @@ function Level (location, opts) {
   this.version = parseInt(opts.version || 1, 10)
 }
 
-util.inherits(Level, AbstractLevelDOWN)
+inherits(Level, AbstractLevelDOWN)
 
 // Detect binary and array key support (IndexedDB Second Edition)
 Level.binaryKeys = support.binaryKeys(indexedDB)
