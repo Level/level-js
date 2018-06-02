@@ -1,7 +1,10 @@
 'use strict'
 
-var isDataCloneError = require('../util/is-data-clone-error')
 var ta = require('./util/create-typed-array')
+
+function isDataCloneError (err) {
+  return err.name === 'DataCloneError' || err.code === 25
+}
 
 // level-js supports all types of the structured clone algorithm
 // except for null and undefined (unless nested in another type).
