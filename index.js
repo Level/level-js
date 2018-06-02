@@ -8,7 +8,6 @@ var AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
 var inherits = require('inherits')
 var Iterator = require('./iterator')
 var mixedToBuffer = require('./util/mixed-to-buffer')
-var isDataCloneError = require('./util/is-data-clone-error')
 var setImmediate = require('./util/immediate')
 var support = require('./util/support')
 
@@ -71,7 +70,17 @@ Level.prototype.await = function (request, callback) {
 }
 
 Level.prototype._get = function (key, options, callback) {
-  this.await(this.store('readonly').get(key), function (err, value) {
+  var store = this.store('readonly')
+
+  try {
+    var req = store.get(key)
+  } catch (err) {
+    return setImmediate(function () {
+      callback(err)
+    })
+  }
+
+  this.await(req, function (err, value) {
     if (err) return callback(err)
 
     if (value === undefined) {
@@ -88,21 +97,27 @@ Level.prototype._get = function (key, options, callback) {
 }
 
 Level.prototype._del = function (key, options, callback) {
-  this.await(this.store('readwrite').delete(key), callback)
+  var store = this.store('readwrite')
+
+  try {
+    var req = store.delete(key)
+  } catch (err) {
+    return setImmediate(function () {
+      callback(err)
+    })
+  }
+
+  this.await(req, callback)
 }
 
 Level.prototype._put = function (key, value, options, callback) {
   var store = this.store('readwrite')
 
   try {
-    // Will throw a DataCloneError if the environment
-    // does not support serializing the key or value.
+    // Will throw a DataError or DataCloneError if the environment
+    // does not support serializing the key or value respectively.
     var req = store.put(value, key)
   } catch (err) {
-    if (!isDataCloneError(err)) {
-      throw err
-    }
-
     return setImmediate(function () {
       callback(err)
     })
@@ -148,9 +163,10 @@ Level.prototype._batch = function (operations, options, callback) {
   var store = this.store('readwrite')
   var transaction = store.transaction
   var index = 0
+  var error
 
   transaction.onabort = function () {
-    callback(transaction.error || new Error('aborted by user'))
+    callback(error || transaction.error || new Error('aborted by user'))
   }
 
   transaction.oncomplete = function () {
@@ -161,7 +177,14 @@ Level.prototype._batch = function (operations, options, callback) {
   function loop () {
     var op = operations[index++]
     var key = op.key
-    var req = op.type === 'del' ? store.delete(key) : store.put(op.value, key)
+
+    try {
+      var req = op.type === 'del' ? store.delete(key) : store.put(op.value, key)
+    } catch (err) {
+      error = err
+      transaction.abort()
+      return
+    }
 
     if (index < operations.length) {
       req.onsuccess = loop
