@@ -7,7 +7,8 @@
   "main": "index.js",
   "scripts": {
     "test": "standard && airtap --local --no-coverage test/index.js",
-    "test-browsers": "standard && airtap --sauce-connect --loopback airtap.local --no-coverage test/index.js"
+    "test-browsers": "standard && airtap --sauce-connect --loopback airtap.local --no-coverage test/index.js",
+    "remark": "remark README.md -o"
   },
   "files": [
     "index.js",
@@ -35,8 +36,16 @@
   "devDependencies": {
     "airtap": "0.0.7",
     "buffer": "~5.1.0",
+    "level-community": "^2.1.1",
+    "remark-cli": "^5.0.0",
+    "remark-gh-contributors": "^0.0.1",
     "standard": "^11.0.1",
     "tape": "^4.0.0"
+  },
+  "remarkConfig": {
+    "plugins": {
+      "remark-gh-contributors": "level-community"
+    }
   },
   "repository": {
     "type": "git",
