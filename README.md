@@ -91,7 +91,7 @@ Cross-browser Testing Platform and Open Source ♥ Provided by [Sauce Labs](http
 
 ## License
 
-Copyright © 2012-present `level-js` [contributors](https://github.com/level/community#contributors).
+Copyright © 2012-present [Max Ogden](https://github.com/maxogden) and `level-js` [contributors](https://github.com/level/community#contributors).
 
 `level-js` is licensed under the MIT license. All rights not explicitly granted in the MIT license are reserved. See the included `LICENSE.md` file for more details.
 

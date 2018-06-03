@@ -1,6 +1,6 @@
 # The MIT License (MIT)
 
-## Copyright (c) 2012-present `level-js` contributors
+## Copyright (c) 2012-present Max Ogden and `level-js` contributors
 
 *`level-js` contributors listed at <https://github.com/level/community#contributors>*
 
