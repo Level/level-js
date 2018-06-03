@@ -5,38 +5,25 @@
 var ta = require('./util/create-typed-array')
 var support = require('../util/support')
 
+// All key types supported by IndexedDB Second Edition.
 var types = [
-  { type: 'number', value: -20 },
-  { type: '+Infinity', value: Infinity },
-  { type: '-Infinity', value: -Infinity },
-  { type: 'string', value: 'test' },
-  { type: 'Date', ctor: true, value: new Date() },
-  { type: 'Array', ctor: true, allowFailure: true, value: [0, '1'] },
-  { type: 'ArrayBuffer', ctor: true, allowFailure: true, value: ta(Buffer).buffer },
-  { type: 'Int8Array', ctor: true, allowFailure: true, createValue: ta, view: true },
-  { type: 'Uint8Array', ctor: true, allowFailure: true, createValue: ta, view: true },
-  { type: 'Uint8ClampedArray', ctor: true, allowFailure: true, createValue: ta, view: true },
-  { type: 'Int16Array', ctor: true, allowFailure: true, createValue: ta, view: true },
-  { type: 'Uint16Array', ctor: true, allowFailure: true, createValue: ta, view: true },
-  { type: 'Int32Array', ctor: true, allowFailure: true, createValue: ta, view: true },
-  { type: 'Uint32Array', ctor: true, allowFailure: true, createValue: ta, view: true },
-  { type: 'Float32Array', ctor: true, allowFailure: true, createValue: ta, view: true },
-  { type: 'Float64Array', ctor: true, allowFailure: true, createValue: ta, view: true }
+  { type: 'number', key: -20 },
+  { type: '+Infinity', key: Infinity },
+  { type: '-Infinity', key: -Infinity },
+  { type: 'string', key: 'test' },
+  { type: 'Date', ctor: true, key: new Date() },
+  { type: 'Array', ctor: true, allowFailure: true, key: [0, '1'] },
+  { type: 'ArrayBuffer', ctor: true, allowFailure: true, key: ta(Buffer).buffer },
+  { type: 'Int8Array', ctor: true, allowFailure: true, createKey: ta, view: true },
+  { type: 'Uint8Array', ctor: true, allowFailure: true, createKey: ta, view: true },
+  { type: 'Uint8ClampedArray', ctor: true, allowFailure: true, createKey: ta, view: true },
+  { type: 'Int16Array', ctor: true, allowFailure: true, createKey: ta, view: true },
+  { type: 'Uint16Array', ctor: true, allowFailure: true, createKey: ta, view: true },
+  { type: 'Int32Array', ctor: true, allowFailure: true, createKey: ta, view: true },
+  { type: 'Uint32Array', ctor: true, allowFailure: true, createKey: ta, view: true },
+  { type: 'Float32Array', ctor: true, allowFailure: true, createKey: ta, view: true },
+  { type: 'Float64Array', ctor: true, allowFailure: true, createKey: ta, view: true }
 ]
-
-// TODO: test types that are not supported by IndexedDB Second Edition
-// - Date NaN (should be rejected by IndexedDB)
-// - empty array (should be rejected by abstract-leveldown)
-// - array containing null (should be rejected by IndexedDB)
-// - cyclical array (not sure)
-// - Array(10) (not sure)
-// var illegalTypes = []
-
-// TODO: test types that are not supported by IndexedDB Second Edition, but get
-// stringified for abstract-leveldown compatibility.
-// - NaN
-// - boolean
-// var stringifiedTypes = []
 
 module.exports = function (leveljs, test, testCommon) {
   var db
@@ -53,16 +40,16 @@ module.exports = function (leveljs, test, testCommon) {
     test('key type: ' + testName, function (t) {
       var Constructor = item.ctor ? global[item.type] : null
       var skip = item.allowFailure ? 'pass' : 'fail'
-      var input = item.value
+      var input = item.key
 
       if (item.ctor && !Constructor) {
         t[skip]('constructor is undefined in this environment')
         return t.end()
       }
 
-      if (item.createValue) {
+      if (item.createKey) {
         try {
-          input = item.createValue(Constructor)
+          input = item.createKey(Constructor)
         } catch (err) {
           t[skip]('constructor is not spec-compliant in this environment')
           return t.end()

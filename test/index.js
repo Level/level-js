@@ -27,3 +27,5 @@ require('abstract-leveldown/abstract/iterator-range-test').all(leveljs, test, te
 require('./custom-test')(leveljs, test, testCommon)
 require('./structured-clone-test')(leveljs, test, testCommon)
 require('./key-type-test')(leveljs, test, testCommon)
+require('./key-type-illegal-test')(leveljs, test, testCommon)
+require('./key-type-stringified-test')(leveljs, test, testCommon)
