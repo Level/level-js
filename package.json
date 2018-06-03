@@ -1,7 +1,7 @@
 {
   "name": "level-js",
   "version": "3.0.0-rc1",
-  "description": "leveldown/leveldb library for browsers using IndexedDB",
+  "description": "An abstract-leveldown compliant store on top of IndexedDB",
   "main": "index.js",
   "scripts": {
     "test": "standard && airtap --local --no-coverage test/index.js",
@@ -21,7 +21,9 @@
   },
   "keywords": [
     "level",
-    "leveldb"
+    "leveldb",
+    "indexeddb",
+    "abstract-leveldown"
   ],
   "author": "max ogden",
   "license": "MIT",
