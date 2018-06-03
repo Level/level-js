@@ -13,13 +13,13 @@
 
 Here are the goals of `level-js`:
 
-- Store large amounts of data in modern browsers
-- Pass the full `abstract-leveldown` test suite
-- Support [Buffer](https://nodejs.org/api/buffer.html) values (in all target environments)
-- Support all key types of IndexedDB Second Edition, including binary keys (depends on environment)
-- Support all value types of the structured clone algorithm (depends on environment) except for `null` and `undefined`
-- Be as fast as possible
-- Sync with [multilevel](https://github.com/juliangruber/multilevel) over either ASCII or binary transports.
+-   Store large amounts of data in modern browsers
+-   Pass the full `abstract-leveldown` test suite
+-   Support [Buffer](https://nodejs.org/api/buffer.html) values (in all target environments)
+-   Support all key types of IndexedDB Second Edition, including binary keys (depends on environment)
+-   Support all value types of the structured clone algorithm (depends on environment) except for `null` and `undefined`
+-   Be as fast as possible
+-   Sync with [multilevel](https://github.com/juliangruber/multilevel) over either ASCII or binary transports.
 
 Being `abstract-leveldown` compliant means you can use many of the [Level modules](https://github.com/Level/awesome/) on top of this library. For some demos of it working, see @brycebaril's presentation [Path of the NodeBases Jedi](http://brycebaril.github.io/nodebase_jedi/#/vanilla).
 
@@ -61,14 +61,15 @@ This library is best used with [browserify](http://browserify.org).
 ## API
 
 ### `db = leveljs(location[, options])`
+
 Returns a new `leveljs` instance. `location` is the string name of the [`IDBDatabase`](https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase) to be opened, as well as the object store within that database. The database name will be prefixed with `options.prefix`.
 
 #### `options`
 
 The optional `options` argument may contain:
 
-* `prefix` *(string, default: `'level-js-'`)*: Prefix for `IDBDatabase` name.
-* `version` *(string | number, default: `1`)*: The version to open the database with.
+-   `prefix` _(string, default: `'level-js-'`)_: Prefix for `IDBDatabase` name.
+-   `version` _(string | number, default: `1`)_: The version to open the database with.
 
 See [`IDBFactory#open`](https://developer.mozilla.org/en-US/docs/Web/API/IDBFactory/open) for more details.
 
@@ -82,6 +83,21 @@ npm test
 ```
 
 It will print out a URL to open in a browser of choice.
+
+## Contributors
+
+| Name                    | GitHub                                                 |
+| ----------------------- | ------------------------------------------------------ |
+| **Vincent Weevers**     | [**@vweevers**](https://github.com/vweevers)           |
+| **Maxwell ogden**       | [**@maxogden**](https://github.com/maxogden)           |
+| **Lars-Magnus Skog**    | [**@ralphtheninja**](https://github.com/ralphtheninja) |
+| **Rod Vagg**            | [**@rvagg**](https://github.com/rvagg)                 |
+| **Nolan Lawson**        | [**@nolanlawson**](https://github.com/nolanlawson)     |
+| **Josh**                | [**@qs44**](https://github.com/qs44)                   |
+| **Dominic Tarr**        | [**@dominictarr**](https://github.com/dominictarr)     |
+| **Julian Gruber**       | [**@juliangruber**](https://github.com/juliangruber)   |
+| **Kyle Robinson Young** | [**@shama**](https://github.com/shama)                 |
+| **Matteo Collina**      | [**@mcollina**](https://github.com/mcollina)           |
 
 ## Big Thanks
 
