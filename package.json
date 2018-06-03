@@ -2,6 +2,8 @@
   "name": "level-js",
   "version": "3.0.0-rc1",
   "description": "An abstract-leveldown compliant store on top of IndexedDB",
+  "author": "max ogden",
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
     "test": "standard && airtap --local --no-coverage test/index.js",
@@ -15,6 +17,27 @@
     "CHANGELOG.md",
     "sauce-labs.svg"
   ],
+  "browser": {
+    "./util/immediate.js": "./util/immediate-browser.js"
+  },
+  "standard": {
+    "ignore": [
+      "test/util/idb-shim.js"
+    ]
+  },
+  "dependencies": {
+    "abstract-leveldown": "~5.0.0",
+    "immediate": "~3.2.3",
+    "inherits": "^2.0.3",
+    "ltgt": "^2.1.2",
+    "typedarray-to-buffer": "~3.1.5"
+  },
+  "devDependencies": {
+    "airtap": "0.0.7",
+    "buffer": "~5.1.0",
+    "standard": "^11.0.1",
+    "tape": "^4.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:Level/level-js.git"
@@ -24,28 +47,5 @@
     "leveldb",
     "indexeddb",
     "abstract-leveldown"
-  ],
-  "author": "max ogden",
-  "license": "MIT",
-  "devDependencies": {
-    "airtap": "0.0.7",
-    "buffer": "~5.1.0",
-    "standard": "^11.0.1",
-    "tape": "^4.0.0"
-  },
-  "dependencies": {
-    "abstract-leveldown": "~5.0.0",
-    "immediate": "~3.2.3",
-    "inherits": "^2.0.3",
-    "ltgt": "^2.1.2",
-    "typedarray-to-buffer": "~3.1.5"
-  },
-  "browser": {
-    "./util/immediate.js": "./util/immediate-browser.js"
-  },
-  "standard": {
-    "ignore": [
-      "test/util/idb-shim.js"
-    ]
-  }
+  ]
 }
