@@ -2,7 +2,7 @@
 
 ## [Unreleased]
 
-## [3.0.0-rc1] - 2016-05-26
+## [3.0.0-rc1] - 2018-05-26
 
 ### Changed
 * Upgrade `abstract-leveldown` from `0.12.0` to `5.0.0` (@vweevers)
