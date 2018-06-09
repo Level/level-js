@@ -36,15 +36,15 @@
   "devDependencies": {
     "airtap": "0.0.7",
     "buffer": "~5.1.0",
-    "level-community": "^2.1.1",
+    "level-community": "~3.0.0",
     "remark-cli": "^5.0.0",
-    "remark-gh-contributors": "^0.0.1",
+    "remark-git-contributors": "~0.2.0",
     "standard": "^11.0.1",
     "tape": "^4.0.0"
   },
   "remarkConfig": {
     "plugins": {
-      "remark-gh-contributors": "level-community"
+      "remark-git-contributors": "level-community"
     }
   },
   "repository": {
