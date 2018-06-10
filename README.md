@@ -92,6 +92,6 @@ Cross-browser Testing Platform and Open Source ♥ Provided by [Sauce Labs](http
 
 ## License
 
-MIT © 2012-present [Max Ogden](https://github.com/maxogden) and [Contributors](./CONTRIBUTORS.md). See included [`LICENSE.md`](./LICENSE.md) for more details.
+[MIT](./LICENSE.md) © 2012-present [Max Ogden](https://github.com/maxogden) and [Contributors](./CONTRIBUTORS.md).
 
 [level-badge]: http://leveldb.org/img/badge.svg
