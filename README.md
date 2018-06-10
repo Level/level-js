@@ -84,21 +84,6 @@ npm test
 
 It will print out a URL to open in a browser of choice.
 
-## Contributors
-
-| Name                    | GitHub                                                 |
-| ----------------------- | ------------------------------------------------------ |
-| **Vincent Weevers**     | [**@vweevers**](https://github.com/vweevers)           |
-| **Maxwell ogden**       | [**@maxogden**](https://github.com/maxogden)           |
-| **Lars-Magnus Skog**    | [**@ralphtheninja**](https://github.com/ralphtheninja) |
-| **Rod Vagg**            | [**@rvagg**](https://github.com/rvagg)                 |
-| **Nolan Lawson**        | [**@nolanlawson**](https://github.com/nolanlawson)     |
-| **Josh**                | [**@qs44**](https://github.com/qs44)                   |
-| **Dominic Tarr**        | [**@dominictarr**](https://github.com/dominictarr)     |
-| **Julian Gruber**       | [**@juliangruber**](https://github.com/juliangruber)   |
-| **Kyle Robinson Young** | [**@shama**](https://github.com/shama)                 |
-| **Matteo Collina**      | [**@mcollina**](https://github.com/mcollina)           |
-
 ## Big Thanks
 
 Cross-browser Testing Platform and Open Source ♥ Provided by [Sauce Labs](https://saucelabs.com).
@@ -107,6 +92,6 @@ Cross-browser Testing Platform and Open Source ♥ Provided by [Sauce Labs](http
 
 ## License
 
-MIT © 2012-present [Max Ogden](https://github.com/maxogden) and Contributors. See included [`LICENSE.md`](./LICENSE.md) for more details.
+MIT © 2012-present [Max Ogden](https://github.com/maxogden) and [Contributors](./CONTRIBUTORS.md). See included [`LICENSE.md`](./LICENSE.md) for more details.
 
 [level-badge]: http://leveldb.org/img/badge.svg

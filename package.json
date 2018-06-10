@@ -8,13 +8,13 @@
   "scripts": {
     "test": "standard && airtap --local --no-coverage test/index.js",
     "test-browsers": "standard && airtap --sauce-connect --loopback airtap.local --no-coverage test/index.js",
-    "remark": "remark README.md -o"
+    "remark": "remark README.md CONTRIBUTORS.md -o"
   },
   "files": [
     "index.js",
     "iterator.js",
     "util",
-    "collaborators.md",
+    "CONTRIBUTORS.md",
     "CHANGELOG.md",
     "sauce-labs.svg"
   ],
