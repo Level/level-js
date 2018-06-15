@@ -16,6 +16,7 @@
     "util",
     "CONTRIBUTORS.md",
     "CHANGELOG.md",
+    "UPGRADING.md",
     "sauce-labs.svg"
   ],
   "browser": {
