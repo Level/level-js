@@ -59,7 +59,7 @@ If the environment does not support a type, it will throw an error which `level-
 
 Due to the special meaning that `null` and `undefined` have in `abstract-leveldown` iterators and Node.js streams, values of this type are converted to empty strings prior to storage.
 
-:point_up: The structured clone algorithm can be slower than `JSON.stringify`, so don't to quick to eschew `encoding-down`.
+:point_up: The structured clone algorithm can be slower than `JSON.stringify`, so don't be too quick to eschew `encoding-down`.
 
 ### Support all key types of IndexedDB Second Edition
 
