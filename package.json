@@ -1,35 +1,30 @@
 {
   "name": "level-js",
   "version": "3.0.0-rc1",
-  "description": "leveldown/leveldb library for browsers using IndexedDB",
+  "description": "An abstract-leveldown compliant store on top of IndexedDB",
+  "author": "max ogden",
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
     "test": "standard && airtap --local --no-coverage test/index.js",
-    "test-browsers": "standard && airtap --sauce-connect --loopback airtap.local --no-coverage test/index.js"
+    "test-browsers": "standard && airtap --sauce-connect --loopback airtap.local --no-coverage test/index.js",
+    "remark": "remark README.md CONTRIBUTORS.md -o"
   },
   "files": [
     "index.js",
     "iterator.js",
     "util",
-    "collaborators.md",
+    "CONTRIBUTORS.md",
     "CHANGELOG.md",
     "sauce-labs.svg"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:Level/level-js.git"
+  "browser": {
+    "./util/immediate.js": "./util/immediate-browser.js"
   },
-  "keywords": [
-    "level",
-    "leveldb"
-  ],
-  "author": "max ogden",
-  "license": "MIT",
-  "devDependencies": {
-    "airtap": "0.0.7",
-    "buffer": "~5.1.0",
-    "standard": "^11.0.1",
-    "tape": "^4.0.0"
+  "standard": {
+    "ignore": [
+      "test/util/idb-shim.js"
+    ]
   },
   "dependencies": {
     "abstract-leveldown": "~5.0.0",
@@ -38,12 +33,28 @@
     "ltgt": "^2.1.2",
     "typedarray-to-buffer": "~3.1.5"
   },
-  "browser": {
-    "./util/immediate.js": "./util/immediate-browser.js"
+  "devDependencies": {
+    "airtap": "0.0.7",
+    "buffer": "~5.1.0",
+    "level-community": "~3.0.0",
+    "remark-cli": "^5.0.0",
+    "remark-git-contributors": "~0.2.0",
+    "standard": "^11.0.1",
+    "tape": "^4.0.0"
   },
-  "standard": {
-    "ignore": [
-      "test/util/idb-shim.js"
-    ]
-  }
+  "remarkConfig": {
+    "plugins": {
+      "remark-git-contributors": "level-community"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Level/level-js.git"
+  },
+  "keywords": [
+    "level",
+    "leveldb",
+    "indexeddb",
+    "abstract-leveldown"
+  ]
 }
