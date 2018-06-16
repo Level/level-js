@@ -110,7 +110,7 @@ All key types of IndexedDB Second Edition are supported. Depending on the enviro
 -   ArrayBuffer or a view thereof (typed arrays);
 -   Array, except cyclical, empty and sparse arrays. Elements must be valid types themselves.
 
-In addition you can use [`Buffer`][buffer] keys, giving `level-js` the same power as implementations like `leveldown` and `memdown`. When iterating binary keys, regardless of whether it was stored as a `Buffer`, `ArrayBuffer` or a view thereof, keys will return as a `Buffer`. This behavior can be disabled, in which case binary keys will always return as `ArrayBuffer`:
+In addition you can use [`Buffer`][buffer] keys, giving `level-js` the same power as implementations like `leveldown` and `memdown`. When iterating binary keys, regardless of whether they were stored as `Buffer`, `ArrayBuffer` or a view thereof, keys will return as a `Buffer`. This behavior can be disabled, in which case binary keys will always return as `ArrayBuffer`:
 
 ```js
 db.iterator({ keyAsBuffer: false })
