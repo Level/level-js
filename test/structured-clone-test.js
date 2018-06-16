@@ -42,6 +42,7 @@ var types = [
 
   // Don't allow failure as this is the primary type for binary (Buffer) data
   { type: 'Uint8Array', ctor: true, createValue: ta },
+  { name: 'Buffer', type: 'Uint8Array', ctor: true, value: ta(Buffer) },
 
   { type: 'Uint8ClampedArray', ctor: true, allowFailure: true, createValue: ta },
   { type: 'Int16Array', ctor: true, allowFailure: true, createValue: ta },
