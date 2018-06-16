@@ -39,13 +39,23 @@
     "buffer": "~5.1.0",
     "level-community": "~3.0.0",
     "remark-cli": "^5.0.0",
+    "remark-collapse": "~0.1.2",
     "remark-git-contributors": "~0.2.0",
+    "remark-toc": "~5.0.0",
     "standard": "^11.0.1",
     "tape": "^4.0.0"
   },
   "remarkConfig": {
     "plugins": {
-      "remark-git-contributors": "level-community"
+      "remark-git-contributors": "level-community",
+      "remark-toc": {
+        "maxDepth": 2,
+        "tight": true
+      },
+      "remark-collapse": {
+        "test": "Table of Contents",
+        "summary": "Click to expand"
+      }
     }
   },
   "repository": {

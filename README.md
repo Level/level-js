@@ -9,6 +9,21 @@
 [![npm](https://img.shields.io/npm/dm/level-js.svg)](https://www.npmjs.com/package/level-js)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
+## Table of Contents
+
+<details><summary>Click to expand</summary>
+
+-   [Background](#background)
+-   [Example](#example)
+-   [Browser Support](#browser-support)
+-   [Install](#install)
+-   [API](#api)
+-   [Running Tests](#running-tests)
+-   [Big Thanks](#big-thanks)
+-   [License](#license)
+
+</details>
+
 ## Background
 
 Here are the goals of `level-js`:
