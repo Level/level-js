@@ -47,7 +47,7 @@ module.exports = function (leveljs, test, testCommon) {
     })
   })
 
-  test('buffer value', function (t) {
+  test('put Buffer value, get Buffer value', function (t) {
     var level = leveljs(testCommon.location())
     level.open(function (err) {
       t.notOk(err, 'no error')
@@ -57,6 +57,88 @@ module.exports = function (leveljs, test, testCommon) {
           t.notOk(err, 'no error')
           t.ok(Buffer.isBuffer(value), 'is buffer')
           t.same(value, Buffer.from('00ff', 'hex'))
+          level.close(t.end.bind(t))
+        })
+      })
+    })
+  })
+
+  test('put Buffer value, get Uint8Array value', function (t) {
+    var level = leveljs(testCommon.location())
+    level.open(function (err) {
+      t.notOk(err, 'no error')
+      level.put('key', Buffer.from('00ff', 'hex'), function (err) {
+        t.notOk(err, 'no error')
+        level.get('key', { asBuffer: false }, function (err, value) {
+          t.notOk(err, 'no error')
+          t.notOk(Buffer.isBuffer(value), 'is not a buffer')
+          t.ok(value instanceof Uint8Array, 'is a Uint8Array')
+          t.same(Buffer.from(value), Buffer.from('00ff', 'hex'))
+          level.close(t.end.bind(t))
+        })
+      })
+    })
+  })
+
+  test('put Uint8Array value, get Buffer value', function (t) {
+    var level = leveljs(testCommon.location())
+    level.open(function (err) {
+      t.notOk(err, 'no error')
+      level.put('key', new Uint8Array(Buffer.from('00ff', 'hex').buffer), function (err) {
+        t.notOk(err, 'no error')
+        level.get('key', function (err, value) {
+          t.notOk(err, 'no error')
+          t.ok(Buffer.isBuffer(value), 'is buffer')
+          t.same(value, Buffer.from('00ff', 'hex'))
+          level.close(t.end.bind(t))
+        })
+      })
+    })
+  })
+
+  test('put Uint8Array value, get Uint8Array value', function (t) {
+    var level = leveljs(testCommon.location())
+    level.open(function (err) {
+      t.notOk(err, 'no error')
+      level.put('key', new Uint8Array(Buffer.from('00ff', 'hex').buffer), function (err) {
+        t.notOk(err, 'no error')
+        level.get('key', { asBuffer: false }, function (err, value) {
+          t.notOk(err, 'no error')
+          t.notOk(Buffer.isBuffer(value), 'is not a buffer')
+          t.ok(value instanceof Uint8Array, 'is a Uint8Array')
+          t.same(Buffer.from(value), Buffer.from('00ff', 'hex'))
+          level.close(t.end.bind(t))
+        })
+      })
+    })
+  })
+
+  test('put ArrayBuffer value, get Buffer value', function (t) {
+    var level = leveljs(testCommon.location())
+    level.open(function (err) {
+      t.notOk(err, 'no error')
+      level.put('key', Buffer.from('00ff', 'hex').buffer, function (err) {
+        t.notOk(err, 'no error')
+        level.get('key', function (err, value) {
+          t.notOk(err, 'no error')
+          t.ok(Buffer.isBuffer(value), 'is buffer')
+          t.same(value, Buffer.from('00ff', 'hex'))
+          level.close(t.end.bind(t))
+        })
+      })
+    })
+  })
+
+  test('put ArrayBuffer value, get ArrayBuffer value', function (t) {
+    var level = leveljs(testCommon.location())
+    level.open(function (err) {
+      t.notOk(err, 'no error')
+      level.put('key', Buffer.from('00ff', 'hex').buffer, function (err) {
+        t.notOk(err, 'no error')
+        level.get('key', { asBuffer: false }, function (err, value) {
+          t.notOk(err, 'no error')
+          t.ok(value instanceof ArrayBuffer, 'is a ArrayBuffer')
+          t.same(Buffer.from(value), Buffer.from('00ff', 'hex'))
           level.close(t.end.bind(t))
         })
       })
