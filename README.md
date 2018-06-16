@@ -1,8 +1,8 @@
 # level-js
 
-> An [`abstract-leveldown`](https://github.com/Level/abstract-leveldown) compliant store on top of [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API), which is in turn implemented on top of [LevelDB](https://github.com/google/leveldb) which brings this whole shebang full circle.
+> An [`abstract-leveldown`][abstract-leveldown] compliant store on top of [IndexedDB][indexeddb], which is in turn implemented on top of [LevelDB][leveldb] which brings this whole shebang full circle.
 
-[![level badge][level-badge]](https://github.com/level/awesome)
+[![level badge][level-badge]][awesome]
 [![npm](https://img.shields.io/npm/v/level-js.svg)](https://www.npmjs.com/package/level-js)
 [![npm next](https://img.shields.io/npm/v/level-js/next.svg)](https://www.npmjs.com/package/level-js)
 [![Travis](https://secure.travis-ci.org/Level/level-js.svg?branch=master)](http://travis-ci.org/Level/level-js)
@@ -30,14 +30,14 @@
 Here are the goals of `level-js`:
 
 -   Store large amounts of data in modern browsers
--   Pass the full `abstract-leveldown` test suite
--   Support [Buffer](https://nodejs.org/api/buffer.html) values (in all target environments)
--   Support all key types of IndexedDB Second Edition, including binary keys (depends on environment)
--   Support all value types of the structured clone algorithm (depends on environment) except for `null` and `undefined`
+-   Pass the full [`abstract-leveldown`][abstract-leveldown] test suite
+-   Support [`Buffer`][buffer] keys and values
+-   Support all key types of IndexedDB Second Edition
+-   Support all value types of the [structured clone algorithm][structured-clone-algorithm] except for `null` and `undefined`
 -   Be as fast as possible
--   Sync with [multilevel](https://github.com/juliangruber/multilevel) over either ASCII or binary transports.
+-   Sync with [multilevel](https://github.com/juliangruber/multilevel) over ASCII or binary transports.
 
-Being `abstract-leveldown` compliant means you can use many of the [Level modules](https://github.com/Level/awesome/) on top of this library. For some demos of it working, see @brycebaril's presentation [Path of the NodeBases Jedi](http://brycebaril.github.io/nodebase_jedi/#/vanilla).
+Being `abstract-leveldown` compliant means you can use many of the [Level modules][awesome] on top of this library. For some demos of it working, see @brycebaril's presentation [Path of the NodeBases Jedi](http://brycebaril.github.io/nodebase_jedi/#/vanilla).
 
 ## Example
 
