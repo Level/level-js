@@ -4,7 +4,6 @@
 
 [![level badge][level-badge]][awesome]
 [![npm](https://img.shields.io/npm/v/level-js.svg)](https://www.npmjs.com/package/level-js)
-[![npm next](https://img.shields.io/npm/v/level-js/next.svg)](https://www.npmjs.com/package/level-js)
 [![Travis](https://secure.travis-ci.org/Level/level-js.svg?branch=master)](http://travis-ci.org/Level/level-js)
 [![npm](https://img.shields.io/npm/dm/level-js.svg)](https://www.npmjs.com/package/level-js)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
@@ -37,7 +36,7 @@ Here are the goals of `level-js`:
 -   Be as fast as possible
 -   Sync with [multilevel](https://github.com/juliangruber/multilevel) over ASCII or binary transports.
 
-Being `abstract-leveldown` compliant means you can use many of the [Level modules][awesome] on top of this library. For some demos of it working, see @brycebaril's presentation [Path of the NodeBases Jedi](http://brycebaril.github.io/nodebase_jedi/#/vanilla).
+Being `abstract-leveldown` compliant means you can use many of the [Level modules][awesome] on top of this library. For some demos of it working, see [**@brycebaril**](https://github.com/brycebaril)'s presentation [Path of the NodeBases Jedi](http://brycebaril.github.io/nodebase_jedi/#/vanilla).
 
 ## Example
 
@@ -159,9 +158,10 @@ const value3 = value2.buffer
 
 ## Install
 
+With [npm](https://npmjs.org) do:
+
 ```bash
-npm install level-js       # Stable
-npm install level-js@next  # Bleeding edge
+npm install level-js
 ```
 
 Not to be confused with [leveljs](https://www.npmjs.com/package/leveljs).
