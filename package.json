@@ -28,7 +28,7 @@
     ]
   },
   "dependencies": {
-    "abstract-leveldown": "~5.0.0",
+    "abstract-leveldown": "github:Level/abstract-leveldown#isolate-snapshot-test",
     "immediate": "~3.2.3",
     "inherits": "^2.0.3",
     "ltgt": "^2.1.2",
