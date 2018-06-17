@@ -36,7 +36,7 @@ Here are the goals of `level-js`:
 -   Be as fast as possible
 -   Sync with [multilevel](https://github.com/juliangruber/multilevel) over ASCII or binary transports.
 
-Being `abstract-leveldown` compliant means you can use many of the [Level modules][awesome] on top of this library. For some demos of it working, see @brycebaril's presentation [Path of the NodeBases Jedi](http://brycebaril.github.io/nodebase_jedi/#/vanilla).
+Being `abstract-leveldown` compliant means you can use many of the [Level modules][awesome] on top of this library. For some demos of it working, see [**@brycebaril**](https://github.com/brycebaril)'s presentation [Path of the NodeBases Jedi](http://brycebaril.github.io/nodebase_jedi/#/vanilla).
 
 ## Example
 

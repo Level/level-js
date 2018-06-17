@@ -6,101 +6,105 @@
 
 ### Changed
 
-* Destroy with `location` and `prefix` only (#116) (@ralphtheninja)
-* Replace `util.inherits` with `inherits` module (8db16c1) (@ralphtheninja)
-* Change copyright years to "2012-present" (7017edd) (@ralphtheninja)
-* Simplify license description (#141) (@vweevers)
-* Update `package.json` description and keywords (#141) (@vweevers)
+-   Destroy with `location` and `prefix` only ([#116](https://github.com/Level/level-js/issues/116)) ([**@ralphtheninja**](https://github.com/ralphtheninja))
+-   Replace `util.inherits` with `inherits` module ([`8db16c1`](https://github.com/Level/level-js/commit/8db16c1)) ([**@ralphtheninja**](https://github.com/ralphtheninja))
+-   Change copyright years to "2012-present" ([`7017edd`](https://github.com/Level/level-js/commit/7017edd)) ([**@ralphtheninja**](https://github.com/ralphtheninja))
+-   Simplify license description ([#141](https://github.com/Level/level-js/issues/141)) ([**@vweevers**](https://github.com/vweevers))
+-   Update `package.json` description and keywords ([#141](https://github.com/Level/level-js/issues/141)) ([**@vweevers**](https://github.com/vweevers))
 
 ### Added
 
-* Add `CHANGELOG.md` (#107, #115) (@ralphtheninja, @vweevers)
-* Add `UPGRADING.md` (#143) (@vweevers)
-* Add `CONTRIBUTORS.md` (replaces `COLLABORATORS.md`) (#141) (@vweevers)
-* Add `standard` (#112) (@ralphtheninja)
-* Document constructor (#119) (@ralphtheninja)
-* Document type support (#125, #143) (@vweevers)
-* Add `remark` tooling (#141, #143, #147) (@vweevers)
-* Test default and custom prefix (#124) (@vweevers)
-* Test all key types of IndexedDB Second Edition (#130) (@vweevers)
-* Test illegal value types (#118) (@vweevers)
-* Test illegal and stringified key types (#139) (@vweevers)
-* Test `Buffer`, `ArrayBuffer` and `Uint8Array` values with `asBuffer` option (#146) (@vweevers)
+-   Add `CHANGELOG.md` ([#107](https://github.com/Level/level-js/issues/107), [#115](https://github.com/Level/level-js/issues/115)) ([**@ralphtheninja**](https://github.com/ralphtheninja), [**@vweevers**](https://github.com/vweevers))
+-   Add `UPGRADING.md` ([#143](https://github.com/Level/level-js/issues/143)) ([**@vweevers**](https://github.com/vweevers))
+-   Add `CONTRIBUTORS.md` (replaces `COLLABORATORS.md`) ([#141](https://github.com/Level/level-js/issues/141)) ([**@vweevers**](https://github.com/vweevers))
+-   Add `standard` ([#112](https://github.com/Level/level-js/issues/112)) ([**@ralphtheninja**](https://github.com/ralphtheninja))
+-   Document constructor ([#119](https://github.com/Level/level-js/issues/119)) ([**@ralphtheninja**](https://github.com/ralphtheninja))
+-   Document type support ([#125](https://github.com/Level/level-js/issues/125), [#143](https://github.com/Level/level-js/issues/143)) ([**@vweevers**](https://github.com/vweevers))
+-   Add `remark` tooling ([#141](https://github.com/Level/level-js/issues/141), [#143](https://github.com/Level/level-js/issues/143), [#147](https://github.com/Level/level-js/issues/147)) ([**@vweevers**](https://github.com/vweevers))
+-   Test default and custom prefix ([#124](https://github.com/Level/level-js/issues/124)) ([**@vweevers**](https://github.com/vweevers))
+-   Test all key types of IndexedDB Second Edition ([#130](https://github.com/Level/level-js/issues/130)) ([**@vweevers**](https://github.com/vweevers))
+-   Test illegal value types ([#118](https://github.com/Level/level-js/issues/118)) ([**@vweevers**](https://github.com/vweevers))
+-   Test illegal and stringified key types ([#139](https://github.com/Level/level-js/issues/139)) ([**@vweevers**](https://github.com/vweevers))
+-   Test `Buffer`, `ArrayBuffer` and `Uint8Array` values with `asBuffer` option ([#146](https://github.com/Level/level-js/issues/146)) ([**@vweevers**](https://github.com/vweevers))
 
 ### Fixed
 
-* Add original copyright owner (Max Ogden) (#141) (@vweevers)
-* Replace `level.js` in documentation to match npm name `level-js` (#121) (@ralphtheninja)
-* Force airtap's browserify to use latest `buffer@5` (#122) (@vweevers)
-* Don't stringify keys (except fallbacks, booleans and `NaN`) (#130) (@vweevers)
-* Fix conversion of `ArrayBuffer` cursor key to `Buffer` (#130) (@vweevers)
-* Catch IndexedDB key and value errors (#139) (@vweevers)
-* Use `setImmediate` with callback in `_close()` (#111) (@ralphtheninja)
-* Whitelist npm package files (#126) (@vweevers)
-* Avoid `instanceof Date` for cross-realm support (#129) (@vweevers)
-* Fix wrong release date for `3.0.0-rc1` (43a702b) (@ralphtheninja)
+-   Add original copyright owner (Max Ogden) ([#141](https://github.com/Level/level-js/issues/141)) ([**@vweevers**](https://github.com/vweevers))
+-   Replace `level.js` in documentation to match npm name `level-js` ([#121](https://github.com/Level/level-js/issues/121)) ([**@ralphtheninja**](https://github.com/ralphtheninja))
+-   Force airtap's browserify to use latest `buffer@5` ([#122](https://github.com/Level/level-js/issues/122)) ([**@vweevers**](https://github.com/vweevers))
+-   Don't stringify keys (except fallbacks, booleans and `NaN`) ([#130](https://github.com/Level/level-js/issues/130)) ([**@vweevers**](https://github.com/vweevers))
+-   Fix conversion of `ArrayBuffer` cursor key to `Buffer` ([#130](https://github.com/Level/level-js/issues/130)) ([**@vweevers**](https://github.com/vweevers))
+-   Catch IndexedDB key and value errors ([#139](https://github.com/Level/level-js/issues/139)) ([**@vweevers**](https://github.com/vweevers))
+-   Use `setImmediate` with callback in `_close()` ([#111](https://github.com/Level/level-js/issues/111)) ([**@ralphtheninja**](https://github.com/ralphtheninja))
+-   Whitelist npm package files ([#126](https://github.com/Level/level-js/issues/126)) ([**@vweevers**](https://github.com/vweevers))
+-   Avoid `instanceof Date` for cross-realm support ([#129](https://github.com/Level/level-js/issues/129)) ([**@vweevers**](https://github.com/vweevers))
+-   Fix wrong release date for `3.0.0-rc1` ([`43a702b`](https://github.com/Level/level-js/commit/43a702b)) ([**@ralphtheninja**](https://github.com/ralphtheninja))
 
 ### Removed
 
-* Remove `test/levelup-test.js` (#134) (@ralphtheninja)
-* Remove `levelup` from destroy tests (#136) (@ralphtheninja)
+-   Remove `test/levelup-test.js` ([#134](https://github.com/Level/level-js/issues/134)) ([**@ralphtheninja**](https://github.com/ralphtheninja))
+-   Remove `levelup` from destroy tests ([#136](https://github.com/Level/level-js/issues/136)) ([**@ralphtheninja**](https://github.com/ralphtheninja))
 
 ## [3.0.0-rc1] - 2018-05-26
 
 ### Changed
-* Upgrade `abstract-leveldown` from `0.12.0` to `5.0.0` (@vweevers)
-* Upgrade `typedarray-to-buffer` from `1.0.0` to `3.1.5` (@vweevers)
-* Upgrade `levelup` devDependency from `0.18.2` to `3.0.0` (@vweevers)
-* Upgrade `browserify` devDependency from `4.1.2` to `16.2.2` (@vweevers)
-* Switch license from BSD to MIT (@ralphtheninja)
-* Replace `IDBWrapper` with straight IndexedDB code (@vweevers)
-* Change default database prefix from `IDBWrapper-` to `level-js-` (@vweevers)
-* Implement abstract `#_serializeKey` with support of all IndexedDB Second Edition types including binary keys (as Buffers) (@vweevers)
-* Implement abstract `#_serializeValue` with support of all types of the structured clone algorithm except for `null` and `undefined` (@vweevers)
-* Use `immediate` module for consistent microtask behavior (@vweevers)
-* Replace `Buffer()` with `Buffer.from()` (@vweevers)
-* Rename `Iterator#iterator` to `#transaction` (@vweevers)
-* Replace `beefy` with `airtap --local` for local testing (@vweevers)
-* Homogenize README title, description and headers (@vweevers)
-* Make real `tape` tests out of `test-levelup.js` (@vweevers)
-* Restructure custom tests to follow abstract test suite format (@vweevers)
+
+-   Upgrade `abstract-leveldown` from `0.12.0` to `5.0.0` ([**@vweevers**](https://github.com/vweevers))
+-   Upgrade `typedarray-to-buffer` from `1.0.0` to `3.1.5` ([**@vweevers**](https://github.com/vweevers))
+-   Upgrade `levelup` devDependency from `0.18.2` to `3.0.0` ([**@vweevers**](https://github.com/vweevers))
+-   Upgrade `browserify` devDependency from `4.1.2` to `16.2.2` ([**@vweevers**](https://github.com/vweevers))
+-   Switch license from BSD to MIT ([**@ralphtheninja**](https://github.com/ralphtheninja))
+-   Replace `IDBWrapper` with straight IndexedDB code ([**@vweevers**](https://github.com/vweevers))
+-   Change default database prefix from `IDBWrapper-` to `level-js-` ([**@vweevers**](https://github.com/vweevers))
+-   Implement abstract `#_serializeKey` with support of all IndexedDB Second Edition types including binary keys (as Buffers) ([**@vweevers**](https://github.com/vweevers))
+-   Implement abstract `#_serializeValue` with support of all types of the structured clone algorithm except for `null` and `undefined` ([**@vweevers**](https://github.com/vweevers))
+-   Use `immediate` module for consistent microtask behavior ([**@vweevers**](https://github.com/vweevers))
+-   Replace `Buffer()` with `Buffer.from()` ([**@vweevers**](https://github.com/vweevers))
+-   Rename `Iterator#iterator` to `#transaction` ([**@vweevers**](https://github.com/vweevers))
+-   Replace `beefy` with `airtap --local` for local testing ([**@vweevers**](https://github.com/vweevers))
+-   Homogenize README title, description and headers ([**@vweevers**](https://github.com/vweevers))
+-   Make real `tape` tests out of `test-levelup.js` ([**@vweevers**](https://github.com/vweevers))
+-   Restructure custom tests to follow abstract test suite format ([**@vweevers**](https://github.com/vweevers))
 
 ### Added
-* Add continuous browser tests with `airtap` and Sauce Labs (@vweevers)
-* Add `prefix` and `version` options to constructor (@vweevers)
-* Detect binary key support and fallback to `String(buffer)` (@vweevers)
-* Detect array key support and fallback to `String(array)` (@vweevers)
-* Test all value types of the structured clone algorithm (@vweevers)
-* Catch `DataCloneError` if the environment does not support serializing the type of a key or value (@vweevers)
-* Include Promise polyfill for `levelup` integration tests (@vweevers)
-* Test that `Iterator` stringifies `Buffer.from()` argument (@vweevers)
-* Add README badges, new goals and a code example with `levelup` (@vweevers)
-* Add npm files to `.gitignore` (@vweevers)
+
+-   Add continuous browser tests with `airtap` and Sauce Labs ([**@vweevers**](https://github.com/vweevers))
+-   Add `prefix` and `version` options to constructor ([**@vweevers**](https://github.com/vweevers))
+-   Detect binary key support and fallback to `String(buffer)` ([**@vweevers**](https://github.com/vweevers))
+-   Detect array key support and fallback to `String(array)` ([**@vweevers**](https://github.com/vweevers))
+-   Test all value types of the structured clone algorithm ([**@vweevers**](https://github.com/vweevers))
+-   Catch `DataCloneError` if the environment does not support serializing the type of a key or value ([**@vweevers**](https://github.com/vweevers))
+-   Include Promise polyfill for `levelup` integration tests ([**@vweevers**](https://github.com/vweevers))
+-   Test that `Iterator` stringifies `Buffer.from()` argument ([**@vweevers**](https://github.com/vweevers))
+-   Add README badges, new goals and a code example with `levelup` ([**@vweevers**](https://github.com/vweevers))
+-   Add npm files to `.gitignore` ([**@vweevers**](https://github.com/vweevers))
 
 ### Fixed
-* Start `Iterator` cursor immediately and fill an in-memory cache to fulfill `abstract-leveldown` snapshot guarantees (@vweevers)
-* Stop advancing `Iterator` cursor when `options.limit` is reached (@vweevers)
-* Rename public `#iterator` to private `#_iterator` (@vweevers)
-* Fix `#_iterator({ limit: 0 })` to yield 0 entries (@vweevers)
-* Handle transaction errors in `Iterator` (@vweevers)
-* Fix constructor to call super (@vweevers)
-* Make one request at a time in a batch transaction, saving CPU time (@vweevers)
-* Properly close and destroy db's in custom tests (@vweevers)
-* Update README links (@vweevers)
+
+-   Start `Iterator` cursor immediately and fill an in-memory cache to fulfill `abstract-leveldown` snapshot guarantees ([**@vweevers**](https://github.com/vweevers))
+-   Stop advancing `Iterator` cursor when `options.limit` is reached ([**@vweevers**](https://github.com/vweevers))
+-   Rename public `#iterator` to private `#_iterator` ([**@vweevers**](https://github.com/vweevers))
+-   Fix `#_iterator({ limit: 0 })` to yield 0 entries ([**@vweevers**](https://github.com/vweevers))
+-   Handle transaction errors in `Iterator` ([**@vweevers**](https://github.com/vweevers))
+-   Fix constructor to call super ([**@vweevers**](https://github.com/vweevers))
+-   Make one request at a time in a batch transaction, saving CPU time ([**@vweevers**](https://github.com/vweevers))
+-   Properly close and destroy db's in custom tests ([**@vweevers**](https://github.com/vweevers))
+-   Update README links ([**@vweevers**](https://github.com/vweevers))
 
 ### Removed
-* Remove support of `ArrayBuffer` values in favor of `Buffer` (@vweevers)
-* Remove now unneeded `raw` option from `#_get()` and `#_iterator()` (@vweevers)
-* Run tests without `IndexedDBShim` (@vweevers)
-* Remove `Buffer` to `Uint8Array` conversion in `#_put()` and `#_batch()` (@vweevers)
-* Remove obsolete `#_approximateSize` (@vweevers)
-* Remove obsolete `#_isBuffer` (@vweevers)
-* Remove obsolete `testBuffer` from abstract tests (@vweevers)
-* Remove obsolete writestream test from `test-levelup.js` (@vweevers)
-* Rely on `abstract-leveldown` defaults in `Iterator` constructor (@vweevers)
-* Rely on `abstract-leveldown` callback defaults (@vweevers)
-* Remove testling from `package.json` (@vweevers)
-* Remove `level.js` logo (@vweevers)
+
+-   Remove support of `ArrayBuffer` values in favor of `Buffer` ([**@vweevers**](https://github.com/vweevers))
+-   Remove now unneeded `raw` option from `#_get()` and `#_iterator()` ([**@vweevers**](https://github.com/vweevers))
+-   Run tests without `IndexedDBShim` ([**@vweevers**](https://github.com/vweevers))
+-   Remove `Buffer` to `Uint8Array` conversion in `#_put()` and `#_batch()` ([**@vweevers**](https://github.com/vweevers))
+-   Remove obsolete `#_approximateSize` ([**@vweevers**](https://github.com/vweevers))
+-   Remove obsolete `#_isBuffer` ([**@vweevers**](https://github.com/vweevers))
+-   Remove obsolete `testBuffer` from abstract tests ([**@vweevers**](https://github.com/vweevers))
+-   Remove obsolete writestream test from `test-levelup.js` ([**@vweevers**](https://github.com/vweevers))
+-   Rely on `abstract-leveldown` defaults in `Iterator` constructor ([**@vweevers**](https://github.com/vweevers))
+-   Rely on `abstract-leveldown` callback defaults ([**@vweevers**](https://github.com/vweevers))
+-   Remove testling from `package.json` ([**@vweevers**](https://github.com/vweevers))
+-   Remove `level.js` logo ([**@vweevers**](https://github.com/vweevers))
 
 **Historical Note** Support of `ArrayBuffer` values was restored in `3.0.0`.
 
@@ -113,235 +117,300 @@
 ## [2.2.4] - 2016-05-09
 
 ### Changed
-* Use `toArrayBuffer()` only when present (@substack)
+
+-   Use `toArrayBuffer()` only when present ([**@substack**](https://github.com/substack))
 
 ## [2.2.3] - 2015-12-10
 
 ### Changed
-* Update `ltgt` to `^2.1.2` (@ryanramage)
+
+-   Update `ltgt` to `^2.1.2` ([**@ryanramage**](https://github.com/ryanramage))
 
 ## [2.2.2] - 2015-09-12
 
 ### Added
-* Add @nolanlawson to collaborators (@maxogden)
+
+-   Add [**@nolanlawson**](https://github.com/nolanlawson) to collaborators ([**@maxogden**](https://github.com/maxogden))
 
 ### Fixed
-* Fix iterator when start > end (@nolanlawson)
+
+-   Fix iterator when start > end ([**@nolanlawson**](https://github.com/nolanlawson))
 
 **Historical Note** This release introduced `this._keyRangeError`.
 
 ## [2.2.1] - 2015-07-05
 
 ### Changed
-* Update collaborators (@maxogden)
-* Roll back `abstract-leveldown` to `~0.12.0` (@maxogden)
+
+-   Update collaborators ([**@maxogden**](https://github.com/maxogden))
+-   Roll back `abstract-leveldown` to `~0.12.0` ([**@maxogden**](https://github.com/maxogden))
 
 ## [2.2.0] - 2015-07-03
 
 ### Added
-* Add `Collaborators` section to README (@maxogden)
+
+-   Add `Collaborators` section to README ([**@maxogden**](https://github.com/maxogden))
 
 ### Changed
-* Update syntax highlighting in README (@yoshuawuyts)
-* Update `idb-wrapper` to `^1.5.0` (@JamesKyburz)
-* Update `abstract-leveldown` to `^2.4.0` (@maxogden)
-* Update `tape` to `^4.0.0` (@maxogden)
-* Move `tape` to devDependencies (@maxogden)
-* Change license from BSD to BSD-2-Clause (@maxogden)
+
+-   Update syntax highlighting in README ([**@yoshuawuyts**](https://github.com/yoshuawuyts))
+-   Update `idb-wrapper` to `^1.5.0` ([**@JamesKyburz**](https://github.com/JamesKyburz))
+-   Update `abstract-leveldown` to `^2.4.0` ([**@maxogden**](https://github.com/maxogden))
+-   Update `tape` to `^4.0.0` ([**@maxogden**](https://github.com/maxogden))
+-   Move `tape` to devDependencies ([**@maxogden**](https://github.com/maxogden))
+-   Change license from BSD to BSD-2-Clause ([**@maxogden**](https://github.com/maxogden))
 
 ### Removed
-* Remove Testling badge (@maxogden)
+
+-   Remove Testling badge ([**@maxogden**](https://github.com/maxogden))
 
 ## [2.1.6] - 2014-06-15
 
 ### Fixed
-* Avoid using keyword in `cursor.continue()` (@nolanlawson)
+
+-   Avoid using keyword in `cursor.continue()` ([**@nolanlawson**](https://github.com/nolanlawson))
 
 ## [2.1.5] - 2014-05-29
 
 ### Changed
-* Use `ltgt` module to handle ranges (@dominictarr)
+
+-   Use `ltgt` module to handle ranges ([**@dominictarr**](https://github.com/dominictarr))
 
 ## [2.1.4] - 2014-05-13
 
 ### Changed
-* Update `browserify` to `^4.1.2` (@maxogden)
-* Move `browserify` to devDependencies (@maxogden)
+
+-   Update `browserify` to `^4.1.2` ([**@maxogden**](https://github.com/maxogden))
+-   Move `browserify` to devDependencies ([**@maxogden**](https://github.com/maxogden))
 
 ## [2.1.3] - 2014-04-09
 
 ### Added
-* Use `typedarray-to-buffer` to avoid copying to Buffer (@mafintosh)
+
+-   Use `typedarray-to-buffer` to avoid copying to Buffer ([**@mafintosh**](https://github.com/mafintosh))
 
 ## [2.1.2] - 2014-04-05
 
 ### Added
-* Add link to @brycebaril's presentation to README (@maxogden)
+
+-   Add link to [**@brycebaril**](https://github.com/brycebaril)'s presentation to README ([**@maxogden**](https://github.com/maxogden))
 
 ### Changed
-* Update browser configuration for Testling (@maxogden)
+
+-   Update browser configuration for Testling ([**@maxogden**](https://github.com/maxogden))
 
 ## [2.1.1] - 2014-03-12
 
 ### Changed
-* Update browser configuration for Testling (@maxogden)
-* Update `abstract-leveldown` to `~0.12.0` (@maxogden)
-* Update `levelup` to `~0.18.2` (@maxogden)
-* Make sure to store `Uint8Array` (@maxogden)
-* Test storing native JS types with raw = true (@maxogden)
+
+-   Update browser configuration for Testling ([**@maxogden**](https://github.com/maxogden))
+-   Update `abstract-leveldown` to `~0.12.0` ([**@maxogden**](https://github.com/maxogden))
+-   Update `levelup` to `~0.18.2` ([**@maxogden**](https://github.com/maxogden))
+-   Make sure to store `Uint8Array` ([**@maxogden**](https://github.com/maxogden))
+-   Test storing native JS types with raw = true ([**@maxogden**](https://github.com/maxogden))
 
 **Historical Note** This was not published to npm. There's also a gap between `2.1.1` and `2.0.0` that is inconsistent. The `options.raw` property was introduced in this release.
 
 ## [2.0.0] - 2014-03-09
 
 ### Changed
-* Update `browserify` to `~3.32.0` (@maxogden)
-* Update `tape` to `~2.10.2` (@maxogden)
-* Change default encoding of values to strings to more closely match `leveldown` (@maxogden)
+
+-   Update `browserify` to `~3.32.0` ([**@maxogden**](https://github.com/maxogden))
+-   Update `tape` to `~2.10.2` ([**@maxogden**](https://github.com/maxogden))
+-   Change default encoding of values to strings to more closely match `leveldown` ([**@maxogden**](https://github.com/maxogden))
 
 ### Fixed
-* Add missing `xtend` dependency (@maxogden)
+
+-   Add missing `xtend` dependency ([**@maxogden**](https://github.com/maxogden))
 
 **Historical Note** For some reason both `tape` and `browserify` were moved from devDependencies to dependencies. This release only had one commit.
 
 ## [1.2.0] - 2014-03-09
 
 ### Added
-* Add `IndexedDBShim` to tests (@maxogden)
-* Add `Level.destroy()` (@qs44)
-* Add prefix to pass `PouchDB` tests (@qs44)
-* Test `Level.destroy()` (@calvinmetcalf)
+
+-   Add `IndexedDBShim` to tests ([**@maxogden**](https://github.com/maxogden))
+-   Add `Level.destroy()` ([**@qs44**](https://github.com/qs44))
+-   Add prefix to pass `PouchDB` tests ([**@qs44**](https://github.com/qs44))
+-   Test `Level.destroy()` ([**@calvinmetcalf**](https://github.com/calvinmetcalf))
 
 ### Changed
-* Update browser configuration for Testling (@maxogden)
-* Pass through open options to idbwrapper (@maxogden)
+
+-   Update browser configuration for Testling ([**@maxogden**](https://github.com/maxogden))
+-   Pass through open options to idbwrapper ([**@maxogden**](https://github.com/maxogden))
 
 ### Fixed
-* Don't use `indexedDB.webkitGetDatabasesNames()` in tests (@maxogden)
+
+-   Don't use `indexedDB.webkitGetDatabasesNames()` in tests ([**@maxogden**](https://github.com/maxogden))
 
 ## [1.1.2] - 2014-02-02
 
 ### Removed
-* Remove global leaks (@mcollina)
+
+-   Remove global leaks ([**@mcollina**](https://github.com/mcollina))
 
 ## [1.1.1] - 2014-02-02
 
 ### Changed
-* Modify a copy of the batch array, not the original (@nrw)
+
+-   Modify a copy of the batch array, not the original ([**@nrw**](https://github.com/nrw))
 
 ### Fixed
-* Fix broken `package.json` (@maxogden)
-* Fix testling path (@maxogden)
+
+-   Fix broken `package.json` ([**@maxogden**](https://github.com/maxogden))
+-   Fix testling path ([**@maxogden**](https://github.com/maxogden))
 
 ## [1.1.0] - 2014-01-30
 
 ### Added
-* Add Testling (@maxogden)
-* Add npm badge (@maxogden)
-* Test ranges (@rvagg, @maxogden)
+
+-   Add Testling ([**@maxogden**](https://github.com/maxogden))
+-   Add npm badge ([**@maxogden**](https://github.com/maxogden))
+-   Test ranges ([**@rvagg**](https://github.com/rvagg), [**@maxogden**](https://github.com/maxogden))
 
 ### Changed
-* Update README (@maxogden)
-* Update `abstract-leveldown` to `~0.11.0` (@rvagg, @maxogden)
-* Update to work with `abstract-leveldown@0.11.2` (@shama, @maxogden)
-* Update iterator to pass all range tests (@shama, @maxogden)
+
+-   Update README ([**@maxogden**](https://github.com/maxogden))
+-   Update `abstract-leveldown` to `~0.11.0` ([**@rvagg**](https://github.com/rvagg), [**@maxogden**](https://github.com/maxogden))
+-   Update to work with `abstract-leveldown@0.11.2` ([**@shama**](https://github.com/shama), [**@maxogden**](https://github.com/maxogden))
+-   Update iterator to pass all range tests ([**@shama**](https://github.com/shama), [**@maxogden**](https://github.com/maxogden))
 
 ### Fixed
-* Fix incorrect version of `abstract-leveldown` (@maxogden)
-* Pass error to callback in `approximateSize()` (@mcollina)
+
+-   Fix incorrect version of `abstract-leveldown` ([**@maxogden**](https://github.com/maxogden))
+-   Pass error to callback in `approximateSize()` ([**@mcollina**](https://github.com/mcollina))
 
 ### Removed
-* Remove unnecessary factor in tests (@rvagg, @maxogden)
+
+-   Remove unnecessary factor in tests ([**@rvagg**](https://github.com/rvagg), [**@maxogden**](https://github.com/maxogden))
 
 **Historical Note** In this time period `bops` shows up and gets removed. Also, `._isBuffer()` uses `Buffer.isBuffer()` in favor of `is-buffer` module.
 
 ## [1.0.8] - 2013-08-12
 
 ### Changed
-* Move `levelup` to devDependencies (@juliangruber)
+
+-   Move `levelup` to devDependencies ([**@juliangruber**](https://github.com/juliangruber))
 
 ### Removed
-* Remove fn#bind from iterator (@juliangruber)
+
+-   Remove fn#bind from iterator ([**@juliangruber**](https://github.com/juliangruber))
 
 ## [1.0.7] - 2013-07-02
 
 ### Changed
-* Implement full batch support (@mcollina)
+
+-   Implement full batch support ([**@mcollina**](https://github.com/mcollina))
 
 ### Fixed
-* Fix git url to `abstract-leveldown` (@maxogden)
+
+-   Fix git url to `abstract-leveldown` ([**@maxogden**](https://github.com/maxogden))
 
 ## [1.0.6] - 2013-05-31
 
 ### Changed
-* Update `idb-wrapper` to `1.2.0` (@maxogden)
-* Switch `abstract-leveldown#master` (@maxogden)
-* Disable batch and chainable batch tests (@maxogden)
+
+-   Update `idb-wrapper` to `1.2.0` ([**@maxogden**](https://github.com/maxogden))
+-   Switch `abstract-leveldown#master` ([**@maxogden**](https://github.com/maxogden))
+-   Disable batch and chainable batch tests ([**@maxogden**](https://github.com/maxogden))
 
 ## [1.0.5] - 2013-05-30
 
 ### Changed
-* Use upstream `idb-wrapper` (@maxogden)
+
+-   Use upstream `idb-wrapper` ([**@maxogden**](https://github.com/maxogden))
 
 ## [1.0.4] - 2013-05-30
 
 ### Added
-* Test batch and chainable batch (@rvagg)
+
+-   Test batch and chainable batch ([**@rvagg**](https://github.com/rvagg))
 
 ### Changed
-* Update `abstract-leveldown` to `~0.7.1` (@rvagg)
-* Update `levelup` to `~0.9.0` (@brycebaril)
+
+-   Update `abstract-leveldown` to `~0.7.1` ([**@rvagg**](https://github.com/rvagg))
+-   Update `levelup` to `~0.9.0` ([**@brycebaril**](https://github.com/brycebaril))
 
 ## [1.0.3] - 2013-05-14
 
 ### Changed
-* Use `is-buffer` (@juliangruber)
+
+-   Use `is-buffer` ([**@juliangruber**](https://github.com/juliangruber))
 
 ## [1.0.2] - 2013-05-04
 
 ### Fixed
-* Don't convert `ArrayBuffer` and typed arrays to strings (@maxogden)
+
+-   Don't convert `ArrayBuffer` and typed arrays to strings ([**@maxogden**](https://github.com/maxogden))
 
 ## [1.0.1] - 2013-05-03
 
 ### Added
-* Add optional options argument to `.open()` (@rvagg)
-* Add `test-levelup.js` (@maxogden)
+
+-   Add optional options argument to `.open()` ([**@rvagg**](https://github.com/rvagg))
+-   Add `test-levelup.js` ([**@maxogden**](https://github.com/maxogden))
 
 ### Changed
-* Update README (@maxogden)
-* Use `npm test` instead of `npm start` (@shama)
-* Properly delete test dbs (@maxogden)
-* Inherit from `abstract-leveldown` (@rvagg)
+
+-   Update README ([**@maxogden**](https://github.com/maxogden))
+-   Use `npm test` instead of `npm start` ([**@shama**](https://github.com/shama))
+-   Properly delete test dbs ([**@maxogden**](https://github.com/maxogden))
+-   Inherit from `abstract-leveldown` ([**@rvagg**](https://github.com/rvagg))
 
 ## 1.0.0 - 2013-05-03
 
 :seedling: Initial release.
 
-[Unreleased]: https://github.com/level/level-js/compare/v3.0.0...HEAD
+[unreleased]: https://github.com/level/level-js/compare/v3.0.0...HEAD
+
 [3.0.0]: https://github.com/level/level-js/compare/v3.0.0-rc1...v3.0.0
+
 [3.0.0-rc1]: https://github.com/level/level-js/compare/v2.2.4...v3.0.0-rc1
+
 [2.2.4]: https://github.com/level/level-js/compare/v2.2.3...v2.2.4
+
 [2.2.3]: https://github.com/level/level-js/compare/v2.2.2...v2.2.3
+
 [2.2.2]: https://github.com/level/level-js/compare/v2.2.1...v2.2.2
+
 [2.2.1]: https://github.com/level/level-js/compare/v2.2.0...v2.2.1
+
 [2.2.0]: https://github.com/level/level-js/compare/v2.1.6...v2.2.0
+
 [2.1.6]: https://github.com/level/level-js/compare/v2.1.5...v2.1.6
+
 [2.1.5]: https://github.com/level/level-js/compare/v2.1.4...v2.1.5
+
 [2.1.4]: https://github.com/level/level-js/compare/v2.1.3...v2.1.4
+
 [2.1.3]: https://github.com/level/level-js/compare/v2.1.2...v2.1.3
+
 [2.1.2]: https://github.com/level/level-js/compare/v2.1.1...v2.1.2
+
 [2.1.1]: https://github.com/level/level-js/compare/v2.0.0...v2.1.1
+
 [2.0.0]: https://github.com/level/level-js/compare/v1.2.0...v2.0.0
+
 [1.2.0]: https://github.com/level/level-js/compare/v1.1.2...v1.2.0
+
 [1.1.2]: https://github.com/level/level-js/compare/v1.1.1...v1.1.2
+
 [1.1.1]: https://github.com/level/level-js/compare/v1.1.0...v1.1.1
+
 [1.1.0]: https://github.com/level/level-js/compare/v1.0.8...v1.1.0
+
 [1.0.8]: https://github.com/level/level-js/compare/v1.0.7...v1.0.8
+
 [1.0.7]: https://github.com/level/level-js/compare/v1.0.6...v1.0.7
+
 [1.0.6]: https://github.com/level/level-js/compare/v1.0.5...v1.0.6
+
 [1.0.5]: https://github.com/level/level-js/compare/v1.0.4...v1.0.5
+
 [1.0.4]: https://github.com/level/level-js/compare/v1.0.3...v1.0.4
+
 [1.0.3]: https://github.com/level/level-js/compare/v1.0.2...v1.0.3
+
 [1.0.2]: https://github.com/level/level-js/compare/v1.0.1...v1.0.2
+
 [1.0.1]: https://github.com/level/level-js/compare/v1.0.0...v1.0.1
