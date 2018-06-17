@@ -22,6 +22,7 @@ require('abstract-leveldown/abstract/chained-batch-test').all(leveljs, test, tes
 require('abstract-leveldown/abstract/close-test').close(leveljs, test, testCommon)
 require('abstract-leveldown/abstract/iterator-test').all(leveljs, test, testCommon)
 require('abstract-leveldown/abstract/iterator-range-test').all(leveljs, test, testCommon)
+require('abstract-leveldown/abstract/iterator-snapshot-test').all(leveljs, test, testCommon)
 
 // Additional tests for this implementation
 require('./custom-test')(leveljs, test, testCommon)
