@@ -2,6 +2,49 @@
 
 ## [Unreleased]
 
+## [3.0.0] - 2018-06-17
+
+### Changed
+
+* Destroy with `location` and `prefix` only (#116) (@ralphtheninja)
+* Replace `util.inherits` with `inherits` module (8db16c1) (@ralphtheninja)
+* Change copyright years to "2012-present" (7017edd) (@ralphtheninja)
+* Simplify license description (#141) (@vweevers)
+* Update `package.json` description and keywords (#141) (@vweevers)
+
+### Added
+
+* Add `CHANGELOG.md` (#107, #115) (@ralphtheninja, @vweevers)
+* Add `UPGRADING.md` (#143) (@vweevers)
+* Add `CONTRIBUTORS.md` (replaces `COLLABORATORS.md`) (#141) (@vweevers)
+* Add `standard` (#112) (@ralphtheninja)
+* Document constructor (#119) (@ralphtheninja)
+* Document type support (#125, #143) (@vweevers)
+* Add `remark` tooling (#141, #143, #147) (@vweevers)
+* Test default and custom prefix (#124) (@vweevers)
+* Test all key types of IndexedDB Second Edition (#130) (@vweevers)
+* Test illegal value types (#118) (@vweevers)
+* Test illegal and stringified key types (#139) (@vweevers)
+* Test `Buffer`, `ArrayBuffer` and `Uint8Array` values with `asBuffer` option (#146) (@vweevers)
+
+### Fixed
+
+* Add original copyright owner (Max Ogden) (#141) (@vweevers)
+* Replace `level.js` in documentation to match npm name `level-js` (#121) (@ralphtheninja)
+* Force airtap's browserify to use latest `buffer@5` (#122) (@vweevers)
+* Don't stringify keys (except fallbacks, booleans and `NaN`) (#130) (@vweevers)
+* Fix conversion of `ArrayBuffer` cursor key to `Buffer` (#130) (@vweevers)
+* Catch IndexedDB key and value errors (#139) (@vweevers)
+* Use `setImmediate` with callback in `_close()` (#111) (@ralphtheninja)
+* Whitelist npm package files (#126) (@vweevers)
+* Avoid `instanceof Date` for cross-realm support (#129) (@vweevers)
+* Fix wrong release date for `3.0.0-rc1` (43a702b) (@ralphtheninja)
+
+### Removed
+
+* Remove `test/levelup-test.js` (#134) (@ralphtheninja)
+* Remove `levelup` from destroy tests (#136) (@ralphtheninja)
+
 ## [3.0.0-rc1] - 2018-05-26
 
 ### Changed
@@ -58,6 +101,8 @@
 * Rely on `abstract-leveldown` callback defaults (@vweevers)
 * Remove testling from `package.json` (@vweevers)
 * Remove `level.js` logo (@vweevers)
+
+**Historical Note** Support of `ArrayBuffer` values was restored in `3.0.0`.
 
 **Historical Note** This release introduced the boolean `binaryKeys` and `arrayKeys` properties on the constructor, indicating whether the environment supports binary and array keys respectively. These properties may become private.
 
@@ -273,7 +318,8 @@
 
 :seedling: Initial release.
 
-[Unreleased]: https://github.com/level/level-js/compare/v3.0.0-rc1...HEAD
+[Unreleased]: https://github.com/level/level-js/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/level/level-js/compare/v3.0.0-rc1...v3.0.0
 [3.0.0-rc1]: https://github.com/level/level-js/compare/v2.2.4...v3.0.0-rc1
 [2.2.4]: https://github.com/level/level-js/compare/v2.2.3...v2.2.4
 [2.2.3]: https://github.com/level/level-js/compare/v2.2.2...v2.2.3
