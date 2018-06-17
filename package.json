@@ -40,7 +40,7 @@
     "level-community": "~3.0.0",
     "remark-cli": "^5.0.0",
     "remark-collapse": "~0.1.2",
-    "remark-git-contributors": "~0.2.0",
+    "remark-git-contributors": "~0.2.1",
     "remark-toc": "~5.0.0",
     "standard": "^11.0.1",
     "tape": "^4.0.0"
