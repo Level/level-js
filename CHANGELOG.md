@@ -59,10 +59,6 @@
 * Remove testling from `package.json` (@vweevers)
 * Remove `level.js` logo (@vweevers)
 
-**Historical Note** As a result of removing `IDBWrapper`, only modern browsers with a non-prefixed `window.indexedDB` are supported in this release. The current test matrix of `level-js` includes the latest versions of Chrome, Firefox, Safari, Edge and IE.
-
-**Historical Note** Though `level-js` now passes the full `abstract-leveldown` test suite, fulfulling the snapshot guarantee (reads not being affected by simultaneous writes) means a loss of backpressure as iterators have to keep reading from their IndexedDB cursors. Memory consumption might increase if an iterator is not consumed fast enough. A future release will have an option to favor backpressure over snapshot guarantees.
-
 **Historical Note** This release introduced the boolean `binaryKeys` and `arrayKeys` properties on the constructor, indicating whether the environment supports binary and array keys respectively. These properties may become private.
 
 **Historical Note** The vendored `IndexedDBShim` is still included, but likely to be removed.

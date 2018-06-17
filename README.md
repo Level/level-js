@@ -1,31 +1,47 @@
 # level-js
 
-> An [`abstract-leveldown`](https://github.com/Level/abstract-leveldown) compliant store on top of [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API), which is in turn implemented on top of [LevelDB](https://github.com/google/leveldb) which brings this whole shebang full circle.
+> An [`abstract-leveldown`][abstract-leveldown] compliant store on top of [IndexedDB][indexeddb], which is in turn implemented on top of [LevelDB][leveldb] which brings this whole shebang full circle.
 
-[![level badge][level-badge]](https://github.com/level/awesome)
+[![level badge][level-badge]][awesome]
 [![npm](https://img.shields.io/npm/v/level-js.svg)](https://www.npmjs.com/package/level-js)
 [![npm next](https://img.shields.io/npm/v/level-js/next.svg)](https://www.npmjs.com/package/level-js)
 [![Travis](https://secure.travis-ci.org/Level/level-js.svg?branch=master)](http://travis-ci.org/Level/level-js)
 [![npm](https://img.shields.io/npm/dm/level-js.svg)](https://www.npmjs.com/package/level-js)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
+## Table of Contents
+
+<details><summary>Click to expand</summary>
+
+-   [Background](#background)
+-   [Example](#example)
+-   [Browser Support](#browser-support)
+-   [Type Support](#type-support)
+-   [Install](#install)
+-   [API](#api)
+-   [Running Tests](#running-tests)
+-   [Big Thanks](#big-thanks)
+-   [License](#license)
+
+</details>
+
 ## Background
 
 Here are the goals of `level-js`:
 
 -   Store large amounts of data in modern browsers
--   Pass the full `abstract-leveldown` test suite
--   Support [Buffer](https://nodejs.org/api/buffer.html) values (in all target environments)
--   Support all key types of IndexedDB Second Edition, including binary keys (depends on environment)
--   Support all value types of the structured clone algorithm (depends on environment) except for `null` and `undefined`
+-   Pass the full [`abstract-leveldown`][abstract-leveldown] test suite
+-   Support [`Buffer`][buffer] keys and values
+-   Support all key types of IndexedDB Second Edition
+-   Support all value types of the [structured clone algorithm][structured-clone-algorithm] except for `null` and `undefined`
 -   Be as fast as possible
--   Sync with [multilevel](https://github.com/juliangruber/multilevel) over either ASCII or binary transports.
+-   Sync with [multilevel](https://github.com/juliangruber/multilevel) over ASCII or binary transports.
 
-Being `abstract-leveldown` compliant means you can use many of the [Level modules](https://github.com/Level/awesome/) on top of this library. For some demos of it working, see @brycebaril's presentation [Path of the NodeBases Jedi](http://brycebaril.github.io/nodebase_jedi/#/vanilla).
+Being `abstract-leveldown` compliant means you can use many of the [Level modules][awesome] on top of this library. For some demos of it working, see @brycebaril's presentation [Path of the NodeBases Jedi](http://brycebaril.github.io/nodebase_jedi/#/vanilla).
 
 ## Example
 
-**This assumes use of version `3.0.0-rc1`. The next release will have an upgrade guide. Until then, please see the [changelog](CHANGELOG.md).**
+**If you are upgrading:** please see [UPGRADING.md](UPGRADING.md).
 
 ```js
 var levelup = require('levelup')
@@ -43,9 +59,103 @@ db.put('hello', Buffer.from('world'), function (err) {
 })
 ```
 
+In ES6 browsers:
+
+```js
+const levelup = require('levelup')
+const leveljs = require('level-js')
+const db = levelup(leveljs('bigdata'))
+
+await db.put('hello', Buffer.from('world'))
+const value = await db.get('hello')
+```
+
 ## Browser Support
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/level-js.svg)](https://saucelabs.com/u/level-js)
+
+## Type Support
+
+Unlike [`leveldown`][leveldown], `level-js` does not stringify keys or values. This means that in addition to strings and Buffers you can store almost any JavaScript type without the need for [`encoding-down`][encoding-down].
+
+### Values
+
+All value types of the [structured clone algorithm][structured-clone-algorithm] are supported except for `null` and `undefined`. Depending on the environment, this includes:
+
+-   Number, including `NaN`, `Infinity` and `-Infinity`
+-   String, Boolean, Date, RegExp, Array, Object
+-   ArrayBuffer or a view thereof (typed arrays);
+-   Map, Set, Blob, File, FileList, ImageData (limited support).
+
+In addition `level-js` stores [`Buffer`][buffer] values without transformation. This works in all target environments because `Buffer` is a subclass of `Uint8Array`, meaning such values can be passed to `IndexedDB` as-is.
+
+When getting or iterating binary values, regardless of whether they were stored as a `Buffer`, `ArrayBuffer` or a view thereof, values will return as a `Buffer`. This behavior can be disabled, in which case `ArrayBuffer` returns as `ArrayBuffer`, typed arrays return as typed arrays and `Buffer` returns as `Uint8Array`:
+
+```js
+db.get('key', { asBuffer: false })
+db.iterator({ valueAsBuffer: false })
+```
+
+If the environment does not support a type, it will throw an error which `level-js` catches and passes to the callbacks of `put` or `batch`. For example, IE does not support typed array values. At the time of writing, Chrome is the only browser that supports all types listed above.
+
+Due to the special meaning that `null` and `undefined` have in `abstract-leveldown` iterators and Node.js streams, values of this type are converted to empty strings prior to storage.
+
+### Keys
+
+All key types of IndexedDB Second Edition are supported. Depending on the environment, this includes:
+
+-   Number, including `Infinity` and `-Infinity`, but not `NaN`
+-   Date, except invalid (`NaN`)
+-   String
+-   ArrayBuffer or a view thereof (typed arrays);
+-   Array, except cyclical, empty and sparse arrays. Elements must be valid types themselves.
+
+In addition you can use [`Buffer`][buffer] keys, giving `level-js` the same power as implementations like `leveldown` and `memdown`. When iterating binary keys, regardless of whether they were stored as `Buffer`, `ArrayBuffer` or a view thereof, keys will return as a `Buffer`. This behavior can be disabled, in which case binary keys will always return as `ArrayBuffer`:
+
+```js
+db.iterator({ keyAsBuffer: false })
+```
+
+Note that this behavior is slightly different from values due to the way that IndexedDB works. IndexedDB stores binary _values_ using the structured clone algorithm, which preserves views, but it stores binary _keys_ as an array of octets, so that it is able to compare and sort differently typed keys.
+
+If the environment does not support a type, it will throw an error which `level-js` catches and passes to the callbacks of `get`, `put`, `del`, `batch` or an iterator. Exceptions are:
+
+-   `null` and `undefined`: rejected early by `abstract-leveldown`
+-   Boolean and `NaN`: though invalid per the IndexedDB specification, they are converted to strings for `abstract-leveldown` compatibility;
+-   Binary and array keys: if not supported by the environment, `level-js` falls back to `String(key)`.
+
+### Normalization
+
+If you desire normalization for keys and values (e.g. to stringify numbers), wrap `level-js` with [`encoding-down`][encoding-down]. Alternatively install [`level-browserify`][level-browserify] which conveniently bundles [`levelup`][levelup], `level-js` and `encoding-down`. Such an approach is also recommended if you want to achieve universal (isomorphic) behavior or to smooth over type differences between browsers. For example, you could have [`leveldown`][leveldown] in a backend and `level-js` in the frontend.
+
+Another reason you might want to use `encoding-down` is that the structured clone algorithm, while rich in types, can be slower than `JSON.stringify`.
+
+### Buffer vs ArrayBuffer
+
+For interoperability it is recommended to use `Buffer` as your binary type. While we recognize that Node.js core modules are moving towards supporting `ArrayBuffer` and views thereof, `Buffer` remains the primary binary type in the Level ecosystem.
+
+That said: if you want to `put()` an `ArrayBuffer` you can! Just know that it will come back as a `Buffer` by default. If you want to `get()` or iterate stored `ArrayBuffer` data as an `ArrayBuffer`, you have a few options. Without `encoding-down`:
+
+```js
+const db = levelup(leveljs('mydb'))
+
+// Yields an ArrayBuffer, Buffer and ArrayBuffer
+const value1 = await db.get('key', { asBuffer: false })
+const value2 = await db.get('key')
+const value3 = value2.buffer
+```
+
+With `encoding-down` (or `level-browserify`) you can use the `id` encoding to selectively bypass encodings:
+
+```js
+const encode = require('encoding-down')
+const db = levelup(encode(leveljs('mydb'), { valueEncoding: 'binary' }))
+
+// Yields an ArrayBuffer, Buffer and ArrayBuffer
+const value1 = await db.get('key', { valueEncoding: 'id' })
+const value2 = await db.get('key')
+const value3 = value2.buffer
+```
 
 ## Install
 
@@ -95,3 +205,23 @@ Cross-browser Testing Platform and Open Source ♥ Provided by [Sauce Labs](http
 [MIT](./LICENSE.md) © 2012-present [Max Ogden](https://github.com/maxogden) and [Contributors](./CONTRIBUTORS.md).
 
 [level-badge]: http://leveldb.org/img/badge.svg
+
+[indexeddb]: https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API
+
+[leveldb]: https://github.com/google/leveldb
+
+[buffer]: https://nodejs.org/api/buffer.html
+
+[awesome]: https://github.com/Level/awesome
+
+[abstract-leveldown]: https://github.com/Level/abstract-leveldown
+
+[levelup]: https://github.com/Level/levelup
+
+[leveldown]: https://github.com/Level/leveldown
+
+[level-browserify]: https://github.com/Level/level-browserify
+
+[encoding-down]: https://github.com/Level/encoding-down
+
+[structured-clone-algorithm]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm
