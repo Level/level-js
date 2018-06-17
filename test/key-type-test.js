@@ -16,6 +16,7 @@ var types = [
   { type: 'ArrayBuffer', ctor: true, allowFailure: true, key: ta(Buffer).buffer },
   { type: 'Int8Array', ctor: true, allowFailure: true, createKey: ta, view: true },
   { type: 'Uint8Array', ctor: true, allowFailure: true, createKey: ta, view: true },
+  { name: 'Buffer', type: 'Uint8Array', ctor: true, allowFailure: true, key: ta(Buffer), view: true },
   { type: 'Uint8ClampedArray', ctor: true, allowFailure: true, createKey: ta, view: true },
   { type: 'Int16Array', ctor: true, allowFailure: true, createKey: ta, view: true },
   { type: 'Uint16Array', ctor: true, allowFailure: true, createKey: ta, view: true },
