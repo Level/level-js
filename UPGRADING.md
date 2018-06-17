@@ -52,7 +52,7 @@ All value types of the [structured clone algorithm][structured-clone-algorithm] 
 
 In `level-js`, iterators are powered by IndexedDB cursors. To fulfill [`abstract-leveldown`][abstract-leveldown] snapshot guarantees (reads not being affected by simultaneous writes) cursors are started immediately and continuously read from, filling an in-memory cache.
 
-Though `level-js` now passes the full [`abstract-leveldown`][abstract-leveldown] test suite, fulfulling the snapshot guarantee means a loss of backpressure. Memory consumption might increase if an iterator is not consumed fast enough. A future release will have an option to favor backpressure over snapshot guarantees.
+Though `level-js` now passes the full [`abstract-leveldown`][abstract-leveldown] test suite, fulfilling the snapshot guarantee means a loss of backpressure. Memory consumption might increase if an iterator is not consumed fast enough. A future release will have an option to favor backpressure over snapshot guarantees.
 
 ### Removed `raw` option
 
