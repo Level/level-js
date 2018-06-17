@@ -8,7 +8,7 @@
   "scripts": {
     "test": "standard && airtap --local --no-coverage test/index.js",
     "test-browsers": "standard && airtap --sauce-connect --loopback airtap.local --no-coverage test/index.js",
-    "remark": "remark README.md CONTRIBUTORS.md UPGRADING.md -o"
+    "remark": "remark README.md CONTRIBUTORS.md CHANGELOG.md UPGRADING.md -o"
   },
   "files": [
     "index.js",
@@ -41,22 +41,24 @@
     "remark-cli": "^5.0.0",
     "remark-collapse": "~0.1.2",
     "remark-git-contributors": "~0.2.1",
+    "remark-github": "~7.0.3",
     "remark-toc": "~5.0.0",
     "standard": "^11.0.1",
     "tape": "^4.0.0"
   },
   "remarkConfig": {
-    "plugins": {
-      "remark-git-contributors": "level-community",
-      "remark-toc": {
+    "plugins": [
+      ["remark-git-contributors", "level-community"],
+      ["remark-github"],
+      ["remark-toc", {
         "maxDepth": 2,
         "tight": true
-      },
-      "remark-collapse": {
+      }],
+      ["remark-collapse", {
         "test": "Table of Contents",
         "summary": "Click to expand"
-      }
-    }
+      }]
+    ]
   },
   "repository": {
     "type": "git",
