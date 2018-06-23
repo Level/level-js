@@ -20,6 +20,7 @@
 -   [API](#api)
 -   [Running Tests](#running-tests)
 -   [Big Thanks](#big-thanks)
+-   [Contributing](#contributing)
 -   [License](#license)
 
 </details>
@@ -199,6 +200,14 @@ It will print out a URL to open in a browser of choice.
 Cross-browser Testing Platform and Open Source ♥ Provided by [Sauce Labs](https://saucelabs.com).
 
 [![Sauce Labs logo](./sauce-labs.svg)](https://saucelabs.com)
+
+## Contributing
+
+`level-js` is an **OPEN Open Source Project**. This means that:
+
+> Individuals making significant and valuable contributions are given commit-access to the project to contribute as they see fit. This project is more like an open wiki than a standard guarded open source project.
+
+See the [contribution guide](https://github.com/Level/community/blob/master/CONTRIBUTING.md) for more details.
 
 ## License
 
