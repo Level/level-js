@@ -6,8 +6,9 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "test": "standard && airtap --local test/index.js",
-    "test-browsers": "standard && airtap --sauce-connect --loopback airtap.local test/index.js",
+    "test": "standard && airtap --local --coverage test/index.js",
+    "test-browsers": "standard && airtap --sauce-connect --loopback airtap.local --coverage test/index.js",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "remark": "remark README.md CONTRIBUTORS.md CHANGELOG.md UPGRADING.md -o"
   },
   "files": [
@@ -37,7 +38,9 @@
   "devDependencies": {
     "airtap": "0.1.0",
     "buffer": "~5.1.0",
+    "coveralls": "^3.0.2",
     "level-community": "~3.0.0",
+    "nyc": "^12.0.2",
     "remark-cli": "^5.0.0",
     "remark-collapse": "~0.1.2",
     "remark-git-contributors": "~0.2.1",
