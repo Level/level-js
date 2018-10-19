@@ -1,7 +1,7 @@
 # Contributors
 
 | Name                    | GitHub                                                 | Social                                                          |
-| ----------------------- | ------------------------------------------------------ | --------------------------------------------------------------- |
+| :---------------------- | :----------------------------------------------------- | :-------------------------------------------------------------- |
 | **Vincent Weevers**     | [**@vweevers**](https://github.com/vweevers)           | [**@vweevers@twitter**](https://twitter.com/vweevers)           |
 | **Max Ogden**           | [**@maxogden**](https://github.com/maxogden)           | [**@maxogden@twitter**](https://twitter.com/maxogden)           |
 | **Lars-Magnus Skog**    | [**@ralphtheninja**](https://github.com/ralphtheninja) | [**@ralph@social.weho.st**](https://social.weho.st/@ralph)      |

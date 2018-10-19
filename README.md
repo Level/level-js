@@ -13,16 +13,16 @@
 
 <details><summary>Click to expand</summary>
 
--   [Background](#background)
--   [Example](#example)
--   [Browser Support](#browser-support)
--   [Type Support](#type-support)
--   [Install](#install)
--   [API](#api)
--   [Running Tests](#running-tests)
--   [Big Thanks](#big-thanks)
--   [Contributing](#contributing)
--   [License](#license)
+- [Background](#background)
+- [Example](#example)
+- [Browser Support](#browser-support)
+- [Type Support](#type-support)
+- [Install](#install)
+- [API](#api)
+- [Running Tests](#running-tests)
+- [Big Thanks](#big-thanks)
+- [Contributing](#contributing)
+- [License](#license)
 
 </details>
 
@@ -30,13 +30,13 @@
 
 Here are the goals of `level-js`:
 
--   Store large amounts of data in modern browsers
--   Pass the full [`abstract-leveldown`][abstract-leveldown] test suite
--   Support [`Buffer`][buffer] keys and values
--   Support all key types of IndexedDB Second Edition
--   Support all value types of the [structured clone algorithm][structured-clone-algorithm] except for `null` and `undefined`
--   Be as fast as possible
--   Sync with [multilevel](https://github.com/juliangruber/multilevel) over ASCII or binary transports.
+- Store large amounts of data in modern browsers
+- Pass the full [`abstract-leveldown`][abstract-leveldown] test suite
+- Support [`Buffer`][buffer] keys and values
+- Support all key types of IndexedDB Second Edition
+- Support all value types of the [structured clone algorithm][structured-clone-algorithm] except for `null` and `undefined`
+- Be as fast as possible
+- Sync with [multilevel](https://github.com/juliangruber/multilevel) over ASCII or binary transports.
 
 Being `abstract-leveldown` compliant means you can use many of the [Level modules][awesome] on top of this library. For some demos of it working, see [**@brycebaril**](https://github.com/brycebaril)'s presentation [Path of the NodeBases Jedi](http://brycebaril.github.io/nodebase_jedi/#/vanilla).
 
@@ -83,10 +83,10 @@ Unlike [`leveldown`][leveldown], `level-js` does not stringify keys or values. T
 
 All value types of the [structured clone algorithm][structured-clone-algorithm] are supported except for `null` and `undefined`. Depending on the environment, this includes:
 
--   Number, including `NaN`, `Infinity` and `-Infinity`
--   String, Boolean, Date, RegExp, Array, Object
--   ArrayBuffer or a view thereof (typed arrays);
--   Map, Set, Blob, File, FileList, ImageData (limited support).
+- Number, including `NaN`, `Infinity` and `-Infinity`
+- String, Boolean, Date, RegExp, Array, Object
+- ArrayBuffer or a view thereof (typed arrays);
+- Map, Set, Blob, File, FileList, ImageData (limited support).
 
 In addition `level-js` stores [`Buffer`][buffer] values without transformation. This works in all target environments because `Buffer` is a subclass of `Uint8Array`, meaning such values can be passed to `IndexedDB` as-is.
 
@@ -105,11 +105,11 @@ Due to the special meaning that `null` and `undefined` have in `abstract-leveldo
 
 All key types of IndexedDB Second Edition are supported. Depending on the environment, this includes:
 
--   Number, including `Infinity` and `-Infinity`, but not `NaN`
--   Date, except invalid (`NaN`)
--   String
--   ArrayBuffer or a view thereof (typed arrays);
--   Array, except cyclical, empty and sparse arrays. Elements must be valid types themselves.
+- Number, including `Infinity` and `-Infinity`, but not `NaN`
+- Date, except invalid (`NaN`)
+- String
+- ArrayBuffer or a view thereof (typed arrays);
+- Array, except cyclical, empty and sparse arrays. Elements must be valid types themselves.
 
 In addition you can use [`Buffer`][buffer] keys, giving `level-js` the same power as implementations like `leveldown` and `memdown`. When iterating binary keys, regardless of whether they were stored as `Buffer`, `ArrayBuffer` or a view thereof, keys will return as a `Buffer`. This behavior can be disabled, in which case binary keys will always return as `ArrayBuffer`:
 
@@ -121,9 +121,9 @@ Note that this behavior is slightly different from values due to the way that In
 
 If the environment does not support a type, it will throw an error which `level-js` catches and passes to the callbacks of `get`, `put`, `del`, `batch` or an iterator. Exceptions are:
 
--   `null` and `undefined`: rejected early by `abstract-leveldown`
--   Boolean and `NaN`: though invalid per the IndexedDB specification, they are converted to strings for `abstract-leveldown` compatibility;
--   Binary and array keys: if not supported by the environment, `level-js` falls back to `String(key)`.
+- `null` and `undefined`: rejected early by `abstract-leveldown`
+- Boolean and `NaN`: though invalid per the IndexedDB specification, they are converted to strings for `abstract-leveldown` compatibility;
+- Binary and array keys: if not supported by the environment, `level-js` falls back to `String(key)`.
 
 ### Normalization
 
@@ -180,8 +180,8 @@ Returns a new `leveljs` instance. `location` is the string name of the [`IDBData
 
 The optional `options` argument may contain:
 
--   `prefix` _(string, default: `'level-js-'`)_: Prefix for `IDBDatabase` name.
--   `version` _(string | number, default: `1`)_: The version to open the database with.
+- `prefix` _(string, default: `'level-js-'`)_: Prefix for `IDBDatabase` name.
+- `version` _(string | number, default: `1`)_: The version to open the database with.
 
 See [`IDBFactory#open`](https://developer.mozilla.org/en-US/docs/Web/API/IDBFactory/open) for more details.
 
