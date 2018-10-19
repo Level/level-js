@@ -6,10 +6,10 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "test": "standard && airtap --local --coverage test/index.js",
+    "test": "standard && hallmark && airtap --local --coverage test/index.js",
     "test-browsers": "standard && airtap --sauce-connect --loopback airtap.local --coverage test/index.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "remark": "remark README.md CONTRIBUTORS.md CHANGELOG.md UPGRADING.md -o"
+    "hallmark": "hallmark --fix"
   },
   "files": [
     "index.js",
@@ -39,40 +39,14 @@
     "airtap": "0.1.0",
     "buffer": "~5.1.0",
     "coveralls": "^3.0.2",
+    "hallmark": "0.0.2",
     "level-community": "~3.0.0",
     "nyc": "^12.0.2",
-    "remark-cli": "^5.0.0",
-    "remark-collapse": "~0.1.2",
-    "remark-git-contributors": "~0.2.1",
-    "remark-github": "~7.0.3",
-    "remark-toc": "~5.0.0",
     "standard": "^11.0.1",
     "tape": "^4.0.0"
   },
-  "remarkConfig": {
-    "plugins": [
-      [
-        "remark-git-contributors",
-        "level-community"
-      ],
-      [
-        "remark-github"
-      ],
-      [
-        "remark-toc",
-        {
-          "maxDepth": 2,
-          "tight": true
-        }
-      ],
-      [
-        "remark-collapse",
-        {
-          "test": "Table of Contents",
-          "summary": "Click to expand"
-        }
-      ]
-    ]
+  "hallmark": {
+    "community": "level-community"
   },
   "repository": {
     "type": "git",
