@@ -200,7 +200,7 @@ It will print out a URL to open in a browser of choice.
 
 Cross-browser Testing Platform and Open Source ♥ Provided by [Sauce Labs](https://saucelabs.com).
 
-[![Sauce Labs logo](./sauce-labs.svg)](https://saucelabs.com)
+[![Sauce Labs logo](./sauce-labs.svg)](https://saucelabs.com) [![Greenkeeper badge](https://badges.greenkeeper.io/Level/level-js.svg)](https://greenkeeper.io/)
 
 ## Contributing
 
