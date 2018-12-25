@@ -18,9 +18,8 @@ var illegalTypes = [
 // These are only tested if the environment supports array keys.
 // Cyclical arrays are not tested because our #_serializeKey goes into a loop.
 var illegalArrays = [
-  // This type gets rejected by abstract-leveldown. As for why the error says
-  // "empty String" rather than "empty Array", see Level/abstract-leveldown#230.
-  { name: 'empty Array', key: [], message: 'key cannot be an empty String' },
+  // This type gets rejected by abstract-leveldown (and is also illegal in IDB).
+  { name: 'empty Array', key: [], message: 'key cannot be an empty Array' },
 
   // These contain a valid element to ensure we don't hit an empty key assertion.
   { name: 'Array w/ null', key: ['a', null], error: 'DataError' },
