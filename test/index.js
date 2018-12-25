@@ -4,24 +4,30 @@
 // require('./util/idb-shim.js')()
 
 var test = require('tape')
+var uuid = require('uuid/v4')
+var suite = require('abstract-leveldown/test')
 var leveljs = require('..')
-var testCommon = require('./util/test-common')
 
 // Test feature detection
 require('./support-test')(leveljs, test)
 
+var testCommon = suite.common({
+  test: test,
+  factory: function (opts) {
+    return leveljs(uuid(), opts)
+  },
+
+  // Unsupported features
+  createIfMissing: false,
+  errorIfExists: false,
+  seek: false,
+
+  // Support of buffer keys depends on environment
+  bufferKeys: leveljs.binaryKeys
+})
+
 // Test abstract-leveldown compliance
-require('abstract-leveldown/abstract/leveldown-test').args(leveljs, test, testCommon)
-require('abstract-leveldown/abstract/open-test').open(leveljs, test, testCommon)
-require('abstract-leveldown/abstract/put-test').all(leveljs, test, testCommon)
-require('abstract-leveldown/abstract/del-test').all(leveljs, test, testCommon)
-require('abstract-leveldown/abstract/get-test').all(leveljs, test, testCommon)
-require('abstract-leveldown/abstract/put-get-del-test').all(leveljs, test, testCommon)
-require('abstract-leveldown/abstract/batch-test').all(leveljs, test, testCommon)
-require('abstract-leveldown/abstract/chained-batch-test').all(leveljs, test, testCommon)
-require('abstract-leveldown/abstract/close-test').close(leveljs, test, testCommon)
-require('abstract-leveldown/abstract/iterator-test').all(leveljs, test, testCommon)
-require('abstract-leveldown/abstract/iterator-range-test').all(leveljs, test, testCommon)
+suite(testCommon)
 
 // Additional tests for this implementation
 require('./custom-test')(leveljs, test, testCommon)
