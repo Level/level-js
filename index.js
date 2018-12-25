@@ -155,7 +155,7 @@ Level.prototype._serializeKey = function (key) {
 }
 
 Level.prototype._serializeValue = function (value) {
-  return value == null ? '' : value
+  return value
 }
 
 Level.prototype._iterator = function (options) {
