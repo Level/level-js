@@ -64,7 +64,7 @@ Iterator.prototype.createKeyRange = function (options) {
 
 Iterator.prototype.createIterator = function (location, keyRange, reverse) {
   var self = this
-  var transaction = this.db.transaction([location], 'readonly')
+  var transaction = this.db.db.transaction([location], 'readonly')
   var store = transaction.objectStore(location)
   var req = store.openCursor(keyRange, reverse ? 'prev' : 'next')
 
