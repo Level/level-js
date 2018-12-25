@@ -15,9 +15,14 @@ var DEFAULT_PREFIX = 'level-js-'
 
 function Level (location, opts) {
   if (!(this instanceof Level)) return new Level(location, opts)
-  AbstractLevelDOWN.call(this, location)
+  AbstractLevelDOWN.call(this)
   opts = opts || {}
 
+  if (typeof location !== 'string') {
+    throw new Error('constructor requires a location string argument')
+  }
+
+  this.location = location
   this.prefix = opts.prefix || DEFAULT_PREFIX
   this.version = parseInt(opts.version || 1, 10)
 }
