@@ -29,7 +29,7 @@
     ]
   },
   "dependencies": {
-    "abstract-leveldown": "~5.0.0",
+    "abstract-leveldown": "~6.0.0",
     "immediate": "~3.2.3",
     "inherits": "^2.0.3",
     "ltgt": "^2.1.2",
