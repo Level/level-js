@@ -145,10 +145,6 @@ Level.prototype._serializeKey = function (key) {
     return Level.binaryKeys ? key : key.toString()
   } else if (Array.isArray(key)) {
     return Level.arrayKeys ? key.map(this._serializeKey, this) : String(key)
-  } else if (typeof key === 'boolean' || (typeof key === 'number' && isNaN(key))) {
-    // These types are invalid per the IndexedDB spec and ideally we'd treat
-    // them that way, but they're valid per the current abstract test suite.
-    return String(key)
   } else {
     return key
   }

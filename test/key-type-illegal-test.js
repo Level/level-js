@@ -13,6 +13,9 @@ var illegalTypes = [
   { name: 'DOMNode', key: global.document, error: 'DataError' },
   { name: 'Boolean(true)', key: new Boolean(true), error: 'DataError' }, // eslint-disable-line
   { name: 'Boolean(false)', key: new Boolean(false), error: 'DataError' }, // eslint-disable-line
+  { name: 'true', key: true, error: 'DataError' },
+  { name: 'false', key: false, error: 'DataError' },
+  { name: 'NaN', key: NaN, error: 'DataError' }
 ]
 
 // These are only tested if the environment supports array keys.

@@ -122,7 +122,6 @@ Note that this behavior is slightly different from values due to the way that In
 If the environment does not support a type, it will throw an error which `level-js` catches and passes to the callbacks of `get`, `put`, `del`, `batch` or an iterator. Exceptions are:
 
 - `null` and `undefined`: rejected early by `abstract-leveldown`
-- Boolean and `NaN`: though invalid per the IndexedDB specification, they are converted to strings for `abstract-leveldown` compatibility;
 - Binary and array keys: if not supported by the environment, `level-js` falls back to `String(key)`.
 
 ### Normalization
