@@ -51,6 +51,12 @@ Iterator.prototype.createKeyRange = function (options) {
   var lowerOpen = ltgt.lowerBoundExclusive(options)
   var upperOpen = ltgt.upperBoundExclusive(options)
 
+  // Temporary workaround for Level/abstract-leveldown#318
+  if ((Buffer.isBuffer(lower) || typeof lower === 'string') && lower.length === 0) lower = undefined
+  if ((Buffer.isBuffer(upper) || typeof upper === 'string') && upper.length === 0) upper = undefined
+  if ((Buffer.isBuffer(lowerOpen) || typeof lowerOpen === 'string') && lowerOpen.length === 0) lowerOpen = undefined
+  if ((Buffer.isBuffer(upperOpen) || typeof upperOpen === 'string') && upperOpen.length === 0) upperOpen = undefined
+
   if (lower !== undefined && upper !== undefined) {
     return IDBKeyRange.bound(lower, upper, lowerOpen, upperOpen)
   } else if (lower !== undefined) {
@@ -64,7 +70,7 @@ Iterator.prototype.createKeyRange = function (options) {
 
 Iterator.prototype.createIterator = function (location, keyRange, reverse) {
   var self = this
-  var transaction = this.db.transaction([location], 'readonly')
+  var transaction = this.db.db.transaction([location], 'readonly')
   var store = transaction.objectStore(location)
   var req = store.openCursor(keyRange, reverse ? 'prev' : 'next')
 

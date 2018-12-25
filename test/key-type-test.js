@@ -2,6 +2,7 @@
 
 'use strict'
 
+var concat = require('level-concat-iterator')
 var ta = require('./util/create-typed-array')
 var support = require('../util/support')
 
@@ -31,7 +32,7 @@ module.exports = function (leveljs, test, testCommon) {
 
   test('setUp', testCommon.setUp)
   test('open', function (t) {
-    db = leveljs(testCommon.location())
+    db = testCommon.factory()
     db.open(t.end.bind(t))
   })
 
@@ -71,7 +72,7 @@ module.exports = function (leveljs, test, testCommon) {
 
           var it = db.iterator({ keyAsBuffer: false, valueAsBuffer: false })
 
-          testCommon.collectEntries(it, function (err, entries) {
+          concat(it, function (err, entries) {
             t.ifError(err, 'no iterator error')
             t.is(entries.length, 1, '1 entry')
 

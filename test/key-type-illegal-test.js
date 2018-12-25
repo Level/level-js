@@ -13,14 +13,16 @@ var illegalTypes = [
   { name: 'DOMNode', key: global.document, error: 'DataError' },
   { name: 'Boolean(true)', key: new Boolean(true), error: 'DataError' }, // eslint-disable-line
   { name: 'Boolean(false)', key: new Boolean(false), error: 'DataError' }, // eslint-disable-line
+  { name: 'true', key: true, error: 'DataError' },
+  { name: 'false', key: false, error: 'DataError' },
+  { name: 'NaN', key: NaN, error: 'DataError' }
 ]
 
 // These are only tested if the environment supports array keys.
 // Cyclical arrays are not tested because our #_serializeKey goes into a loop.
 var illegalArrays = [
-  // This type gets rejected by abstract-leveldown. As for why the error says
-  // "empty String" rather than "empty Array", see Level/abstract-leveldown#230.
-  { name: 'empty Array', key: [], message: 'key cannot be an empty String' },
+  // This type gets rejected by abstract-leveldown (and is also illegal in IDB).
+  { name: 'empty Array', key: [], message: 'key cannot be an empty Array' },
 
   // These contain a valid element to ensure we don't hit an empty key assertion.
   { name: 'Array w/ null', key: ['a', null], error: 'DataError' },
@@ -41,7 +43,7 @@ module.exports = function (leveljs, test, testCommon) {
     var db
 
     test('open', function (t) {
-      db = leveljs(testCommon.location())
+      db = testCommon.factory()
       db.open(t.end.bind(t))
     })
 

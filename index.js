@@ -15,9 +15,14 @@ var DEFAULT_PREFIX = 'level-js-'
 
 function Level (location, opts) {
   if (!(this instanceof Level)) return new Level(location, opts)
-  AbstractLevelDOWN.call(this, location)
+  AbstractLevelDOWN.call(this)
   opts = opts || {}
 
+  if (typeof location !== 'string') {
+    throw new Error('constructor requires a location string argument')
+  }
+
+  this.location = location
   this.prefix = opts.prefix || DEFAULT_PREFIX
   this.version = parseInt(opts.version || 1, 10)
 }
@@ -140,21 +145,17 @@ Level.prototype._serializeKey = function (key) {
     return Level.binaryKeys ? key : key.toString()
   } else if (Array.isArray(key)) {
     return Level.arrayKeys ? key.map(this._serializeKey, this) : String(key)
-  } else if (typeof key === 'boolean' || (typeof key === 'number' && isNaN(key))) {
-    // These types are invalid per the IndexedDB spec and ideally we'd treat
-    // them that way, but they're valid per the current abstract test suite.
-    return String(key)
   } else {
     return key
   }
 }
 
 Level.prototype._serializeValue = function (value) {
-  return value == null ? '' : value
+  return value
 }
 
 Level.prototype._iterator = function (options) {
-  return new Iterator(this.db, this.location, options)
+  return new Iterator(this, this.location, options)
 }
 
 Level.prototype._batch = function (operations, options, callback) {
