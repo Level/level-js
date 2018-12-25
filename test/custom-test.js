@@ -1,5 +1,7 @@
 'use strict'
 
+var concat = require('level-concat-iterator')
+
 module.exports = function (leveljs, test, testCommon) {
   test('setUp', testCommon.setUp)
 
@@ -198,7 +200,7 @@ module.exports = function (leveljs, test, testCommon) {
         t.ifError(err, 'no batch error')
 
         var it = db.iterator({ valueAsBuffer: false })
-        testCommon.collectEntries(it, function (err, entries) {
+        concat(it, function (err, entries) {
           t.ifError(err, 'no iterator error')
 
           t.same(entries, [
@@ -227,7 +229,7 @@ module.exports = function (leveljs, test, testCommon) {
       db.put(1, 2, function (err) {
         t.ifError(err, 'no put error')
 
-        testCommon.collectEntries(db.iterator(), function (err, entries) {
+        concat(db.iterator(), function (err, entries) {
           t.ifError(err, 'no iterator error')
           t.same(entries[0].key, Buffer.from('1'), 'key is stringified')
           t.same(entries[0].value, Buffer.from('2'), 'value is stringified')

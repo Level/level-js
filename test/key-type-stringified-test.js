@@ -1,5 +1,7 @@
 'use strict'
 
+var concat = require('level-concat-iterator')
+
 // Key types that are not supported by IndexedDB Second Edition, but get
 // stringified for abstract-leveldown compatibility.
 var stringifiedTypes = [
@@ -23,7 +25,7 @@ module.exports = function (leveljs, test, testCommon) {
 
           var it = db.iterator({ keyAsBuffer: false, valueAsBuffer: false })
 
-          testCommon.collectEntries(it, function (err, entries) {
+          concat(it, function (err, entries) {
             t.ifError(err, 'no iterator error')
             t.same(entries, [{ key: item.output, value: 'value' }])
 
