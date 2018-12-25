@@ -4,10 +4,9 @@ module.exports = function (leveljs, test, testCommon) {
   test('setUp', testCommon.setUp)
 
   test('default prefix', function (t) {
-    var location = testCommon.location()
-    var db = leveljs(location)
+    var db = testCommon.factory()
 
-    t.is(db.location, location, 'instance has location property')
+    t.ok(db.location, 'instance has location property')
     t.is(db.prefix, 'level-js-', 'instance has prefix property')
 
     db.open(function (err) {
@@ -17,19 +16,18 @@ module.exports = function (leveljs, test, testCommon) {
       var databaseName = idb.name
       var storeNames = idb.objectStoreNames
 
-      t.is(databaseName, 'level-js-' + location, 'database name is prefixed')
+      t.is(databaseName, 'level-js-' + db.location, 'database name is prefixed')
       t.is(storeNames.length, 1, 'created 1 object store')
-      t.is(storeNames.item(0), location, 'object store name equals location')
+      t.is(storeNames.item(0), db.location, 'object store name equals location')
 
       db.close(t.end.bind(t))
     })
   })
 
   test('custom prefix', function (t) {
-    var location = testCommon.location()
-    var db = leveljs(location, { prefix: 'custom-' })
+    var db = testCommon.factory({ prefix: 'custom-' })
 
-    t.is(db.location, location, 'instance has location property')
+    t.ok(db.location, 'instance has location property')
     t.is(db.prefix, 'custom-', 'instance has prefix property')
 
     db.open(function (err) {
@@ -39,16 +37,16 @@ module.exports = function (leveljs, test, testCommon) {
       var databaseName = idb.name
       var storeNames = idb.objectStoreNames
 
-      t.is(databaseName, 'custom-' + location, 'database name is prefixed')
+      t.is(databaseName, 'custom-' + db.location, 'database name is prefixed')
       t.is(storeNames.length, 1, 'created 1 object store')
-      t.is(storeNames.item(0), location, 'object store name equals location')
+      t.is(storeNames.item(0), db.location, 'object store name equals location')
 
       db.close(t.end.bind(t))
     })
   })
 
   test('put Buffer value, get Buffer value', function (t) {
-    var level = leveljs(testCommon.location())
+    var level = testCommon.factory()
     level.open(function (err) {
       t.notOk(err, 'no error')
       level.put('key', Buffer.from('00ff', 'hex'), function (err) {
@@ -64,7 +62,7 @@ module.exports = function (leveljs, test, testCommon) {
   })
 
   test('put Buffer value, get Uint8Array value', function (t) {
-    var level = leveljs(testCommon.location())
+    var level = testCommon.factory()
     level.open(function (err) {
       t.notOk(err, 'no error')
       level.put('key', Buffer.from('00ff', 'hex'), function (err) {
@@ -81,7 +79,7 @@ module.exports = function (leveljs, test, testCommon) {
   })
 
   test('put Uint8Array value, get Buffer value', function (t) {
-    var level = leveljs(testCommon.location())
+    var level = testCommon.factory()
     level.open(function (err) {
       t.notOk(err, 'no error')
       level.put('key', new Uint8Array(Buffer.from('00ff', 'hex').buffer), function (err) {
@@ -97,7 +95,7 @@ module.exports = function (leveljs, test, testCommon) {
   })
 
   test('put Uint8Array value, get Uint8Array value', function (t) {
-    var level = leveljs(testCommon.location())
+    var level = testCommon.factory()
     level.open(function (err) {
       t.notOk(err, 'no error')
       level.put('key', new Uint8Array(Buffer.from('00ff', 'hex').buffer), function (err) {
@@ -114,7 +112,7 @@ module.exports = function (leveljs, test, testCommon) {
   })
 
   test('put ArrayBuffer value, get Buffer value', function (t) {
-    var level = leveljs(testCommon.location())
+    var level = testCommon.factory()
     level.open(function (err) {
       t.notOk(err, 'no error')
       level.put('key', Buffer.from('00ff', 'hex').buffer, function (err) {
@@ -130,7 +128,7 @@ module.exports = function (leveljs, test, testCommon) {
   })
 
   test('put ArrayBuffer value, get ArrayBuffer value', function (t) {
-    var level = leveljs(testCommon.location())
+    var level = testCommon.factory()
     level.open(function (err) {
       t.notOk(err, 'no error')
       level.put('key', Buffer.from('00ff', 'hex').buffer, function (err) {
@@ -149,7 +147,7 @@ module.exports = function (leveljs, test, testCommon) {
   // prevented by process.browser checks (Level/abstract-leveldown#121).
   // This test is adapted from memdown.
   leveljs.binaryKeys && test('buffer keys', function (t) {
-    var db = leveljs(testCommon.location())
+    var db = testCommon.factory()
 
     db.open(function (err) {
       t.ifError(err, 'no open error')
@@ -188,7 +186,7 @@ module.exports = function (leveljs, test, testCommon) {
   // This should be covered by abstract-leveldown tests, but that's
   // prevented by process.browser checks (Level/abstract-leveldown#121).
   leveljs.binaryKeys && test('iterator yields buffer keys', function (t) {
-    var db = leveljs(testCommon.location())
+    var db = testCommon.factory()
 
     db.open(function (err) {
       t.ifError(err, 'no open error')
@@ -221,7 +219,7 @@ module.exports = function (leveljs, test, testCommon) {
   test('iterator stringifies buffer input', function (t) {
     t.plan(6)
 
-    var db = leveljs(testCommon.location())
+    var db = testCommon.factory()
 
     db.open(function (err) {
       t.ifError(err, 'no open error')
@@ -246,8 +244,8 @@ module.exports = function (leveljs, test, testCommon) {
   // then create it again, then try and destroy it again. these avoid doing that
 
   test('test .destroy', function (t) {
-    var location = testCommon.location()
-    var db = leveljs(location)
+    var db = testCommon.factory()
+    var location = db.location
     db.open(function (err) {
       t.notOk(err, 'no error')
       db.put('key', 'value', function (err) {
@@ -275,9 +273,10 @@ module.exports = function (leveljs, test, testCommon) {
   })
 
   test('test .destroy and custom prefix', function (t) {
-    var location = testCommon.location()
     var prefix = 'custom-'
-    var db = leveljs(location, { prefix: prefix })
+    var db = testCommon.factory({ prefix: prefix })
+    var location = db.location
+
     db.open(function (err) {
       t.notOk(err, 'no error')
       db.put('key', 'value', function (err) {

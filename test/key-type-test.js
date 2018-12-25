@@ -31,7 +31,7 @@ module.exports = function (leveljs, test, testCommon) {
 
   test('setUp', testCommon.setUp)
   test('open', function (t) {
-    db = leveljs(testCommon.location())
+    db = testCommon.factory()
     db.open(t.end.bind(t))
   })
 

@@ -13,7 +13,7 @@ module.exports = function (leveljs, test, testCommon) {
 
   stringifiedTypes.forEach(function (item) {
     test('stringified key type: ' + item.name, function (t) {
-      var db = leveljs(testCommon.location())
+      var db = testCommon.factory()
 
       db.open(function (err) {
         t.ifError(err, 'no open error')
