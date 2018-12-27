@@ -130,6 +130,44 @@ If you desire normalization for keys and values (e.g. to stringify numbers), wra
 
 Another reason you might want to use `encoding-down` is that the structured clone algorithm, while rich in types, can be slower than `JSON.stringify`.
 
+### Sort Order
+
+Unless `level-js` is wrapped with [`encoding-down`][encoding-down], IndexedDB will sort your keys in the following order:
+
+1. number (numeric)
+2. date (numeric, by epoch offset)
+3. binary (bitwise)
+4. string (lexicographic)
+5. array (componentwise).
+
+You can take advantage of this fact with `levelup` streams. For example, if your keys are dates, you can select everything greater than a specific date (let's be happy and ignore timezones for a moment):
+
+```js
+const db = levelup(leveljs('time-db'))
+
+db.createReadStream({ gt: new Date('2019-01-01') })
+  .pipe(..)
+```
+
+Or if your keys are arrays, you can do things like:
+
+```js
+const db = levelup(leveljs('books-db'))
+
+await db.put(['Roald Dahl', 'Charlie and the Chocolate Factory'], {})
+await db.put(['Roald Dahl', 'Fantastic Mr Fox'], {})
+
+// Select all books by Roald Dahl
+db.createReadStream({ gt: ['Roald Dahl'], lt: ['Roald Dahl', '\xff'] })
+  .pipe(..)
+```
+
+To achieve this on other `abstract-leveldown` implementations, wrap them with [`encoding-down`][encoding-down] and [`charwise`][charwise] (or similar).
+
+#### Known Browser Issues
+
+IE11 and Edge yield incorrect results for `{ gte: '' }` if the database contains any key types other than strings.
+
 ### Buffer vs ArrayBuffer
 
 For interoperability it is recommended to use `Buffer` as your binary type. While we recognize that Node.js core modules are moving towards supporting `ArrayBuffer` and views thereof, `Buffer` remains the primary binary type in the Level ecosystem.
@@ -224,6 +262,8 @@ See the [contribution guide](https://github.com/Level/community/blob/master/CONT
 [awesome]: https://github.com/Level/awesome
 
 [abstract-leveldown]: https://github.com/Level/abstract-leveldown
+
+[charwise]: https://github.com/dominictarr/charwise
 
 [levelup]: https://github.com/Level/levelup
 
