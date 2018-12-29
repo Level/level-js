@@ -14,10 +14,3 @@ browsers:
   - name: ie
     version: latest
     platform: Windows 10
-
-# Force browserify to use latest buffer@5.
-# Ideally we'd use latest browserify to achieve that,
-# but airtap currently depends on browserify@13.
-browserify:
-  - require: "buffer/"
-    expose: "buffer"
