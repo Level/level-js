@@ -36,8 +36,7 @@
     "typedarray-to-buffer": "~3.1.5"
   },
   "devDependencies": {
-    "airtap": "0.1.0",
-    "buffer": "~5.2.1",
+    "airtap": "^2.0.0",
     "coveralls": "^3.0.2",
     "hallmark": "0.1.0",
     "level-community": "~3.0.0",
