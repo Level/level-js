@@ -1,10 +1,13 @@
 # Changelog
 
+If you are upgrading, please see [the upgrade guide](UPGRADING.md).
+
 ## Table of Contents
 
 <details><summary>Click to expand</summary>
 
 - [Unreleased](#unreleased)
+- [4.0.0 - 2018-12-30](#400---2018-12-30)
 - [3.0.0 - 2018-06-17](#300---2018-06-17)
 - [3.0.0-rc1 - 2018-05-26](#300-rc1---2018-05-26)
 - [2.2.4 - 2016-05-09](#224---2016-05-09)
@@ -36,6 +39,33 @@
 </details>
 
 ## [Unreleased]
+
+## [4.0.0] - 2018-12-30
+
+### Changed
+
+- Upgrade `abstract-leveldown` from `~5.0.0` to `~6.0.1` ([#155](https://github.com/Level/level-js/issues/155), [#157](https://github.com/Level/level-js/issues/157)) ([**@vweevers**](https://github.com/vweevers))
+- Don't serialize boolean or `NaN` keys, have IDB reject them ([#155](https://github.com/Level/level-js/issues/155)) ([**@vweevers**](https://github.com/vweevers))
+- Update test of `key cannot be an empty Array` error ([#155](https://github.com/Level/level-js/issues/155)) ([**@vweevers**](https://github.com/vweevers))
+- Change `iterator.db` to reference `level-js` instance, not IDB ([#155](https://github.com/Level/level-js/issues/155)) ([**@vweevers**](https://github.com/vweevers))
+- Handle `location` in constructor, as it was removed from `abstract-leveldown` ([#155](https://github.com/Level/level-js/issues/155)) ([**@vweevers**](https://github.com/vweevers))
+- Use `level-concat-iterator` and `testCommon.factory()` in custom tests ([#155](https://github.com/Level/level-js/issues/155)) ([**@vweevers**](https://github.com/vweevers))
+- Invoke abstract tests from single function ([#155](https://github.com/Level/level-js/issues/155)) ([**@vweevers**](https://github.com/vweevers))
+- Upgrade `airtap` devDependency from `0.0.7` to `^2.0.0` ([`2b71337`](https://github.com/Level/level-js/commit/2b71337), [#161](https://github.com/Level/level-js/issues/161)) ([**@ralphtheninja**](https://github.com/ralphtheninja), [**@vweevers**](https://github.com/vweevers))
+- Upgrade `standard` devDependency from `^11.0.1` to `^12.0.1` ([#153](https://github.com/Level/level-js/issues/153)) ([**@vweevers**](https://github.com/vweevers), [**@ralphtheninja**](https://github.com/ralphtheninja))
+- Replace `remark-cli` devDependency with `hallmark` ([#151](https://github.com/Level/level-js/issues/151), [#153](https://github.com/Level/level-js/issues/153)) ([**@vweevers**](https://github.com/vweevers))
+
+### Added
+
+- Test and document native sort order ([#157](https://github.com/Level/level-js/issues/157)) ([**@vweevers**](https://github.com/vweevers))
+- Add iPhone and Android `latest` to test matrix ([#162](https://github.com/Level/level-js/issues/162)) ([**@vweevers**](https://github.com/vweevers))
+- Add `nyc` and `coveralls` devDependencies ([#150](https://github.com/Level/level-js/issues/150), [#153](https://github.com/Level/level-js/issues/153)) ([`eb1aead`](https://github.com/Level/level-js/commit/eb1aead)) ([**@ralphtheninja**](https://github.com/ralphtheninja), [**@vweevers**](https://github.com/vweevers))
+- Add Contributing section to README ([`c94a9a4`](https://github.com/Level/level-js/commit/c94a9a4)) ([**@ralphtheninja**](https://github.com/ralphtheninja))
+
+### Removed
+
+- Remove now irrelevant serialization of nullish values ([#155](https://github.com/Level/level-js/issues/155)) ([**@vweevers**](https://github.com/vweevers))
+- Remove unused `IndexedDBShim` from tests ([#162](https://github.com/Level/level-js/issues/162)) ([**@vweevers**](https://github.com/vweevers))
 
 ## [3.0.0] - 2018-06-17
 
@@ -396,7 +426,9 @@
 
 :seedling: Initial release.
 
-[unreleased]: https://github.com/level/level-js/compare/v3.0.0...HEAD
+[unreleased]: https://github.com/level/level-js/compare/v4.0.0...HEAD
+
+[4.0.0]: https://github.com/level/level-js/compare/v3.0.0...v4.0.0
 
 [3.0.0]: https://github.com/level/level-js/compare/v3.0.0-rc1...v3.0.0
 
