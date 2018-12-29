@@ -14,3 +14,7 @@ browsers:
   - name: ie
     version: latest
     platform: Windows 10
+  - name: iphone
+    version: latest
+  - name: android
+    version: latest
