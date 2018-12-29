@@ -23,11 +23,6 @@
   "browser": {
     "./util/immediate.js": "./util/immediate-browser.js"
   },
-  "standard": {
-    "ignore": [
-      "test/util/idb-shim.js"
-    ]
-  },
   "dependencies": {
     "abstract-leveldown": "~6.0.1",
     "immediate": "~3.2.3",
