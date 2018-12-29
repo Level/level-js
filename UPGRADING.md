@@ -30,7 +30,7 @@ Previously, for compliance with `abstract-leveldown` tests that have since been 
 
 ### Added mobile browser support
 
-iPhone and Android `latest` are now officially supported. At the time of writing that's iPhone 12.0 and Android 7.0 (note that's Chrome for Android, not the old stock browser). Older versions (iPhone 10+ and Android 6+) did pass our tests but are not included in the test matrix going forward. Feel free to open an issue if you need/want these versions to be supported.
+iPhone and Android `latest` are now officially supported. At the time of writing that's iPhone 12.0 and Android 7.1 (note that's Chrome for Android, not the old stock browser). Older versions (iPhone 10+ and Android 6+) did pass our tests but are not included in the test matrix going forward. Feel free to open an issue if you need/want these versions to be supported.
 
 ### The value of `iterator#db` has changed
 
