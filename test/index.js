@@ -1,8 +1,5 @@
 'use strict'
 
-// Load IndexedDBShim
-// require('./util/idb-shim.js')()
-
 var test = require('tape')
 var uuid = require('uuid/v4')
 var suite = require('abstract-leveldown/test')
