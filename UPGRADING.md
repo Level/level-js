@@ -2,7 +2,41 @@
 
 This document describes breaking changes and how to upgrade. For a complete list of changes including minor and patch releases, please refer to the [changelog][changelog].
 
-## V3
+## 4.0.0
+
+This is an upgrade to `abstract-leveldown@6` which solves long-standing issues around serialization and type support.
+
+### Range options are now serialized
+
+Previously, range options like `lt` were passed through as-is by `abstract-leveldown`, unlike keys. For `level-js` it means that Buffers and arrays, if not supported by the environment (e.g. Microsoft Edge), will be stringified.
+
+### The rules for range options have been relaxed
+
+Because `null`, `undefined`, zero-length strings and zero-length buffers are significant types in encodings like `bytewise` and `charwise`, they became valid as range options in `abstract-leveldown`. This means `db.iterator({ gt: undefined })` is not the same as `db.iterator({})`.
+
+In the case of `level-js`, when used by itself, the aforementioned change means that `db.iterator({ gt: undefined })` will throw an error as `undefined` is not a valid IndexedDB key type. On the other hand `db.iterator({ gt: '' })` is valid and thus now supported. For details on sort order (which is richer than in `leveldown`) please see [the readme](README.MD#sort-order).
+
+### Nullish values are rejected
+
+In addition to rejecting `null` and `undefined` as _keys_, `abstract-leveldown` now also rejects these types as _values_, due to preexisting significance in streams and iterators.
+
+### Zero-length array keys are rejected
+
+Though this was already the case (both in IndexedDB and `abstract-leveldown`), `abstract-leveldown` has replaced the behavior with an explicit `Array.isArray()` check and a new error message.
+
+### Boolean and `NaN` keys (as well as range options) are rejected
+
+Previously, for compliance with `abstract-leveldown` tests that have since been removed, they were stringified. As of `level-js@4` they are rejected (by IndexedDB).
+
+### Added mobile browser support
+
+iPhone and Android `latest` are now officially supported. At the time of writing that's iPhone 12.0 and Android 7.1 (note that's Chrome for Android, not the old stock browser). Older versions (iPhone 10+ and Android 6+) did pass our tests but are not included in the test matrix going forward. Feel free to open an issue if you need/want these versions to be supported.
+
+### The value of `iterator#db` has changed
+
+Though this was undocumented and only for internal use, the `db` property on an iterator pointed to an `IDBDatabase`. To comply with `abstract-leveldown` the `db` property now points to the `level-js` instance that created that iterator.
+
+## 3.0.0
 
 This release brings `level-js` up to par with latest [`levelup`][levelup] (v2), [`abstract-leveldown`][abstract-leveldown] (v5) and IndexedDB Second Edition. It targets modern `browserify` preferring [`Buffer`][buffer] over `ArrayBuffer`. Lastly, [`IDBWrapper`][idbwrapper] has been replaced with straight IndexedDB code.
 
