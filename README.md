@@ -249,7 +249,7 @@ See the [contribution guide](https://github.com/Level/community/blob/master/CONT
 
 ## License
 
-[MIT](./LICENSE.md) © 2012-present [Max Ogden](https://github.com/maxogden) and [Contributors](./CONTRIBUTORS.md).
+[MIT](LICENSE.md) © 2012-present [Max Ogden](https://github.com/maxogden) and [Contributors](CONTRIBUTORS.md).
 
 [level-badge]: http://leveldb.org/img/badge.svg
 
