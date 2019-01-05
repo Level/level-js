@@ -48,6 +48,7 @@
     "type": "git",
     "url": "https://github.com/Level/level-js.git"
   },
+  "homepage": "https://github.com/Level/level-js",
   "keywords": [
     "level",
     "leveldb",
