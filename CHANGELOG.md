@@ -38,7 +38,7 @@ If you are upgrading, please see [the upgrade guide](UPGRADING.md).
 
 </details>
 
-## [Unreleased]
+## [Unreleased][unreleased]
 
 ## [4.0.0] - 2018-12-30
 
