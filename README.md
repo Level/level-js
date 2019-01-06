@@ -24,6 +24,7 @@
 - [Running Tests](#running-tests)
 - [Big Thanks](#big-thanks)
 - [Contributing](#contributing)
+- [Donate](#donate)
 - [License](#license)
 
 </details>
