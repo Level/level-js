@@ -102,8 +102,6 @@ db.iterator({ valueAsBuffer: false })
 
 If the environment does not support a type, it will throw an error which `level-js` catches and passes to the callbacks of `put` or `batch`. For example, IE does not support typed array values. At the time of writing, Chrome is the only browser that supports all types listed above.
 
-Due to the special meaning that `null` and `undefined` have in `abstract-leveldown` iterators and Node.js streams, values of this type are converted to empty strings prior to storage.
-
 ### Keys
 
 All key types of IndexedDB Second Edition are supported. Depending on the environment, this includes:
