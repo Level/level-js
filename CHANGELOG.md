@@ -7,6 +7,7 @@ If you are upgrading, please see [the upgrade guide](UPGRADING.md).
 <details><summary>Click to expand</summary>
 
 - [Unreleased](#unreleased)
+- [4.0.1 - 2019-03-31](#401---2019-03-31)
 - [4.0.0 - 2018-12-30](#400---2018-12-30)
 - [3.0.0 - 2018-06-17](#300---2018-06-17)
 - [3.0.0-rc1 - 2018-05-26](#300-rc1---2018-05-26)
@@ -39,6 +40,16 @@ If you are upgrading, please see [the upgrade guide](UPGRADING.md).
 </details>
 
 ## [Unreleased][unreleased]
+
+## [4.0.1] - 2019-03-31
+
+### Changed
+
+- Apply common project tweaks ([#164](https://github.com/Level/level-js/issues/164), [#165](https://github.com/Level/level-js/issues/165)) ([**@vweevers**](https://github.com/vweevers))
+
+### Removed
+
+- Remove outdated sentence about nullish values from README ([#166](https://github.com/Level/level-js/issues/166)) ([**@vweevers**](https://github.com/vweevers))
 
 ## [4.0.0] - 2018-12-30
 
@@ -426,7 +437,9 @@ If you are upgrading, please see [the upgrade guide](UPGRADING.md).
 
 :seedling: Initial release.
 
-[unreleased]: https://github.com/level/level-js/compare/v4.0.0...HEAD
+[unreleased]: https://github.com/level/level-js/compare/v4.0.1...HEAD
+
+[4.0.1]: https://github.com/level/level-js/compare/v4.0.0...v4.0.1
 
 [4.0.0]: https://github.com/level/level-js/compare/v3.0.0...v4.0.0
 
