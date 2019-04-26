@@ -127,7 +127,7 @@ If the environment does not support a type, it will throw an error which `level-
 
 ### Normalization
 
-If you desire normalization for keys and values (e.g. to stringify numbers), wrap `level-js` with [`encoding-down`][encoding-down]. Alternatively install [`level-browserify`][level-browserify] which conveniently bundles [`levelup`][levelup], `level-js` and `encoding-down`. Such an approach is also recommended if you want to achieve universal (isomorphic) behavior or to smooth over type differences between browsers. For example, you could have [`leveldown`][leveldown] in a backend and `level-js` in the frontend.
+If you desire normalization for keys and values (e.g. to stringify numbers), wrap `level-js` with [`encoding-down`][encoding-down]. Alternatively install [`level`][level] which conveniently bundles [`levelup`][levelup], `level-js` and `encoding-down`. Such an approach is also recommended if you want to achieve universal (isomorphic) behavior or to smooth over type differences between browsers. For example, you could have [`leveldown`][leveldown] in a backend and `level-js` in the frontend. The `level` package does exactly that.
 
 Another reason you might want to use `encoding-down` is that the structured clone algorithm, while rich in types, can be slower than `JSON.stringify`.
 
@@ -184,7 +184,7 @@ const value2 = await db.get('key')
 const value3 = value2.buffer
 ```
 
-With `encoding-down` (or `level-browserify`) you can use the `id` encoding to selectively bypass encodings:
+With `encoding-down` (or `level`) you can use the `id` encoding to selectively bypass encodings:
 
 ```js
 const encode = require('encoding-down')
@@ -282,7 +282,7 @@ To sustain [`Level`](https://github.com/Level) and its activities, become a back
 
 [leveldown]: https://github.com/Level/leveldown
 
-[level-browserify]: https://github.com/Level/level-browserify
+[level]: https://github.com/Level/level
 
 [encoding-down]: https://github.com/Level/encoding-down
 
