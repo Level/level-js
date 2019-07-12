@@ -166,7 +166,7 @@ function humanRange (options) {
   var a = []
 
   ;['gt', 'gte', 'lt', 'lte'].forEach(function (opt) {
-    if (options.hasOwnProperty(opt)) {
+    if (opt in options) {
       var target = options[opt]
 
       if (typeof target === 'string' || Array.isArray(target)) {
