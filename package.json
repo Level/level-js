@@ -40,7 +40,7 @@
     "level-community": "^3.0.0",
     "level-concat-iterator": "^2.0.0",
     "nyc": "^14.0.0",
-    "standard": "^13.0.1",
+    "standard": "^14.0.0",
     "tape": "^4.0.0",
     "uuid": "^3.3.2"
   },
