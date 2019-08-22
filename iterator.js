@@ -89,7 +89,7 @@ Iterator.prototype.onItem = function (cursor) {
   this._cache.push(cursor.key, cursor.value)
 
   if (this._limit <= 0 || ++this._count < this._limit) {
-    cursor['continue']()
+    cursor.continue()
   }
 
   this.maybeNext()
