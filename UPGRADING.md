@@ -14,7 +14,7 @@ Previously, range options like `lt` were passed through as-is by `abstract-level
 
 Because `null`, `undefined`, zero-length strings and zero-length buffers are significant types in encodings like `bytewise` and `charwise`, they became valid as range options in `abstract-leveldown`. This means `db.iterator({ gt: undefined })` is not the same as `db.iterator({})`.
 
-In the case of `level-js`, when used by itself, the aforementioned change means that `db.iterator({ gt: undefined })` will throw an error as `undefined` is not a valid IndexedDB key type. On the other hand `db.iterator({ gt: '' })` is valid and thus now supported. For details on sort order (which is richer than in `leveldown`) please see [the readme](README.MD#sort-order).
+In the case of `level-js`, when used by itself, the aforementioned change means that `db.iterator({ gt: undefined })` will throw an error as `undefined` is not a valid IndexedDB key type. On the other hand `db.iterator({ gt: '' })` is valid and thus now supported. For details on sort order (which is richer than in `leveldown`) please see [the readme](README.md).
 
 ### Nullish values are rejected
 
