@@ -20,7 +20,7 @@ var testCommon = suite.common({
   seek: false,
 
   // Support of buffer keys depends on environment
-  bufferKeys: leveljs.binaryKeys
+  bufferKeys: leveljs(uuid()).supports.bufferKeys
 })
 
 // Test abstract-leveldown compliance
@@ -28,7 +28,4 @@ suite(testCommon)
 
 // Additional tests for this implementation
 require('./custom-test')(leveljs, test, testCommon)
-require('./structured-clone-test')(leveljs, test, testCommon)
-require('./key-type-test')(leveljs, test, testCommon)
-require('./key-type-illegal-test')(leveljs, test, testCommon)
-require('./native-order-test')(leveljs, test, testCommon)
+require('./upgrade-test')(leveljs, test, testCommon)

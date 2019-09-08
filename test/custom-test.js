@@ -63,82 +63,30 @@ module.exports = function (leveljs, test, testCommon) {
     })
   })
 
-  test('put Buffer value, get Uint8Array value', function (t) {
+  test('put Buffer value, get string value', function (t) {
     var level = testCommon.factory()
     level.open(function (err) {
       t.notOk(err, 'no error')
-      level.put('key', Buffer.from('00ff', 'hex'), function (err) {
+      level.put('key', Buffer.from('abc'), function (err) {
         t.notOk(err, 'no error')
         level.get('key', { asBuffer: false }, function (err, value) {
           t.notOk(err, 'no error')
-          t.notOk(Buffer.isBuffer(value), 'is not a buffer')
-          t.ok(value instanceof Uint8Array, 'is a Uint8Array')
-          t.same(Buffer.from(value), Buffer.from('00ff', 'hex'))
+          t.is(value, 'abc')
           level.close(t.end.bind(t))
         })
       })
     })
   })
 
-  test('put Uint8Array value, get Buffer value', function (t) {
+  test('put utf8 string, get utf8 string', function (t) {
     var level = testCommon.factory()
     level.open(function (err) {
       t.notOk(err, 'no error')
-      level.put('key', new Uint8Array(Buffer.from('00ff', 'hex').buffer), function (err) {
+      level.put('💩', '💩', function (err) {
         t.notOk(err, 'no error')
-        level.get('key', function (err, value) {
+        level.get('💩', { asBuffer: false }, function (err, value) {
           t.notOk(err, 'no error')
-          t.ok(Buffer.isBuffer(value), 'is buffer')
-          t.same(value, Buffer.from('00ff', 'hex'))
-          level.close(t.end.bind(t))
-        })
-      })
-    })
-  })
-
-  test('put Uint8Array value, get Uint8Array value', function (t) {
-    var level = testCommon.factory()
-    level.open(function (err) {
-      t.notOk(err, 'no error')
-      level.put('key', new Uint8Array(Buffer.from('00ff', 'hex').buffer), function (err) {
-        t.notOk(err, 'no error')
-        level.get('key', { asBuffer: false }, function (err, value) {
-          t.notOk(err, 'no error')
-          t.notOk(Buffer.isBuffer(value), 'is not a buffer')
-          t.ok(value instanceof Uint8Array, 'is a Uint8Array')
-          t.same(Buffer.from(value), Buffer.from('00ff', 'hex'))
-          level.close(t.end.bind(t))
-        })
-      })
-    })
-  })
-
-  test('put ArrayBuffer value, get Buffer value', function (t) {
-    var level = testCommon.factory()
-    level.open(function (err) {
-      t.notOk(err, 'no error')
-      level.put('key', Buffer.from('00ff', 'hex').buffer, function (err) {
-        t.notOk(err, 'no error')
-        level.get('key', function (err, value) {
-          t.notOk(err, 'no error')
-          t.ok(Buffer.isBuffer(value), 'is buffer')
-          t.same(value, Buffer.from('00ff', 'hex'))
-          level.close(t.end.bind(t))
-        })
-      })
-    })
-  })
-
-  test('put ArrayBuffer value, get ArrayBuffer value', function (t) {
-    var level = testCommon.factory()
-    level.open(function (err) {
-      t.notOk(err, 'no error')
-      level.put('key', Buffer.from('00ff', 'hex').buffer, function (err) {
-        t.notOk(err, 'no error')
-        level.get('key', { asBuffer: false }, function (err, value) {
-          t.notOk(err, 'no error')
-          t.ok(value instanceof ArrayBuffer, 'is a ArrayBuffer')
-          t.same(Buffer.from(value), Buffer.from('00ff', 'hex'))
+          t.is(value, '💩')
           level.close(t.end.bind(t))
         })
       })
@@ -148,8 +96,13 @@ module.exports = function (leveljs, test, testCommon) {
   // This should be covered by abstract-leveldown tests, but that's
   // prevented by process.browser checks (Level/abstract-leveldown#121).
   // This test is adapted from memdown.
-  leveljs.binaryKeys && test('buffer keys', function (t) {
+  test('buffer keys', function (t) {
     var db = testCommon.factory()
+
+    if (!db.supports.bufferKeys) {
+      t.pass('environment does not support buffer keys')
+      return t.end()
+    }
 
     db.open(function (err) {
       t.ifError(err, 'no open error')
@@ -187,15 +140,20 @@ module.exports = function (leveljs, test, testCommon) {
 
   // This should be covered by abstract-leveldown tests, but that's
   // prevented by process.browser checks (Level/abstract-leveldown#121).
-  leveljs.binaryKeys && test('iterator yields buffer keys', function (t) {
+  test('iterator yields buffer keys', function (t) {
     var db = testCommon.factory()
+
+    if (!db.supports.bufferKeys) {
+      t.pass('environment does not support buffer keys')
+      return t.end()
+    }
 
     db.open(function (err) {
       t.ifError(err, 'no open error')
 
       db.batch([
-        { type: 'put', key: Buffer.from([0]), value: 0 },
-        { type: 'put', key: Buffer.from([1]), value: 1 }
+        { type: 'put', key: Buffer.from([0]), value: '0' },
+        { type: 'put', key: Buffer.from([1]), value: '1' }
       ], function (err) {
         t.ifError(err, 'no batch error')
 
@@ -204,9 +162,42 @@ module.exports = function (leveljs, test, testCommon) {
           t.ifError(err, 'no iterator error')
 
           t.same(entries, [
-            { key: Buffer.from([0]), value: 0 },
-            { key: Buffer.from([1]), value: 1 }
+            { key: Buffer.from([0]), value: '0' },
+            { key: Buffer.from([1]), value: '1' }
           ], 'keys are Buffers')
+
+          db.close(function (err) {
+            t.ifError(err, 'no close error')
+            t.end()
+          })
+        })
+      })
+    })
+  })
+
+  test('buffer range option', function (t) {
+    var db = testCommon.factory()
+
+    if (!db.supports.bufferKeys) {
+      t.pass('environment does not support buffer keys')
+      return t.end()
+    }
+
+    db.open(function (err) {
+      t.ifError(err, 'no open error')
+
+      var one = Buffer.from('80', 'hex')
+      var two = Buffer.from('c0', 'hex')
+
+      db.batch([
+        { type: 'put', key: one, value: one },
+        { type: 'put', key: two, value: two }
+      ], function (err) {
+        t.ifError(err, 'no batch error')
+
+        concat(db.iterator({ gt: one }), function (err, entries) {
+          t.ifError(err, 'no iterator error')
+          t.same(entries, [{ key: two, value: two }])
 
           db.close(function (err) {
             t.ifError(err, 'no close error')
