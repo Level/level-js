@@ -2,6 +2,41 @@
 
 This document describes breaking changes and how to upgrade. For a complete list of changes including minor and patch releases, please refer to the [changelog][changelog].
 
+## 5.0.0 (unreleased)
+
+Support of keys & values other than strings and Buffers has been dropped. Internally `level-js` now stores keys & values as binary which solves a number of compatibility issues ([Level/memdown#186](https://github.com/Level/memdown/issues/186)). If you pass in a key or value that isn't a string or Buffer, it will be irreversibly stringified.
+
+Existing IndexedDB databases created with `level-js@4` can be read only if they used binary keys and string or binary values. Other types will come out stringified, and string keys will sort incorrectly. Use the included `upgrade()` utility to convert stored data to binary (in so far the environment supports it):
+
+```js
+var leveljs = require('level-js')
+var db = leveljs('my-db')
+
+db.open(function (err) {
+  if (err) throw err
+
+  db.upgrade(function (err) {
+    if (err) throw err
+  })
+})
+```
+
+Or with (the upcoming release of) `level`:
+
+```js
+var level = require('level')
+var reachdown = require('reachdown')
+var db = level('my-db')
+
+db.open(function (err) {
+  if (err) throw err
+
+  reachdown(db, 'level-js').upgrade(function (err) {
+    if (err) throw err
+  })
+})
+```
+
 ## 4.0.0
 
 This is an upgrade to `abstract-leveldown@6` which solves long-standing issues around serialization and type support.

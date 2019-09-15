@@ -11,5 +11,5 @@ exports.test = function (key) {
   }
 }
 
-exports.binaryKeys = exports.test(new Uint8Array(0))
-exports.arrayKeys = exports.test([1])
+// Detect binary key support (IndexedDB Second Edition)
+exports.bufferKeys = exports.test(Buffer.alloc(0))

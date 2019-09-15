@@ -5,7 +5,7 @@
 var inherits = require('inherits')
 var AbstractIterator = require('abstract-leveldown').AbstractIterator
 var ltgt = require('ltgt')
-var mixedToBuffer = require('./util/mixed-to-buffer')
+var deserialize = require('./util/deserialize')
 var setImmediate = require('./util/immediate')
 var noop = function () {}
 
@@ -23,6 +23,8 @@ function Iterator (db, location, options) {
   this._error = null
   this._transaction = null
 
+  this._keys = options.keys
+  this._values = options.values
   this._keyAsBuffer = options.keyAsBuffer
   this._valueAsBuffer = options.valueAsBuffer
 
@@ -126,8 +128,17 @@ Iterator.prototype._next = function (callback) {
     var key = this._cache.shift()
     var value = this._cache.shift()
 
-    if (this._keyAsBuffer) key = mixedToBuffer(key)
-    if (this._valueAsBuffer) value = mixedToBuffer(value)
+    if (this._keys && key !== undefined) {
+      key = this._deserializeKey(key, this._keyAsBuffer)
+    } else {
+      key = undefined
+    }
+
+    if (this._values && value !== undefined) {
+      value = this._deserializeValue(value, this._valueAsBuffer)
+    } else {
+      value = undefined
+    }
 
     setImmediate(function () {
       callback(null, key, value)
@@ -138,6 +149,10 @@ Iterator.prototype._next = function (callback) {
     this._callback = callback
   }
 }
+
+// Exposed for the v4 to v5 upgrade utility
+Iterator.prototype._deserializeKey = deserialize
+Iterator.prototype._deserializeValue = deserialize
 
 Iterator.prototype._end = function (callback) {
   if (this._aborted || this._completed) {

@@ -7,7 +7,8 @@ module.exports = Level
 var AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
 var inherits = require('inherits')
 var Iterator = require('./iterator')
-var mixedToBuffer = require('./util/mixed-to-buffer')
+var serialize = require('./util/serialize')
+var deserialize = require('./util/deserialize')
 var setImmediate = require('./util/immediate')
 var support = require('./util/support')
 
@@ -25,13 +26,17 @@ function Level (location, opts) {
   this.location = location
   this.prefix = opts.prefix || DEFAULT_PREFIX
   this.version = parseInt(opts.version || 1, 10)
+
+  // Experimental, do not externally rely on this object yet.
+  // See Level/community#42.
+  this.supports = {
+    bufferKeys: support.bufferKeys(indexedDB)
+  }
 }
 
 inherits(Level, AbstractLevelDOWN)
 
-// Detect binary and array key support (IndexedDB Second Edition)
-Level.binaryKeys = support.binaryKeys(indexedDB)
-Level.arrayKeys = support.arrayKeys(indexedDB)
+Level.prototype.type = 'level-js'
 
 Level.prototype._open = function (options, callback) {
   var req = indexedDB.open(this.prefix + this.location, this.version)
@@ -93,11 +98,7 @@ Level.prototype._get = function (key, options, callback) {
       return callback(new Error('NotFound'))
     }
 
-    if (options.asBuffer) {
-      value = mixedToBuffer(value)
-    }
-
-    callback(null, value)
+    callback(null, deserialize(value, options.asBuffer))
   })
 }
 
@@ -131,27 +132,12 @@ Level.prototype._put = function (key, value, options, callback) {
   this.await(req, callback)
 }
 
-// Valid key types in IndexedDB Second Edition:
-//
-// - Number, except NaN. Includes Infinity and -Infinity
-// - Date, except invalid (NaN)
-// - String
-// - ArrayBuffer or a view thereof (typed arrays). In level-js we also support
-//   Buffer (which is an Uint8Array) (and the primary binary type of Level).
-// - Array, except cyclical and empty (e.g. Array(10)). Elements must be valid
-//   types themselves.
 Level.prototype._serializeKey = function (key) {
-  if (Buffer.isBuffer(key)) {
-    return Level.binaryKeys ? key : key.toString()
-  } else if (Array.isArray(key)) {
-    return Level.arrayKeys ? key.map(this._serializeKey, this) : String(key)
-  } else {
-    return key
-  }
+  return serialize(key, this.supports.bufferKeys)
 }
 
 Level.prototype._serializeValue = function (value) {
-  return value
+  return serialize(value, true)
 }
 
 Level.prototype._iterator = function (options) {
@@ -198,6 +184,55 @@ Level.prototype._batch = function (operations, options, callback) {
 Level.prototype._close = function (callback) {
   this.db.close()
   setImmediate(callback)
+}
+
+// NOTE: remove in a next major release
+Level.prototype.upgrade = function (callback) {
+  if (this.status !== 'open') {
+    return setImmediate(function () {
+      callback(new Error('cannot upgrade() before open()'))
+    })
+  }
+
+  var it = this.iterator()
+  var batchOptions = {}
+  var self = this
+
+  it._deserializeKey = it._deserializeValue = identity
+  next()
+
+  function next (err) {
+    if (err) return finish(err)
+    it.next(each)
+  }
+
+  function each (err, key, value) {
+    if (err || key === undefined) {
+      return finish(err)
+    }
+
+    var newKey = self._serializeKey(deserialize(key, true))
+    var newValue = self._serializeValue(deserialize(value, true))
+
+    // To bypass serialization on the old key, use _batch() instead of batch().
+    // NOTE: if we disable snapshotting (#86) this could lead to a loop of
+    // inserting and then iterating those same entries, because the new keys
+    // possibly sort after the old keys.
+    self._batch([
+      { type: 'del', key: key },
+      { type: 'put', key: newKey, value: newValue }
+    ], batchOptions, next)
+  }
+
+  function finish (err) {
+    it.end(function (err2) {
+      callback(err || err2)
+    })
+  }
+
+  function identity (data) {
+    return data
+  }
 }
 
 Level.destroy = function (location, prefix, callback) {
