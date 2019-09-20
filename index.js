@@ -11,6 +11,8 @@ var serialize = require('./util/serialize')
 var deserialize = require('./util/deserialize')
 var setImmediate = require('./util/immediate')
 var support = require('./util/support')
+var clear = require('./util/clear')
+var createKeyRange = require('./util/key-range')
 
 var DEFAULT_PREFIX = 'level-js-'
 
@@ -179,6 +181,33 @@ Level.prototype._batch = function (operations, options, callback) {
   }
 
   loop()
+}
+
+Level.prototype._clear = function (options, callback) {
+  try {
+    var keyRange = createKeyRange(options)
+  } catch (e) {
+    // The lower key is greater than the upper key.
+    // IndexedDB throws an error, but we'll just do nothing.
+    return setImmediate(callback)
+  }
+
+  if (options.limit >= 0) {
+    // IDBObjectStore#delete(range) doesn't have such an option.
+    // Fall back to cursor-based implementation.
+    return clear(this, this.location, keyRange, options, callback)
+  }
+
+  try {
+    var store = this.store('readwrite')
+    var req = keyRange ? store.delete(keyRange) : store.clear()
+  } catch (err) {
+    return setImmediate(function () {
+      callback(err)
+    })
+  }
+
+  this.await(req, callback)
 }
 
 Level.prototype._close = function (callback) {
