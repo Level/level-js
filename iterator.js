@@ -1,10 +1,8 @@
-/* global IDBKeyRange */
-
 'use strict'
 
 var inherits = require('inherits')
 var AbstractIterator = require('abstract-leveldown').AbstractIterator
-var ltgt = require('ltgt')
+var createKeyRange = require('./util/key-range')
 var deserialize = require('./util/deserialize')
 var setImmediate = require('./util/immediate')
 var noop = function () {}
@@ -34,7 +32,7 @@ function Iterator (db, location, options) {
   }
 
   try {
-    var keyRange = this.createKeyRange(options)
+    var keyRange = createKeyRange(options)
   } catch (e) {
     // The lower key is greater than the upper key.
     // IndexedDB throws an error, but we'll just return 0 results.
@@ -46,23 +44,6 @@ function Iterator (db, location, options) {
 }
 
 inherits(Iterator, AbstractIterator)
-
-Iterator.prototype.createKeyRange = function (options) {
-  var lower = ltgt.lowerBound(options)
-  var upper = ltgt.upperBound(options)
-  var lowerOpen = ltgt.lowerBoundExclusive(options)
-  var upperOpen = ltgt.upperBoundExclusive(options)
-
-  if (lower !== undefined && upper !== undefined) {
-    return IDBKeyRange.bound(lower, upper, lowerOpen, upperOpen)
-  } else if (lower !== undefined) {
-    return IDBKeyRange.lowerBound(lower, lowerOpen)
-  } else if (upper !== undefined) {
-    return IDBKeyRange.upperBound(upper, upperOpen)
-  } else {
-    return null
-  }
-}
 
 Iterator.prototype.createIterator = function (location, keyRange, reverse) {
   var self = this

@@ -296,5 +296,29 @@ module.exports = function (leveljs, test, testCommon) {
     })
   })
 
+  // TODO: move to abstract-leveldown test suite (and add to iterator tests too)
+  test('clear() with lower key greater than upper key', function (t) {
+    var db = testCommon.factory()
+
+    db.open(function (err) {
+      t.ifError(err, 'no open error')
+
+      db.put('a', 'a', function (err) {
+        t.ifError(err, 'no put error')
+
+        db.clear({ gt: 'b', lt: 'a' }, function (err) {
+          t.ifError(err, 'no clear error')
+
+          db.get('a', { asBuffer: false }, function (err, value) {
+            t.ifError(err, 'no get error')
+            t.is(value, 'a')
+
+            db.close(t.end.bind(t))
+          })
+        })
+      })
+    })
+  })
+
   test('teardown', testCommon.tearDown)
 }

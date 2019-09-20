@@ -26,7 +26,7 @@
     "./util/immediate.js": "./util/immediate-browser.js"
   },
   "dependencies": {
-    "abstract-leveldown": "~6.0.1",
+    "abstract-leveldown": "~6.1.1",
     "immediate": "~3.2.3",
     "inherits": "^2.0.3",
     "ltgt": "^2.1.2"
