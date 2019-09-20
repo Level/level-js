@@ -20,7 +20,10 @@ var testCommon = suite.common({
   seek: false,
 
   // Support of buffer keys depends on environment
-  bufferKeys: leveljs(uuid()).supports.bufferKeys
+  bufferKeys: leveljs(uuid()).supports.bufferKeys,
+
+  // Opt-in to new clear() tests
+  clear: true
 })
 
 // Test abstract-leveldown compliance
