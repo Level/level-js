@@ -18,7 +18,14 @@ var DEFAULT_PREFIX = 'level-js-'
 
 function Level (location, opts) {
   if (!(this instanceof Level)) return new Level(location, opts)
-  AbstractLevelDOWN.call(this)
+
+  AbstractLevelDOWN.call(this, {
+    bufferKeys: support.bufferKeys(indexedDB),
+    snapshots: true,
+    permanence: true,
+    clear: true
+  })
+
   opts = opts || {}
 
   if (typeof location !== 'string') {
@@ -28,12 +35,6 @@ function Level (location, opts) {
   this.location = location
   this.prefix = opts.prefix || DEFAULT_PREFIX
   this.version = parseInt(opts.version || 1, 10)
-
-  // Experimental, do not externally rely on this object yet.
-  // See Level/community#42.
-  this.supports = {
-    bufferKeys: support.bufferKeys(indexedDB)
-  }
 }
 
 inherits(Level, AbstractLevelDOWN)
