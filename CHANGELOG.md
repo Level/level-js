@@ -2,6 +2,21 @@
 
 _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 
+## [5.0.0] - 2019-10-04
+
+### Changed
+
+- **Breaking**: Drop support of key & value types other than string and Buffer ([#179](https://github.com/Level/level-js/issues/179)) ([**@vweevers**](https://github.com/vweevers))
+- Replace mentions of `level-browserify` with `level` ([`58b3e07`](https://github.com/Level/level-js/commit/58b3e07)) ([**@vweevers**](https://github.com/vweevers))
+- Upgrade `hallmark` devDependency from `^0.1.0` to `^2.0.0` ([#172](https://github.com/Level/level-js/issues/172), [#177](https://github.com/Level/level-js/issues/177)) ([**@vweevers**](https://github.com/vweevers))
+- Upgrade `nyc` devDependency from `^13.1.0` to `^14.0.0` ([#169](https://github.com/Level/level-js/issues/169)) ([**@vweevers**](https://github.com/vweevers))
+- Upgrade `standard` devDependency from `^12.0.1` to `^14.0.2` ([#171](https://github.com/Level/level-js/issues/171), [`aacb0ea`](https://github.com/Level/level-js/commit/aacb0ea)) ([**@vweevers**](https://github.com/vweevers), [**@ralphtheninja**](https://github.com/ralphtheninja))
+
+### Added
+
+- Add manifest ([Level/community#83](https://github.com/Level/community/issues/83)) ([#183](https://github.com/Level/level-js/issues/183)) ([**@vweevers**](https://github.com/vweevers))
+- Support `clear()` ([Level/community#79](https://github.com/Level/community/issues/79)) ([#182](https://github.com/Level/level-js/issues/182)) ([**@vweevers**](https://github.com/vweevers))
+
 ## [4.0.1] - 2019-03-31
 
 ### Changed
@@ -397,6 +412,8 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 ## 1.0.0 - 2013-05-03
 
 :seedling: Initial release.
+
+[5.0.0]: https://github.com/Level/level-js/compare/v4.0.1...v5.0.0
 
 [4.0.1]: https://github.com/Level/level-js/compare/v4.0.0...v4.0.1
 

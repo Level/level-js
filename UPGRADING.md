@@ -2,7 +2,7 @@
 
 This document describes breaking changes and how to upgrade. For a complete list of changes including minor and patch releases, please refer to the [changelog][changelog].
 
-## 5.0.0 (unreleased)
+## 5.0.0
 
 Support of keys & values other than strings and Buffers has been dropped. Internally `level-js` now stores keys & values as binary which solves a number of compatibility issues ([Level/memdown#186](https://github.com/Level/memdown/issues/186)). If you pass in a key or value that isn't a string or Buffer, it will be irreversibly stringified.
 
