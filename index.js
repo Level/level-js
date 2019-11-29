@@ -23,7 +23,7 @@ function Level (location, opts) {
   }
 
   this.location = location
-  this.prefix = opts.prefix || DEFAULT_PREFIX
+  this.prefix = opts.prefix == null ? DEFAULT_PREFIX : opts.prefix
   this.version = parseInt(opts.version || 1, 10)
 }
 

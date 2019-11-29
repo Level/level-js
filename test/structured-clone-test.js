@@ -128,7 +128,9 @@ var types = [
 
 // Types that are not supported by the structured clone algorithm
 var illegalTypes = [
-  { name: 'Error', value: new Error() },
+  // Latest Chrome does seem to support Error, so skip this test.
+  // { name: 'Error', value: new Error() },
+
   { name: 'Function', value: function () {} },
   { name: 'DOMNode', value: global.document }
 ]
