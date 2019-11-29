@@ -47,6 +47,27 @@ module.exports = function (leveljs, test, testCommon) {
     })
   })
 
+  test('empty prefix', function (t) {
+    var db = testCommon.factory({ prefix: '' })
+
+    t.ok(db.location, 'instance has location property')
+    t.is(db.prefix, '', 'instance has prefix property')
+
+    db.open(function (err) {
+      t.notOk(err, 'no open error')
+
+      var idb = db.db
+      var databaseName = idb.name
+      var storeNames = idb.objectStoreNames
+
+      t.is(databaseName, db.location, 'database name is prefixed')
+      t.is(storeNames.length, 1, 'created 1 object store')
+      t.is(storeNames.item(0), db.location, 'object store name equals location')
+
+      db.close(t.end.bind(t))
+    })
+  })
+
   test('put Buffer value, get Buffer value', function (t) {
     var level = testCommon.factory()
     level.open(function (err) {
