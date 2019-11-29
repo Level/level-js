@@ -2,6 +2,12 @@
 
 _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 
+## [5.0.1] - 2019-11-29
+
+### Fixed
+
+- Restore support of empty prefix option ([#184](https://github.com/Level/level-js/issues/184)) ([**@achingbrain**](https://github.com/achingbrain)). This restores a previous behavior (of `level-js` &lt; 3) that unknown to us, was provided by the since-removed `IDBWrapper`.
+
 ## [5.0.0] - 2019-10-04
 
 ### Changed
@@ -412,6 +418,8 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 ## 1.0.0 - 2013-05-03
 
 :seedling: Initial release.
+
+[5.0.1]: https://github.com/Level/level-js/compare/v5.0.0...v5.0.1
 
 [5.0.0]: https://github.com/Level/level-js/compare/v4.0.1...v5.0.0
 
