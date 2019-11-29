@@ -44,6 +44,9 @@
     "tape": "^4.0.0",
     "uuid": "^3.3.2"
   },
+  "publishConfig": {
+    "tag": "latest-4"
+  },
   "hallmark": {
     "community": "level-community"
   },
