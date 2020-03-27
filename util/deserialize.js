@@ -1,6 +1,6 @@
 'use strict'
 
-const { Buffer } = require('buffer')
+var Buffer = require('buffer').Buffer
 var ta2str = (function () {
   if (global.TextDecoder) {
     var decoder = new TextDecoder('utf-8')
