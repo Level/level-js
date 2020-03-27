@@ -1,5 +1,7 @@
 'use strict'
 
+const { Buffer } = require('buffer')
+
 exports.test = function (key) {
   return function test (impl) {
     try {

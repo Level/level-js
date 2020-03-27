@@ -1,5 +1,6 @@
 'use strict'
 
+const { Buffer } = require('buffer')
 // Returns either a Uint8Array or Buffer (doesn't matter to
 // IndexedDB, because Buffer is a subclass of Uint8Array)
 var str2bin = (function () {
