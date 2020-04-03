@@ -3,5 +3,9 @@
     "config:base"
   ],
   "rangeStrategy": "replace",
-  "prCreation": "not-pending"
+  "prCreation": "not-pending",
+  "labels": ["maintenance"],
+  "commitMessageAction": "Upgrade",
+  "commitMessageTopic": "{{depName}}",
+  "commitMessageExtra": "from {{currentValue}} to {{newValue}}"
 }
