@@ -1,0 +1,12 @@
+{
+  "extends": ["config:base"],
+  "labels": ["maintenance"],
+  "prCreation": "not-pending",
+  "prNotPendingHours": 1,
+  "semanticCommits": false,
+  "suppressNotifications": ["prIgnoreNotification"],
+  "rangeStrategy": "replace",
+  "commitMessageAction": "Upgrade",
+  "commitMessageTopic": "{{prettyDepType}} {{depName}}",
+  "commitMessageExtra": "from {{currentValue}} to {{newValue}}"
+}
