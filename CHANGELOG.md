@@ -2,6 +2,18 @@
 
 _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 
+## [5.0.2] - 2020-04-03
+
+### Changed
+
+- Use `nextTick` of `abstract-leveldown` ([#195](https://github.com/Level/level-js/issues/195)) ([**@vweevers**](https://github.com/vweevers)) (same underlying code)
+- Upgrade `nyc` devDependency from `^14.0.0` to `^15.0.0` ([#187](https://github.com/Level/level-js/issues/187)) ([**@vweevers**](https://github.com/vweevers))
+- Upgrade `airtap` devDependency from `^2.0.0` to `^3.0.0` ([#189](https://github.com/Level/level-js/issues/189)) ([**@vweevers**](https://github.com/vweevers))
+
+### Fixed
+
+- Add `buffer` for browsers ([#191](https://github.com/Level/level-js/issues/191)) ([**@hugomrdias**](https://github.com/hugomrdias))
+
 ## [5.0.1] - 2019-11-29
 
 ### Fixed
@@ -418,6 +430,8 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 ## 1.0.0 - 2013-05-03
 
 :seedling: Initial release.
+
+[5.0.2]: https://github.com/Level/level-js/compare/v5.0.1...v5.0.2
 
 [5.0.1]: https://github.com/Level/level-js/compare/v5.0.0...v5.0.1
 
