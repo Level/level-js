@@ -5,10 +5,8 @@
   "prNotPendingHours": 1,
   "semanticCommits": false,
   "suppressNotifications": ["prIgnoreNotification"],
-  "node": {
-    "rangeStrategy": "replace",
-    "commitMessageAction": "Upgrade",
-    "commitMessageTopic": "{{prettyDepType}} {{depName}}",
-    "commitMessageExtra": "from {{currentValue}} to {{newValue}}"
-  }
+  "rangeStrategy": "replace",
+  "commitMessageAction": "Upgrade",
+  "commitMessageTopic": "{{prettyDepType}} {{depName}}",
+  "commitMessageExtra": "from {{currentValue}} to {{newValue}}"
 }
