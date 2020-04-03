@@ -1,11 +1,14 @@
 {
-  "extends": [
-    "config:base"
-  ],
-  "rangeStrategy": "replace",
-  "prCreation": "not-pending",
+  "extends": ["config:base"],
   "labels": ["maintenance"],
-  "commitMessageAction": "Upgrade",
-  "commitMessageTopic": "{{depName}}",
-  "commitMessageExtra": "from {{currentValue}} to {{newValue}}"
+  "prCreation": "not-pending",
+  "prNotPendingHours": 1,
+  "semanticCommits": false,
+  "suppressNotifications": ["prIgnoreNotification"],
+  "node": {
+    "rangeStrategy": "replace",
+    "commitMessageAction": "Upgrade",
+    "commitMessageTopic": "{{prettyDepType}} {{depName}}",
+    "commitMessageExtra": "from {{currentValue}} to {{newValue}}"
+  }
 }
