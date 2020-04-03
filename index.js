@@ -9,7 +9,6 @@ var inherits = require('inherits')
 var Iterator = require('./iterator')
 var serialize = require('./util/serialize')
 var deserialize = require('./util/deserialize')
-var setImmediate = require('./util/immediate')
 var support = require('./util/support')
 var clear = require('./util/clear')
 var createKeyRange = require('./util/key-range')
@@ -88,9 +87,7 @@ Level.prototype._get = function (key, options, callback) {
   try {
     var req = store.get(key)
   } catch (err) {
-    return setImmediate(function () {
-      callback(err)
-    })
+    return this._nextTick(callback, err)
   }
 
   this.await(req, function (err, value) {
@@ -111,9 +108,7 @@ Level.prototype._del = function (key, options, callback) {
   try {
     var req = store.delete(key)
   } catch (err) {
-    return setImmediate(function () {
-      callback(err)
-    })
+    return this._nextTick(callback, err)
   }
 
   this.await(req, callback)
@@ -127,9 +122,7 @@ Level.prototype._put = function (key, value, options, callback) {
     // does not support serializing the key or value respectively.
     var req = store.put(value, key)
   } catch (err) {
-    return setImmediate(function () {
-      callback(err)
-    })
+    return this._nextTick(callback, err)
   }
 
   this.await(req, callback)
@@ -148,7 +141,7 @@ Level.prototype._iterator = function (options) {
 }
 
 Level.prototype._batch = function (operations, options, callback) {
-  if (operations.length === 0) return setImmediate(callback)
+  if (operations.length === 0) return this._nextTick(callback)
 
   var store = this.store('readwrite')
   var transaction = store.transaction
@@ -190,7 +183,7 @@ Level.prototype._clear = function (options, callback) {
   } catch (e) {
     // The lower key is greater than the upper key.
     // IndexedDB throws an error, but we'll just do nothing.
-    return setImmediate(callback)
+    return this._nextTick(callback)
   }
 
   if (options.limit >= 0) {
@@ -203,9 +196,7 @@ Level.prototype._clear = function (options, callback) {
     var store = this.store('readwrite')
     var req = keyRange ? store.delete(keyRange) : store.clear()
   } catch (err) {
-    return setImmediate(function () {
-      callback(err)
-    })
+    return this._nextTick(callback, err)
   }
 
   this.await(req, callback)
@@ -213,15 +204,13 @@ Level.prototype._clear = function (options, callback) {
 
 Level.prototype._close = function (callback) {
   this.db.close()
-  setImmediate(callback)
+  this._nextTick(callback)
 }
 
 // NOTE: remove in a next major release
 Level.prototype.upgrade = function (callback) {
   if (this.status !== 'open') {
-    return setImmediate(function () {
-      callback(new Error('cannot upgrade() before open()'))
-    })
+    return this._nextTick(callback, new Error('cannot upgrade() before open()'))
   }
 
   var it = this.iterator()
