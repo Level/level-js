@@ -26,7 +26,7 @@
     "./util/immediate.js": "./util/immediate-browser.js"
   },
   "dependencies": {
-    "abstract-leveldown": "hugomrdias/abstract-leveldown#fix/add-buffer",
+    "abstract-leveldown": "~6.2.3",
     "buffer": "^5.5.0",
     "immediate": "~3.2.3",
     "inherits": "^2.0.3",
