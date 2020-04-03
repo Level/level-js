@@ -1,9 +1,7 @@
 'use strict'
 
-var setImmediate = require('./immediate')
-
 module.exports = function clear (db, location, keyRange, options, callback) {
-  if (options.limit === 0) return setImmediate(callback)
+  if (options.limit === 0) return db._nextTick(callback)
 
   var transaction = db.db.transaction([location], 'readwrite')
   var store = transaction.objectStore(location)

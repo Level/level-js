@@ -4,7 +4,6 @@ var inherits = require('inherits')
 var AbstractIterator = require('abstract-leveldown').AbstractIterator
 var createKeyRange = require('./util/key-range')
 var deserialize = require('./util/deserialize')
-var setImmediate = require('./util/immediate')
 var noop = function () {}
 
 module.exports = Iterator
@@ -101,10 +100,7 @@ Iterator.prototype._next = function (callback) {
     // The error should be picked up by either next() or end().
     var err = this._error
     this._error = null
-
-    setImmediate(function () {
-      callback(err)
-    })
+    this._nextTick(callback, err)
   } else if (this._cache.length > 0) {
     var key = this._cache.shift()
     var value = this._cache.shift()
@@ -121,11 +117,9 @@ Iterator.prototype._next = function (callback) {
       value = undefined
     }
 
-    setImmediate(function () {
-      callback(null, key, value)
-    })
+    this._nextTick(callback, null, key, value)
   } else if (this._completed) {
-    setImmediate(callback)
+    this._nextTick(callback)
   } else {
     this._callback = callback
   }
@@ -137,13 +131,7 @@ Iterator.prototype._deserializeValue = deserialize
 
 Iterator.prototype._end = function (callback) {
   if (this._aborted || this._completed) {
-    var err = this._error
-
-    setImmediate(function () {
-      callback(err)
-    })
-
-    return
+    return this._nextTick(callback, this._error)
   }
 
   // Don't advance the cursor anymore, and the transaction will complete
