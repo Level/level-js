@@ -38,7 +38,7 @@
     "nyc": "^15.0.0",
     "standard": "^14.0.2",
     "tape": "^5.0.0",
-    "uuid": "^3.3.2"
+    "uuid": "^8.3.1"
   },
   "hallmark": {
     "community": "level-community"
