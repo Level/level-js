@@ -1,6 +1,10 @@
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: npm
+    directory: /
     schedule:
-      interval: "daily"
+      interval: monthly
+    ignore:
+      - dependency-name: buffer
+      - dependency-name: dependency-check
+      - dependency-name: uuid
