@@ -6,8 +6,8 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "test": "standard && hallmark && airtap --local --coverage test/index.js",
-    "test-browsers": "standard && airtap --sauce-connect --loopback airtap.local --coverage test/index.js",
+    "test": "standard && hallmark && airtap -p local --coverage test/index.js",
+    "test-browsers": "standard && airtap --coverage test/index.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "hallmark": "hallmark --fix",
     "dependency-check": "dependency-check --no-dev -i buffer .",
@@ -30,6 +30,8 @@
   },
   "devDependencies": {
     "airtap": "^4.0.1",
+    "airtap-playwright": "^1.0.1",
+    "airtap-sauce": "^1.1.0",
     "coveralls": "^3.0.2",
     "dependency-check": "^4.1.0",
     "hallmark": "^3.0.0",

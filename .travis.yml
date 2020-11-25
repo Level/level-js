@@ -8,7 +8,6 @@ script:
 addons:
   hosts:
     - airtap.local
-  sauce_connect: true
 
 after_success: npm run coverage
 

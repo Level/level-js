@@ -1,20 +1,19 @@
+providers:
+  - airtap-sauce
+
 browsers:
   - name: chrome
-    version: latest
-    platform: Windows 10
   - name: firefox
-    version: latest
-    platform: Windows 10
   - name: safari
-    version: latest
-    platform: Mac 10.13
-  - name: microsoftedge
-    version: latest
-    platform: Windows 10
+  - name: edge
   - name: ie
-    version: latest
-    platform: Windows 10
   - name: iphone
-    version: latest
-  - name: android
-    version: latest
+  - name: chrome for android
+
+presets:
+  local:
+    providers:
+      - airtap-playwright
+    browsers:
+      - name: chromium
+      - name: firefox
