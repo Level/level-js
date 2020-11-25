@@ -8,3 +8,4 @@ updates:
       - dependency-name: buffer
       - dependency-name: dependency-check
       - dependency-name: uuid
+      - dependency-name: standard
