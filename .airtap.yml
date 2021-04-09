@@ -5,10 +5,12 @@ browsers:
   - name: chrome
   - name: firefox
   - name: safari
-  - name: edge
-  - name: ie
-  - name: iphone
+    version: 12..latest
+  - name: ios_saf
+    version: 12..latest
   - name: chrome for android
+    version: 6..latest
+  - name: msedge
 
 presets:
   local:
