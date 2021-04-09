@@ -3,9 +3,9 @@
 module.exports = function clear (db, location, keyRange, options, callback) {
   if (options.limit === 0) return db._nextTick(callback)
 
-  var transaction = db.db.transaction([location], 'readwrite')
-  var store = transaction.objectStore(location)
-  var count = 0
+  const transaction = db.db.transaction([location], 'readwrite')
+  const store = transaction.objectStore(location)
+  let count = 0
 
   transaction.oncomplete = function () {
     callback()
@@ -16,11 +16,11 @@ module.exports = function clear (db, location, keyRange, options, callback) {
   }
 
   // A key cursor is faster (skips reading values) but not supported by IE
-  var method = store.openKeyCursor ? 'openKeyCursor' : 'openCursor'
-  var direction = options.reverse ? 'prev' : 'next'
+  const method = store.openKeyCursor ? 'openKeyCursor' : 'openCursor'
+  const direction = options.reverse ? 'prev' : 'next'
 
   store[method](keyRange, direction).onsuccess = function (ev) {
-    var cursor = ev.target.result
+    const cursor = ev.target.result
 
     if (cursor) {
       // Wait for a request to complete before continuing, saving CPU.

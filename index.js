@@ -4,16 +4,16 @@
 
 module.exports = Level
 
-var AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
-var inherits = require('inherits')
-var Iterator = require('./iterator')
-var serialize = require('./util/serialize')
-var deserialize = require('./util/deserialize')
-var support = require('./util/support')
-var clear = require('./util/clear')
-var createKeyRange = require('./util/key-range')
+const AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
+const inherits = require('inherits')
+const Iterator = require('./iterator')
+const serialize = require('./util/serialize')
+const deserialize = require('./util/deserialize')
+const support = require('./util/support')
+const clear = require('./util/clear')
+const createKeyRange = require('./util/key-range')
 
-var DEFAULT_PREFIX = 'level-js-'
+const DEFAULT_PREFIX = 'level-js-'
 
 function Level (location, opts) {
   if (!(this instanceof Level)) return new Level(location, opts)
@@ -41,34 +41,33 @@ inherits(Level, AbstractLevelDOWN)
 Level.prototype.type = 'level-js'
 
 Level.prototype._open = function (options, callback) {
-  var req = indexedDB.open(this.prefix + this.location, this.version)
-  var self = this
+  const req = indexedDB.open(this.prefix + this.location, this.version)
 
   req.onerror = function () {
     callback(req.error || new Error('unknown error'))
   }
 
-  req.onsuccess = function () {
-    self.db = req.result
+  req.onsuccess = () => {
+    this.db = req.result
     callback()
   }
 
-  req.onupgradeneeded = function (ev) {
-    var db = ev.target.result
+  req.onupgradeneeded = (ev) => {
+    const db = ev.target.result
 
-    if (!db.objectStoreNames.contains(self.location)) {
-      db.createObjectStore(self.location)
+    if (!db.objectStoreNames.contains(this.location)) {
+      db.createObjectStore(this.location)
     }
   }
 }
 
 Level.prototype.store = function (mode) {
-  var transaction = this.db.transaction([this.location], mode)
+  const transaction = this.db.transaction([this.location], mode)
   return transaction.objectStore(this.location)
 }
 
 Level.prototype.await = function (request, callback) {
-  var transaction = request.transaction
+  const transaction = request.transaction
 
   // Take advantage of the fact that a non-canceled request error aborts
   // the transaction. I.e. no need to listen for "request.onerror".
@@ -82,10 +81,11 @@ Level.prototype.await = function (request, callback) {
 }
 
 Level.prototype._get = function (key, options, callback) {
-  var store = this.store('readonly')
+  const store = this.store('readonly')
+  let req
 
   try {
-    var req = store.get(key)
+    req = store.get(key)
   } catch (err) {
     return this._nextTick(callback, err)
   }
@@ -103,10 +103,11 @@ Level.prototype._get = function (key, options, callback) {
 }
 
 Level.prototype._del = function (key, options, callback) {
-  var store = this.store('readwrite')
+  const store = this.store('readwrite')
+  let req
 
   try {
-    var req = store.delete(key)
+    req = store.delete(key)
   } catch (err) {
     return this._nextTick(callback, err)
   }
@@ -115,12 +116,13 @@ Level.prototype._del = function (key, options, callback) {
 }
 
 Level.prototype._put = function (key, value, options, callback) {
-  var store = this.store('readwrite')
+  const store = this.store('readwrite')
+  let req
 
   try {
     // Will throw a DataError or DataCloneError if the environment
     // does not support serializing the key or value respectively.
-    var req = store.put(value, key)
+    req = store.put(value, key)
   } catch (err) {
     return this._nextTick(callback, err)
   }
@@ -143,10 +145,10 @@ Level.prototype._iterator = function (options) {
 Level.prototype._batch = function (operations, options, callback) {
   if (operations.length === 0) return this._nextTick(callback)
 
-  var store = this.store('readwrite')
-  var transaction = store.transaction
-  var index = 0
-  var error
+  const store = this.store('readwrite')
+  const transaction = store.transaction
+  let index = 0
+  let error
 
   transaction.onabort = function () {
     callback(error || transaction.error || new Error('aborted by user'))
@@ -158,11 +160,13 @@ Level.prototype._batch = function (operations, options, callback) {
 
   // Wait for a request to complete before making the next, saving CPU.
   function loop () {
-    var op = operations[index++]
-    var key = op.key
+    const op = operations[index++]
+    const key = op.key
+
+    let req
 
     try {
-      var req = op.type === 'del' ? store.delete(key) : store.put(op.value, key)
+      req = op.type === 'del' ? store.delete(key) : store.put(op.value, key)
     } catch (err) {
       error = err
       transaction.abort()
@@ -178,8 +182,11 @@ Level.prototype._batch = function (operations, options, callback) {
 }
 
 Level.prototype._clear = function (options, callback) {
+  let keyRange
+  let req
+
   try {
-    var keyRange = createKeyRange(options)
+    keyRange = createKeyRange(options)
   } catch (e) {
     // The lower key is greater than the upper key.
     // IndexedDB throws an error, but we'll just do nothing.
@@ -193,8 +200,8 @@ Level.prototype._clear = function (options, callback) {
   }
 
   try {
-    var store = this.store('readwrite')
-    var req = keyRange ? store.delete(keyRange) : store.clear()
+    const store = this.store('readwrite')
+    req = keyRange ? store.delete(keyRange) : store.clear()
   } catch (err) {
     return this._nextTick(callback, err)
   }
@@ -213,9 +220,9 @@ Level.prototype.upgrade = function (callback) {
     return this._nextTick(callback, new Error('cannot upgrade() before open()'))
   }
 
-  var it = this.iterator()
-  var batchOptions = {}
-  var self = this
+  const it = this.iterator()
+  const batchOptions = {}
+  const self = this
 
   it._deserializeKey = it._deserializeValue = identity
   next()
@@ -230,8 +237,8 @@ Level.prototype.upgrade = function (callback) {
       return finish(err)
     }
 
-    var newKey = self._serializeKey(deserialize(key, true))
-    var newValue = self._serializeValue(deserialize(value, true))
+    const newKey = self._serializeKey(deserialize(key, true))
+    const newValue = self._serializeValue(deserialize(value, true))
 
     // To bypass serialization on the old key, use _batch() instead of batch().
     // NOTE: if we disable snapshotting (#86) this could lead to a loop of
@@ -259,7 +266,7 @@ Level.destroy = function (location, prefix, callback) {
     callback = prefix
     prefix = DEFAULT_PREFIX
   }
-  var request = indexedDB.deleteDatabase(prefix + location)
+  const request = indexedDB.deleteDatabase(prefix + location)
   request.onsuccess = function () {
     callback()
   }

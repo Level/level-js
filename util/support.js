@@ -1,6 +1,6 @@
 'use strict'
 
-var Buffer = require('buffer').Buffer
+const Buffer = require('buffer').Buffer
 
 exports.test = function (key) {
   return function test (impl) {

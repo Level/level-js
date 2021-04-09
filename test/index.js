@@ -1,14 +1,14 @@
 'use strict'
 
-var test = require('tape')
-var uuid = require('uuid/v4')
-var suite = require('abstract-leveldown/test')
-var leveljs = require('..')
+const test = require('tape')
+const uuid = require('uuid/v4')
+const suite = require('abstract-leveldown/test')
+const leveljs = require('..')
 
 // Test feature detection
 require('./support-test')(leveljs, test)
 
-var testCommon = suite.common({
+const testCommon = suite.common({
   test: test,
   factory: function (opts) {
     return leveljs(uuid(), opts)

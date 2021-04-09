@@ -1,10 +1,10 @@
 'use strict'
 
-var inherits = require('inherits')
-var AbstractIterator = require('abstract-leveldown').AbstractIterator
-var createKeyRange = require('./util/key-range')
-var deserialize = require('./util/deserialize')
-var noop = function () {}
+const inherits = require('inherits')
+const AbstractIterator = require('abstract-leveldown').AbstractIterator
+const createKeyRange = require('./util/key-range')
+const deserialize = require('./util/deserialize')
+const noop = function () {}
 
 module.exports = Iterator
 
@@ -30,8 +30,10 @@ function Iterator (db, location, options) {
     return
   }
 
+  let keyRange
+
   try {
-    var keyRange = createKeyRange(options)
+    keyRange = createKeyRange(options)
   } catch (e) {
     // The lower key is greater than the upper key.
     // IndexedDB throws an error, but we'll just return 0 results.
@@ -45,25 +47,24 @@ function Iterator (db, location, options) {
 inherits(Iterator, AbstractIterator)
 
 Iterator.prototype.createIterator = function (location, keyRange, reverse) {
-  var self = this
-  var transaction = this.db.db.transaction([location], 'readonly')
-  var store = transaction.objectStore(location)
-  var req = store.openCursor(keyRange, reverse ? 'prev' : 'next')
+  const transaction = this.db.db.transaction([location], 'readonly')
+  const store = transaction.objectStore(location)
+  const req = store.openCursor(keyRange, reverse ? 'prev' : 'next')
 
-  req.onsuccess = function (ev) {
-    var cursor = ev.target.result
-    if (cursor) self.onItem(cursor)
+  req.onsuccess = (ev) => {
+    const cursor = ev.target.result
+    if (cursor) this.onItem(cursor)
   }
 
   this._transaction = transaction
 
   // If an error occurs (on the request), the transaction will abort.
-  transaction.onabort = function () {
-    self.onAbort(self._transaction.error || new Error('aborted by user'))
+  transaction.onabort = () => {
+    this.onAbort(this._transaction.error || new Error('aborted by user'))
   }
 
-  transaction.oncomplete = function () {
-    self.onComplete()
+  transaction.oncomplete = () => {
+    this.onComplete()
   }
 }
 
@@ -98,12 +99,12 @@ Iterator.prototype.maybeNext = function () {
 Iterator.prototype._next = function (callback) {
   if (this._aborted) {
     // The error should be picked up by either next() or end().
-    var err = this._error
+    const err = this._error
     this._error = null
     this._nextTick(callback, err)
   } else if (this._cache.length > 0) {
-    var key = this._cache.shift()
-    var value = this._cache.shift()
+    let key = this._cache.shift()
+    let value = this._cache.shift()
 
     if (this._keys && key !== undefined) {
       key = this._deserializeKey(key, this._keyAsBuffer)

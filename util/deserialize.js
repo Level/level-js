@@ -1,9 +1,9 @@
 'use strict'
 
-var Buffer = require('buffer').Buffer
-var ta2str = (function () {
+const Buffer = require('buffer').Buffer
+const ta2str = (function () {
   if (global.TextDecoder) {
-    var decoder = new TextDecoder('utf-8')
+    const decoder = new TextDecoder('utf-8')
     return decoder.decode.bind(decoder)
   } else {
     return function ta2str (ta) {
@@ -12,9 +12,9 @@ var ta2str = (function () {
   }
 })()
 
-var ab2str = (function () {
+const ab2str = (function () {
   if (global.TextDecoder) {
-    var decoder = new TextDecoder('utf-8')
+    const decoder = new TextDecoder('utf-8')
     return decoder.decode.bind(decoder)
   } else {
     return function ab2str (ab) {
@@ -24,7 +24,7 @@ var ab2str = (function () {
 })()
 
 function ta2buf (ta) {
-  var buf = Buffer.from(ta.buffer)
+  const buf = Buffer.from(ta.buffer)
 
   if (ta.byteLength === ta.buffer.byteLength) {
     return buf

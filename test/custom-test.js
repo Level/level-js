@@ -1,12 +1,12 @@
 'use strict'
 
-var concat = require('level-concat-iterator')
+const concat = require('level-concat-iterator')
 
 module.exports = function (leveljs, test, testCommon) {
   test('setUp', testCommon.setUp)
 
   test('default prefix', function (t) {
-    var db = testCommon.factory()
+    const db = testCommon.factory()
 
     t.ok(db.location, 'instance has location property')
     t.is(db.prefix, 'level-js-', 'instance has prefix property')
@@ -14,9 +14,9 @@ module.exports = function (leveljs, test, testCommon) {
     db.open(function (err) {
       t.notOk(err, 'no open error')
 
-      var idb = db.db
-      var databaseName = idb.name
-      var storeNames = idb.objectStoreNames
+      const idb = db.db
+      const databaseName = idb.name
+      const storeNames = idb.objectStoreNames
 
       t.is(databaseName, 'level-js-' + db.location, 'database name is prefixed')
       t.is(storeNames.length, 1, 'created 1 object store')
@@ -27,7 +27,7 @@ module.exports = function (leveljs, test, testCommon) {
   })
 
   test('custom prefix', function (t) {
-    var db = testCommon.factory({ prefix: 'custom-' })
+    const db = testCommon.factory({ prefix: 'custom-' })
 
     t.ok(db.location, 'instance has location property')
     t.is(db.prefix, 'custom-', 'instance has prefix property')
@@ -35,9 +35,9 @@ module.exports = function (leveljs, test, testCommon) {
     db.open(function (err) {
       t.notOk(err, 'no open error')
 
-      var idb = db.db
-      var databaseName = idb.name
-      var storeNames = idb.objectStoreNames
+      const idb = db.db
+      const databaseName = idb.name
+      const storeNames = idb.objectStoreNames
 
       t.is(databaseName, 'custom-' + db.location, 'database name is prefixed')
       t.is(storeNames.length, 1, 'created 1 object store')
@@ -48,7 +48,7 @@ module.exports = function (leveljs, test, testCommon) {
   })
 
   test('empty prefix', function (t) {
-    var db = testCommon.factory({ prefix: '' })
+    const db = testCommon.factory({ prefix: '' })
 
     t.ok(db.location, 'instance has location property')
     t.is(db.prefix, '', 'instance has prefix property')
@@ -56,9 +56,9 @@ module.exports = function (leveljs, test, testCommon) {
     db.open(function (err) {
       t.notOk(err, 'no open error')
 
-      var idb = db.db
-      var databaseName = idb.name
-      var storeNames = idb.objectStoreNames
+      const idb = db.db
+      const databaseName = idb.name
+      const storeNames = idb.objectStoreNames
 
       t.is(databaseName, db.location, 'database name is prefixed')
       t.is(storeNames.length, 1, 'created 1 object store')
@@ -69,7 +69,7 @@ module.exports = function (leveljs, test, testCommon) {
   })
 
   test('put Buffer value, get Buffer value', function (t) {
-    var level = testCommon.factory()
+    const level = testCommon.factory()
     level.open(function (err) {
       t.notOk(err, 'no error')
       level.put('key', Buffer.from('00ff', 'hex'), function (err) {
@@ -85,7 +85,7 @@ module.exports = function (leveljs, test, testCommon) {
   })
 
   test('put Buffer value, get string value', function (t) {
-    var level = testCommon.factory()
+    const level = testCommon.factory()
     level.open(function (err) {
       t.notOk(err, 'no error')
       level.put('key', Buffer.from('abc'), function (err) {
@@ -100,7 +100,7 @@ module.exports = function (leveljs, test, testCommon) {
   })
 
   test('put utf8 string, get utf8 string', function (t) {
-    var level = testCommon.factory()
+    const level = testCommon.factory()
     level.open(function (err) {
       t.notOk(err, 'no error')
       level.put('💩', '💩', function (err) {
@@ -118,7 +118,7 @@ module.exports = function (leveljs, test, testCommon) {
   // prevented by process.browser checks (Level/abstract-leveldown#121).
   // This test is adapted from memdown.
   test('buffer keys', function (t) {
-    var db = testCommon.factory()
+    const db = testCommon.factory()
 
     if (!db.supports.bufferKeys) {
       t.fail('environment does not support buffer keys')
@@ -128,8 +128,8 @@ module.exports = function (leveljs, test, testCommon) {
     db.open(function (err) {
       t.ifError(err, 'no open error')
 
-      var one = Buffer.from('80', 'hex')
-      var two = Buffer.from('c0', 'hex')
+      const one = Buffer.from('80', 'hex')
+      const two = Buffer.from('c0', 'hex')
 
       t.ok(two.toString() === one.toString(), 'would be equal when not buffer-aware')
       t.ok(Buffer.compare(two, one) > 0, 'but greater when buffer-aware')
@@ -162,7 +162,7 @@ module.exports = function (leveljs, test, testCommon) {
   // This should be covered by abstract-leveldown tests, but that's
   // prevented by process.browser checks (Level/abstract-leveldown#121).
   test('iterator yields buffer keys', function (t) {
-    var db = testCommon.factory()
+    const db = testCommon.factory()
 
     if (!db.supports.bufferKeys) {
       t.fail('environment does not support buffer keys')
@@ -178,7 +178,7 @@ module.exports = function (leveljs, test, testCommon) {
       ], function (err) {
         t.ifError(err, 'no batch error')
 
-        var it = db.iterator({ valueAsBuffer: false })
+        const it = db.iterator({ valueAsBuffer: false })
         concat(it, function (err, entries) {
           t.ifError(err, 'no iterator error')
 
@@ -197,7 +197,7 @@ module.exports = function (leveljs, test, testCommon) {
   })
 
   test('buffer range option', function (t) {
-    var db = testCommon.factory()
+    const db = testCommon.factory()
 
     if (!db.supports.bufferKeys) {
       t.fail('environment does not support buffer keys')
@@ -207,8 +207,8 @@ module.exports = function (leveljs, test, testCommon) {
     db.open(function (err) {
       t.ifError(err, 'no open error')
 
-      var one = Buffer.from('80', 'hex')
-      var two = Buffer.from('c0', 'hex')
+      const one = Buffer.from('80', 'hex')
+      const two = Buffer.from('c0', 'hex')
 
       db.batch([
         { type: 'put', key: one, value: one },
@@ -233,7 +233,7 @@ module.exports = function (leveljs, test, testCommon) {
   test('iterator stringifies buffer input', function (t) {
     t.plan(6)
 
-    var db = testCommon.factory()
+    const db = testCommon.factory()
 
     db.open(function (err) {
       t.ifError(err, 'no open error')
@@ -258,8 +258,8 @@ module.exports = function (leveljs, test, testCommon) {
   // then create it again, then try and destroy it again. these avoid doing that
 
   test('test .destroy', function (t) {
-    var db = testCommon.factory()
-    var location = db.location
+    const db = testCommon.factory()
+    const location = db.location
     db.open(function (err) {
       t.notOk(err, 'no error')
       db.put('key', 'value', function (err) {
@@ -271,7 +271,7 @@ module.exports = function (leveljs, test, testCommon) {
             t.notOk(err, 'no error')
             leveljs.destroy(location, function (err) {
               t.notOk(err, 'no error')
-              var db2 = leveljs(location)
+              const db2 = leveljs(location)
               db2.open(function (err) {
                 t.notOk(err, 'no error')
                 db2.get('key', { asBuffer: false }, function (err, value) {
@@ -287,9 +287,9 @@ module.exports = function (leveljs, test, testCommon) {
   })
 
   test('test .destroy and custom prefix', function (t) {
-    var prefix = 'custom-'
-    var db = testCommon.factory({ prefix: prefix })
-    var location = db.location
+    const prefix = 'custom-'
+    const db = testCommon.factory({ prefix: prefix })
+    const location = db.location
 
     db.open(function (err) {
       t.notOk(err, 'no error')
@@ -302,7 +302,7 @@ module.exports = function (leveljs, test, testCommon) {
             t.notOk(err, 'no error')
             leveljs.destroy(location, prefix, function (err) {
               t.notOk(err, 'no error')
-              var db2 = leveljs(location, { prefix: prefix })
+              const db2 = leveljs(location, { prefix: prefix })
               db2.open(function (err) {
                 t.notOk(err, 'no error')
                 db2.get('key', { asBuffer: false }, function (err, value) {
@@ -319,7 +319,7 @@ module.exports = function (leveljs, test, testCommon) {
 
   // TODO: move to abstract-leveldown test suite (and add to iterator tests too)
   test('clear() with lower key greater than upper key', function (t) {
-    var db = testCommon.factory()
+    const db = testCommon.factory()
 
     db.open(function (err) {
       t.ifError(err, 'no open error')

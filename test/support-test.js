@@ -1,9 +1,9 @@
 'use strict'
 
-var support = require('../util/support')
+const support = require('../util/support')
 
-var pos = function () { }
-var neg = function () { throw new Error() }
+const pos = function () { }
+const neg = function () { throw new Error() }
 
 module.exports = function (leveljs, test) {
   test('mock bufferKeys support', function (t) {

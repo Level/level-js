@@ -1,19 +1,19 @@
 'use strict'
 
-var concat = require('level-concat-iterator')
+const concat = require('level-concat-iterator')
 
 module.exports = function (leveljs, test, testCommon) {
   test('upgrade', function (t) {
-    var db = testCommon.factory()
+    const db = testCommon.factory()
 
-    var input = [
+    const input = [
       { key: -1, value: 'a' },
       { key: '0', value: ab('b') },
       { key: '1', value: 1 },
       { key: ab('2'), value: new Uint8Array(ab('2')) }
     ]
 
-    var output = [
+    const output = [
       { key: ab('-1'), value: new Uint8Array(ab('a')) },
       { key: ab('0'), value: new Uint8Array(ab('b')) },
       { key: ab('1'), value: new Uint8Array(ab('1')) },
@@ -46,7 +46,7 @@ module.exports = function (leveljs, test, testCommon) {
     })
 
     function concatRaw (callback) {
-      var it = db.iterator()
+      const it = db.iterator()
       it._deserializeKey = it._deserializeValue = identity
       concat(it, callback)
     }

@@ -2,14 +2,14 @@
 
 'use strict'
 
-var ltgt = require('ltgt')
-var NONE = {}
+const ltgt = require('ltgt')
+const NONE = Symbol('none')
 
 module.exports = function createKeyRange (options) {
-  var lower = ltgt.lowerBound(options, NONE)
-  var upper = ltgt.upperBound(options, NONE)
-  var lowerOpen = ltgt.lowerBoundExclusive(options, NONE)
-  var upperOpen = ltgt.upperBoundExclusive(options, NONE)
+  const lower = ltgt.lowerBound(options, NONE)
+  const upper = ltgt.upperBound(options, NONE)
+  const lowerOpen = ltgt.lowerBoundExclusive(options, NONE)
+  const upperOpen = ltgt.upperBoundExclusive(options, NONE)
 
   if (lower !== NONE && upper !== NONE) {
     return IDBKeyRange.bound(lower, upper, lowerOpen, upperOpen)
