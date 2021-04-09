@@ -36,7 +36,7 @@
     "dependency-check": "^4.1.0",
     "hallmark": "^3.0.0",
     "level-community": "^3.0.0",
-    "level-concat-iterator": "^2.0.0",
+    "level-concat-iterator": "^3.0.0",
     "nyc": "^15.0.0",
     "standard": "^16.0.3",
     "tape": "^5.0.0",
