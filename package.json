@@ -1,6 +1,6 @@
 {
   "name": "level-js",
-  "version": "5.0.2",
+  "version": "6.0.0",
   "description": "An abstract-leveldown compliant store on top of IndexedDB",
   "author": "max ogden",
   "license": "MIT",

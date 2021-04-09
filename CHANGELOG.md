@@ -2,6 +2,15 @@
 
 _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 
+## [6.0.0] - 2021-04-09
+
+### Changed
+
+- **Breaking:** bump `abstract-leveldown` ([`720aced`](https://github.com/Level/level-js/commit/720aced)) (Vincent Weevers)
+- **Breaking:** bump `buffer` from 5.x to 6.x ([#210](https://github.com/Level/level-js/issues/210)) ([`cc68b21`](https://github.com/Level/level-js/commit/cc68b21)) (Alex Potsides)
+- Modernize syntax and bump `standard` ([Level/community#98](https://github.com/Level/community/issues/98)) ([`0ce815f`](https://github.com/Level/level-js/commit/0ce815f)) (Vincent Weevers)
+- Every browser in our test matrix now supports binary keys ([`2c20127`](https://github.com/Level/level-js/commit/2c20127)) (Vincent Weevers)
+
 ## [5.0.2] - 2020-04-03
 
 ### Changed
@@ -430,6 +439,8 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 ## 1.0.0 - 2013-05-03
 
 :seedling: Initial release.
+
+[6.0.0]: https://github.com/Level/level-js/compare/v5.0.2...v6.0.0
 
 [5.0.2]: https://github.com/Level/level-js/compare/v5.0.1...v5.0.2
 

@@ -21,10 +21,13 @@
 - [Type Support](#type-support)
 - [Install](#install)
 - [API](#api)
-- [Running Tests](#running-tests)
+  - [`db = leveljs(location[, options])`](#db--leveljslocation-options)
+    - [`options`](#options)
 - [Big Thanks](#big-thanks)
 - [Contributing](#contributing)
 - [Donate](#donate)
+  - [Backers](#backers)
+  - [Sponsors](#sponsors)
 - [License](#license)
 
 </details>
