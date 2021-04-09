@@ -121,7 +121,7 @@ module.exports = function (leveljs, test, testCommon) {
     var db = testCommon.factory()
 
     if (!db.supports.bufferKeys) {
-      t.pass('environment does not support buffer keys')
+      t.fail('environment does not support buffer keys')
       return t.end()
     }
 
@@ -165,7 +165,7 @@ module.exports = function (leveljs, test, testCommon) {
     var db = testCommon.factory()
 
     if (!db.supports.bufferKeys) {
-      t.pass('environment does not support buffer keys')
+      t.fail('environment does not support buffer keys')
       return t.end()
     }
 
@@ -200,7 +200,7 @@ module.exports = function (leveljs, test, testCommon) {
     var db = testCommon.factory()
 
     if (!db.supports.bufferKeys) {
-      t.pass('environment does not support buffer keys')
+      t.fail('environment does not support buffer keys')
       return t.end()
     }
 

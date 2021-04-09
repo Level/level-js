@@ -10,14 +10,14 @@ module.exports = function (leveljs, test, testCommon) {
       { key: -1, value: 'a' },
       { key: '0', value: ab('b') },
       { key: '1', value: 1 },
-      { key: maybeBinary('2'), value: new Uint8Array(ab('2')) }
+      { key: ab('2'), value: new Uint8Array(ab('2')) }
     ]
 
     var output = [
-      { key: maybeBinary('-1'), value: new Uint8Array(ab('a')) },
-      { key: maybeBinary('0'), value: new Uint8Array(ab('b')) },
-      { key: maybeBinary('1'), value: new Uint8Array(ab('1')) },
-      { key: maybeBinary('2'), value: new Uint8Array(ab('2')) }
+      { key: ab('-1'), value: new Uint8Array(ab('a')) },
+      { key: ab('0'), value: new Uint8Array(ab('b')) },
+      { key: ab('1'), value: new Uint8Array(ab('1')) },
+      { key: ab('2'), value: new Uint8Array(ab('2')) }
     ]
 
     db.open(function (err) {
@@ -34,12 +34,7 @@ module.exports = function (leveljs, test, testCommon) {
             t.ifError(err, 'no concat error')
 
             entries.forEach(function (entry) {
-              if (db.supports.bufferKeys) {
-                t.ok(entry.key instanceof ArrayBuffer)
-              } else {
-                t.is(typeof entry.key, 'string')
-              }
-
+              t.ok(entry.key instanceof ArrayBuffer)
               t.ok(entry.value instanceof Uint8Array)
             })
 
@@ -49,10 +44,6 @@ module.exports = function (leveljs, test, testCommon) {
         })
       })
     })
-
-    function maybeBinary (key) {
-      return db.supports.bufferKeys ? ab(key) : String(key)
-    }
 
     function concatRaw (callback) {
       var it = db.iterator()

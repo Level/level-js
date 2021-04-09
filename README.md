@@ -46,9 +46,9 @@ Being `abstract-leveldown` compliant means you can use many of the [Level module
 **If you are upgrading:** please see [UPGRADING.md](UPGRADING.md).
 
 ```js
-var levelup = require('levelup')
-var leveljs = require('level-js')
-var db = levelup(leveljs('bigdata'))
+const levelup = require('levelup')
+const leveljs = require('level-js')
+const db = levelup(leveljs('bigdata'))
 
 db.put('hello', Buffer.from('world'), function (err) {
   if (err) throw err
@@ -61,7 +61,7 @@ db.put('hello', Buffer.from('world'), function (err) {
 })
 ```
 
-In ES6 browsers:
+With `async/await`:
 
 ```js
 const levelup = require('levelup')
@@ -74,13 +74,13 @@ const value = await db.get('hello')
 
 ## Browser Support
 
-[![Sauce Test Status](https://saucelabs.com/browser-matrix/level-js.svg)](https://saucelabs.com/u/level-js)
+[![Sauce Test Status](https://app.saucelabs.com/browser-matrix/level-js.svg)](https://app.saucelabs.com/u/level-js)
 
 ## Type Support
 
 Keys and values can be a string or [`Buffer`][buffer]. Any other type will be irreversibly stringified. The only exceptions are `null` and `undefined`. Keys and values of that type are rejected.
 
-In order to sort string and Buffer keys the same way, for compatibility with `leveldown` and the larger ecosystem, `level-js` internally converts keys and values to binary before passing them to IndexedDB. If binary keys are not supported by the environment (like IE11) `level-js` falls back to `String(key)`.
+In order to sort string and Buffer keys the same way, for compatibility with `leveldown` and the larger ecosystem, `level-js` internally converts keys and values to binary before passing them to IndexedDB.
 
 If you desire non-destructive encoding (e.g. to store and retrieve numbers as-is), wrap `level-js` with [`encoding-down`][encoding-down]. Alternatively install [`level`][level] which conveniently bundles [`levelup`][levelup], `level-js` and `encoding-down`. Such an approach is also recommended if you want to achieve universal (isomorphic) behavior. For example, you could have [`leveldown`][leveldown] in a backend and `level-js` in the frontend. The `level` package does exactly that.
 
@@ -117,17 +117,6 @@ The optional `options` argument may contain:
 - `version` _(string | number, default: `1`)_: The version to open the database with.
 
 See [`IDBFactory#open`](https://developer.mozilla.org/en-US/docs/Web/API/IDBFactory/open) for more details.
-
-## Running Tests
-
-```sh
-git clone git@github.com:Level/level-js.git
-cd level-js
-npm install
-npm test
-```
-
-It will print out a URL to open in a browser of choice.
 
 ## Big Thanks
 
