@@ -3,22 +3,19 @@ on: push
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: [14]
-    name: Node ${{ matrix.node }}
+    name: Sauce Labs
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Use node ${{ matrix.node }}
+      - name: Use node 14
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 14
       - name: Install
         run: npm install
         env:
           # Download Sauce Connect binary now instead of on first run
-          SAUCE_CONNECT_DOWNLOAD_ON_INSTALL: true        
+          SAUCE_CONNECT_DOWNLOAD_ON_INSTALL: true
       - name: Add host
         run: echo "127.0.0.1 airtap.local" | sudo tee -a /etc/hosts
       - name: Test
@@ -29,6 +26,6 @@ jobs:
       - name: Coverage
         run: npm run coverage
       - name: Codecov
-        uses: codecov/codecov-action@v1          
+        uses: codecov/codecov-action@v1
         with:
-          file: coverage/lcov.info        
+          file: coverage/lcov.info

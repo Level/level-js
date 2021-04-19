@@ -4,7 +4,7 @@
 
 [![level badge][level-badge]][awesome]
 [![npm](https://img.shields.io/npm/v/level-js.svg?label=&logo=npm)](https://www.npmjs.com/package/level-js)
-[![Travis](https://img.shields.io/travis/com/Level/level-js.svg?logo=travis&label=)](https://travis-ci.com/Level/level-js)
+[![Test](https://github.com/Level/level-js/actions/workflows/test.yml/badge.svg)](https://github.com/Level/level-js/actions/workflows/test.yml)
 [![npm](https://img.shields.io/npm/dm/level-js.svg?label=dl)](https://www.npmjs.com/package/level-js)
 [![codecov](https://codecov.io/gh/Level/level-js/branch/master/graph/badge.svg)](https://codecov.io/gh/Level/level-js)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
