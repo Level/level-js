@@ -16,11 +16,19 @@ jobs:
           node-version: ${{ matrix.node }}
       - name: Install
         run: npm install
+        env:
+          # Download Sauce Connect binary now instead of on first run
+          SAUCE_CONNECT_DOWNLOAD_ON_INSTALL: true        
+      - name: Add host
+        run: echo "127.0.0.1 airtap.local" | sudo tee -a /etc/hosts
       - name: Test
         run: npm run test-browsers
+        env:
+          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
       - name: Coverage
         run: npm run coverage
       - name: Codecov
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v1          
         with:
-          file: coverage/lcov.info
+          file: coverage/lcov.info        
