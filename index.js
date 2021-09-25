@@ -6,6 +6,7 @@ module.exports = Level
 
 const AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
 const inherits = require('inherits')
+const parallel = require('run-parallel-limit')
 const Iterator = require('./iterator')
 const serialize = require('./util/serialize')
 const deserialize = require('./util/deserialize')
@@ -22,7 +23,8 @@ function Level (location, opts) {
     bufferKeys: support.bufferKeys(indexedDB),
     snapshots: true,
     permanence: true,
-    clear: true
+    clear: true,
+    getMany: true
   })
 
   opts = opts || {}
@@ -100,6 +102,32 @@ Level.prototype._get = function (key, options, callback) {
 
     callback(null, deserialize(value, options.asBuffer))
   })
+}
+
+Level.prototype._getMany = function (keys, options, callback) {
+  const asBuffer = options.asBuffer
+  const store = this.store('readonly')
+  const tasks = keys.map((key) => (next) => {
+    let request
+
+    try {
+      request = store.get(key)
+    } catch (err) {
+      return next(err)
+    }
+
+    request.onsuccess = () => {
+      const value = request.result
+      next(null, value === undefined ? value : deserialize(value, asBuffer))
+    }
+
+    request.onerror = (ev) => {
+      ev.stopPropagation()
+      next(request.error)
+    }
+  })
+
+  parallel(tasks, 16, callback)
 }
 
 Level.prototype._del = function (key, options, callback) {
