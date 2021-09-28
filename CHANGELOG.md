@@ -1,8 +1,8 @@
 # Changelog
 
-_**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
-
 ## [6.0.0] - 2021-04-09
+
+_If you are upgrading: please see [`UPGRADING.md`](UPGRADING.md)._
 
 ### Changed
 
@@ -31,6 +31,8 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 
 ## [5.0.0] - 2019-10-04
 
+_If you are upgrading: please see [`UPGRADING.md`](UPGRADING.md)._
+
 ### Changed
 
 - **Breaking**: Drop support of key & value types other than string and Buffer ([#179](https://github.com/Level/level-js/issues/179)) ([**@vweevers**](https://github.com/vweevers))
@@ -55,6 +57,8 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 - Remove outdated sentence about nullish values from README ([#166](https://github.com/Level/level-js/issues/166)) ([**@vweevers**](https://github.com/vweevers))
 
 ## [4.0.0] - 2018-12-30
+
+_If you are upgrading: please see [`UPGRADING.md`](UPGRADING.md)._
 
 ### Changed
 
@@ -82,6 +86,8 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 - Remove unused `IndexedDBShim` from tests ([#162](https://github.com/Level/level-js/issues/162)) ([**@vweevers**](https://github.com/vweevers))
 
 ## [3.0.0] - 2018-06-17
+
+_If you are upgrading: please see [`UPGRADING.md`](UPGRADING.md)._
 
 ### Changed
 
@@ -185,14 +191,6 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 - Remove testling from `package.json` ([**@vweevers**](https://github.com/vweevers))
 - Remove `level.js` logo ([**@vweevers**](https://github.com/vweevers))
 
-**Historical Note** Support of `ArrayBuffer` values was restored in `3.0.0`.
-
-**Historical Note** This release introduced the boolean `binaryKeys` and `arrayKeys` properties on the constructor, indicating whether the environment supports binary and array keys respectively. These properties may become private.
-
-**Historical Note** The vendored `IndexedDBShim` is still included, but likely to be removed.
-
-**Historical Note** Though we upgraded `browserify` to `16.2.2`, the effective version used in tests is `13.3.0` because we switched from `beefy` to `airtap`, which ships with its own `browserify` dependency.
-
 ## [2.2.4] - 2016-05-09
 
 ### Changed
@@ -207,6 +205,8 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 
 ## [2.2.2] - 2015-09-12
 
+_This release introduced `this._keyRangeError`._
+
 ### Added
 
 - Add [**@nolanlawson**](https://github.com/nolanlawson) to collaborators ([**@maxogden**](https://github.com/maxogden))
@@ -214,8 +214,6 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 ### Fixed
 
 - Fix iterator when start > end ([**@nolanlawson**](https://github.com/nolanlawson))
-
-**Historical Note** This release introduced `this._keyRangeError`.
 
 ## [2.2.1] - 2015-07-05
 
@@ -280,6 +278,8 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 
 ## [2.1.1] - 2014-03-12
 
+_This was not published to npm. There's also a gap between `2.1.1` and `2.0.0` that is inconsistent. The `options.raw` property was introduced in this release._
+
 ### Changed
 
 - Update browser configuration for Testling ([**@maxogden**](https://github.com/maxogden))
@@ -288,9 +288,9 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 - Make sure to store `Uint8Array` ([**@maxogden**](https://github.com/maxogden))
 - Test storing native JS types with raw = true ([**@maxogden**](https://github.com/maxogden))
 
-**Historical Note** This was not published to npm. There's also a gap between `2.1.1` and `2.0.0` that is inconsistent. The `options.raw` property was introduced in this release.
-
 ## [2.0.0] - 2014-03-09
+
+_For some reason both `tape` and `browserify` were moved from devDependencies to dependencies. This release only had one commit._
 
 ### Changed
 
@@ -301,8 +301,6 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 ### Fixed
 
 - Add missing `xtend` dependency ([**@maxogden**](https://github.com/maxogden))
-
-**Historical Note** For some reason both `tape` and `browserify` were moved from devDependencies to dependencies. This release only had one commit.
 
 ## [1.2.0] - 2014-03-09
 
@@ -341,6 +339,8 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 
 ## [1.1.0] - 2014-01-30
 
+_In this time period `bops` shows up and gets removed. Also, `._isBuffer()` uses `Buffer.isBuffer()` in favor of `is-buffer` module._
+
 ### Added
 
 - Add Testling ([**@maxogden**](https://github.com/maxogden))
@@ -362,8 +362,6 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 ### Removed
 
 - Remove unnecessary factor in tests ([**@rvagg**](https://github.com/rvagg), [**@maxogden**](https://github.com/maxogden))
-
-**Historical Note** In this time period `bops` shows up and gets removed. Also, `._isBuffer()` uses `Buffer.isBuffer()` in favor of `is-buffer` module.
 
 ## [1.0.8] - 2013-08-12
 
@@ -440,66 +438,66 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 
 :seedling: Initial release.
 
-[6.0.0]: https://github.com/Level/level-js/compare/v5.0.2...v6.0.0
+[6.0.0]: https://github.com/Level/level-js/releases/tag/v6.0.0
 
-[5.0.2]: https://github.com/Level/level-js/compare/v5.0.1...v5.0.2
+[5.0.2]: https://github.com/Level/level-js/releases/tag/v5.0.2
 
-[5.0.1]: https://github.com/Level/level-js/compare/v5.0.0...v5.0.1
+[5.0.1]: https://github.com/Level/level-js/releases/tag/v5.0.1
 
-[5.0.0]: https://github.com/Level/level-js/compare/v4.0.1...v5.0.0
+[5.0.0]: https://github.com/Level/level-js/releases/tag/v5.0.0
 
-[4.0.1]: https://github.com/Level/level-js/compare/v4.0.0...v4.0.1
+[4.0.1]: https://github.com/Level/level-js/releases/tag/v4.0.1
 
-[4.0.0]: https://github.com/Level/level-js/compare/v3.0.0...v4.0.0
+[4.0.0]: https://github.com/Level/level-js/releases/tag/v4.0.0
 
-[3.0.0]: https://github.com/Level/level-js/compare/v3.0.0-rc1...v3.0.0
+[3.0.0]: https://github.com/Level/level-js/releases/tag/v3.0.0
 
-[3.0.0-rc1]: https://github.com/Level/level-js/compare/v2.2.4...v3.0.0-rc1
+[3.0.0-rc1]: https://github.com/Level/level-js/releases/tag/v3.0.0-rc1
 
-[2.2.4]: https://github.com/Level/level-js/compare/v2.2.3...v2.2.4
+[2.2.4]: https://github.com/Level/level-js/releases/tag/v2.2.4
 
-[2.2.3]: https://github.com/Level/level-js/compare/v2.2.2...v2.2.3
+[2.2.3]: https://github.com/Level/level-js/releases/tag/v2.2.3
 
-[2.2.2]: https://github.com/Level/level-js/compare/v2.2.1...v2.2.2
+[2.2.2]: https://github.com/Level/level-js/releases/tag/v2.2.2
 
-[2.2.1]: https://github.com/Level/level-js/compare/v2.2.0...v2.2.1
+[2.2.1]: https://github.com/Level/level-js/releases/tag/v2.2.1
 
-[2.2.0]: https://github.com/Level/level-js/compare/v2.1.6...v2.2.0
+[2.2.0]: https://github.com/Level/level-js/releases/tag/v2.2.0
 
-[2.1.6]: https://github.com/Level/level-js/compare/v2.1.5...v2.1.6
+[2.1.6]: https://github.com/Level/level-js/releases/tag/v2.1.6
 
-[2.1.5]: https://github.com/Level/level-js/compare/v2.1.4...v2.1.5
+[2.1.5]: https://github.com/Level/level-js/releases/tag/v2.1.5
 
-[2.1.4]: https://github.com/Level/level-js/compare/v2.1.3...v2.1.4
+[2.1.4]: https://github.com/Level/level-js/releases/tag/v2.1.4
 
-[2.1.3]: https://github.com/Level/level-js/compare/v2.1.2...v2.1.3
+[2.1.3]: https://github.com/Level/level-js/releases/tag/v2.1.3
 
-[2.1.2]: https://github.com/Level/level-js/compare/v2.1.1...v2.1.2
+[2.1.2]: https://github.com/Level/level-js/releases/tag/v2.1.2
 
-[2.1.1]: https://github.com/Level/level-js/compare/v2.0.0...v2.1.1
+[2.1.1]: https://github.com/Level/level-js/releases/tag/v2.1.1
 
-[2.0.0]: https://github.com/Level/level-js/compare/v1.2.0...v2.0.0
+[2.0.0]: https://github.com/Level/level-js/releases/tag/v2.0.0
 
-[1.2.0]: https://github.com/Level/level-js/compare/v1.1.2...v1.2.0
+[1.2.0]: https://github.com/Level/level-js/releases/tag/v1.2.0
 
-[1.1.2]: https://github.com/Level/level-js/compare/v1.1.1...v1.1.2
+[1.1.2]: https://github.com/Level/level-js/releases/tag/v1.1.2
 
-[1.1.1]: https://github.com/Level/level-js/compare/v1.1.0...v1.1.1
+[1.1.1]: https://github.com/Level/level-js/releases/tag/v1.1.1
 
-[1.1.0]: https://github.com/Level/level-js/compare/v1.0.8...v1.1.0
+[1.1.0]: https://github.com/Level/level-js/releases/tag/v1.1.0
 
-[1.0.8]: https://github.com/Level/level-js/compare/v1.0.7...v1.0.8
+[1.0.8]: https://github.com/Level/level-js/releases/tag/v1.0.8
 
-[1.0.7]: https://github.com/Level/level-js/compare/v1.0.6...v1.0.7
+[1.0.7]: https://github.com/Level/level-js/releases/tag/v1.0.7
 
-[1.0.6]: https://github.com/Level/level-js/compare/v1.0.5...v1.0.6
+[1.0.6]: https://github.com/Level/level-js/releases/tag/v1.0.6
 
-[1.0.5]: https://github.com/Level/level-js/compare/v1.0.4...v1.0.5
+[1.0.5]: https://github.com/Level/level-js/releases/tag/v1.0.5
 
-[1.0.4]: https://github.com/Level/level-js/compare/v1.0.3...v1.0.4
+[1.0.4]: https://github.com/Level/level-js/releases/tag/v1.0.4
 
-[1.0.3]: https://github.com/Level/level-js/compare/v1.0.2...v1.0.3
+[1.0.3]: https://github.com/Level/level-js/releases/tag/v1.0.3
 
-[1.0.2]: https://github.com/Level/level-js/compare/v1.0.1...v1.0.2
+[1.0.2]: https://github.com/Level/level-js/releases/tag/v1.0.2
 
-[1.0.1]: https://github.com/Level/level-js/compare/v1.0.0...v1.0.1
+[1.0.1]: https://github.com/Level/level-js/releases/tag/v1.0.1

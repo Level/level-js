@@ -17,7 +17,6 @@
     "index.js",
     "iterator.js",
     "util",
-    "CONTRIBUTORS.md",
     "CHANGELOG.md",
     "UPGRADING.md",
     "sauce-labs.svg"
@@ -35,15 +34,11 @@
     "airtap-sauce": "^1.1.0",
     "dependency-check": "^4.1.0",
     "hallmark": "^3.0.0",
-    "level-community": "^3.0.0",
     "level-concat-iterator": "^3.0.0",
     "nyc": "^15.0.0",
     "standard": "^16.0.3",
     "tape": "^5.0.0",
     "uuid": "^3.3.2"
-  },
-  "hallmark": {
-    "community": "level-community"
   },
   "repository": {
     "type": "git",
