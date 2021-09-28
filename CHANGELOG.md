@@ -1,5 +1,11 @@
 # Changelog
 
+## [6.1.0] - 2021-09-28
+
+### Added
+
+- Add `db.getMany(keys)` ([#214](https://github.com/Level/level-js/issues/214)) ([`f5a3ca3`](https://github.com/Level/level-js/commit/f5a3ca3)) (Vincent Weevers).
+
 ## [6.0.0] - 2021-04-09
 
 _If you are upgrading: please see [`UPGRADING.md`](UPGRADING.md)._
@@ -434,9 +440,11 @@ _In this time period `bops` shows up and gets removed. Also, `._isBuffer()` uses
 - Properly delete test dbs ([**@maxogden**](https://github.com/maxogden))
 - Inherit from `abstract-leveldown` ([**@rvagg**](https://github.com/rvagg))
 
-## 1.0.0 - 2013-05-03
+## [1.0.0] - 2013-05-03
 
 :seedling: Initial release.
+
+[6.1.0]: https://github.com/Level/level-js/releases/tag/v6.1.0
 
 [6.0.0]: https://github.com/Level/level-js/releases/tag/v6.0.0
 
@@ -501,3 +509,5 @@ _In this time period `bops` shows up and gets removed. Also, `._isBuffer()` uses
 [1.0.2]: https://github.com/Level/level-js/releases/tag/v1.0.2
 
 [1.0.1]: https://github.com/Level/level-js/releases/tag/v1.0.1
+
+[1.0.0]: https://github.com/Level/level-js/releases/tag/v1.0.0
