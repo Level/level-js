@@ -22,8 +22,9 @@ const testCommon = suite.common({
   // Support of buffer keys depends on environment
   bufferKeys: leveljs(uuid()).supports.bufferKeys,
 
-  // Opt-in to new clear() tests
-  clear: true
+  // Opt-in to new tests
+  clear: true,
+  getMany: true
 })
 
 // Test abstract-leveldown compliance
