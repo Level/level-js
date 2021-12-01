@@ -33,7 +33,7 @@
     "airtap-playwright": "^1.0.1",
     "airtap-sauce": "^1.1.0",
     "dependency-check": "^4.1.0",
-    "hallmark": "^3.0.0",
+    "hallmark": "^4.0.0",
     "level-concat-iterator": "^3.0.0",
     "nyc": "^15.0.0",
     "standard": "^16.0.3",
