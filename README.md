@@ -1,6 +1,8 @@
 # level-js
 
-> An [`abstract-leveldown`][abstract-leveldown] compliant store on top of [IndexedDB][indexeddb].
+**An [`abstract-leveldown`][abstract-leveldown] compliant store on top of [IndexedDB][indexeddb].**
+
+> :pushpin: This module will soon be [deprecated](https://github.com/Level/community/issues/113), because it is superseded by [`browser-level`](https://github.com/Level/browser-level).
 
 [![level badge][level-badge]][awesome]
 [![npm](https://img.shields.io/npm/v/level-js.svg)](https://www.npmjs.com/package/level-js)
