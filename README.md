@@ -1,35 +1,6 @@
 # level-js
 
-**An [`abstract-leveldown`][abstract-leveldown] compliant store on top of [IndexedDB][indexeddb].**
-
-> :pushpin: This module will soon be [deprecated](https://github.com/Level/community/issues/113), because it is superseded by [`browser-level`](https://github.com/Level/browser-level).
-
-[![level badge][level-badge]][awesome]
-[![npm](https://img.shields.io/npm/v/level-js.svg)](https://www.npmjs.com/package/level-js)
-[![Test](https://img.shields.io/github/workflow/status/Level/level-js/Test?label=test)](https://github.com/Level/level-js/actions/workflows/test.yml)
-[![Coverage](https://img.shields.io/codecov/c/github/Level/level-js?label=&logo=codecov&logoColor=fff)](https://codecov.io/gh/Level/level-js)
-[![Standard](https://img.shields.io/badge/standard-informational?logo=javascript&logoColor=fff)](https://standardjs.com)
-[![Common Changelog](https://common-changelog.org/badge.svg)](https://common-changelog.org)
-[![Donate](https://img.shields.io/badge/donate-orange?logo=open-collective&logoColor=fff)](https://opencollective.com/level)
-
-## Table of Contents
-
-<details><summary>Click to expand</summary>
-
-- [Background](#background)
-- [Example](#example)
-- [Browser Support](#browser-support)
-- [Type Support](#type-support)
-- [Install](#install)
-- [API](#api)
-  - [`db = leveljs(location[, options])`](#db--leveljslocation-options)
-    - [`options`](#options)
-- [Big Thanks](#big-thanks)
-- [Contributing](#contributing)
-- [Donate](#donate)
-- [License](#license)
-
-</details>
+**Superseded by [`browser-level`](https://github.com/Level/browser-level). Please see [Frequently Asked Questions](https://github.com/Level/community#faq).**
 
 ## Background
 
@@ -73,10 +44,6 @@ const db = levelup(leveljs('bigdata'))
 await db.put('hello', Buffer.from('world'))
 const value = await db.get('hello')
 ```
-
-## Browser Support
-
-[![Sauce Test Status](https://app.saucelabs.com/browser-matrix/level-js.svg)](https://app.saucelabs.com/u/level-js)
 
 ## Type Support
 
@@ -141,8 +108,6 @@ Support us with a monthly donation on [Open Collective](https://opencollective.c
 ## License
 
 [MIT](LICENSE)
-
-[level-badge]: https://leveljs.org/img/badge.svg
 
 [indexeddb]: https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API
 
